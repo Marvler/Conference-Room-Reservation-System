@@ -24,6 +24,6 @@ public class ConferenceRoom {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "conferenceRoom")
     private List<Reservation> reservations;
     @ManyToOne
-    @JoinColumn(name = "reservationId")
+    @JoinColumn(name = "organizationId")
     private Organization organization;
 }
