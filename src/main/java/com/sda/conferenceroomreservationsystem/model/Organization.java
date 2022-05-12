@@ -1,4 +1,4 @@
-package com.sda.testreservationsystem.model;
+package com.sda.conferenceroomreservationsystem.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

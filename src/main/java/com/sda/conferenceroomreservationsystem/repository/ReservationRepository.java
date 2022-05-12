@@ -1,6 +1,6 @@
-package com.sda.testreservationsystem.repository;
+package com.sda.conferenceroomreservationsystem.repository;
 
-import com.sda.testreservationsystem.model.Reservation;
+import com.sda.conferenceroomreservationsystem.model.Reservation;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

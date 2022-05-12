@@ -1,10 +1,10 @@
-package com.sda.testreservationsystem;
+package com.sda.conferenceroomreservationsystem;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class TestReservationSystemApplicationTests {
+class ConferenceRoomReservationSystemApplicationTests {
 
 	@Test
 	void contextLoads() {

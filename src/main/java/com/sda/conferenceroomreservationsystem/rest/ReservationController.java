@@ -1,6 +1,6 @@
-package com.sda.testreservationsystem.rest;
+package com.sda.conferenceroomreservationsystem.rest;
 
-import com.sda.testreservationsystem.service.ReservationService;
+import com.sda.conferenceroomreservationsystem.service.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
