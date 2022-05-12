@@ -21,7 +21,7 @@ public class ConferenceRoom {
     private Boolean availability;
     private Integer numberOfSeats;
     private Integer numberOfStandings;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "ConferenceRoom")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "conferenceRoom")
     private List<Reservation> reservations;
     @ManyToOne
     @JoinColumn(name = "reservationId")

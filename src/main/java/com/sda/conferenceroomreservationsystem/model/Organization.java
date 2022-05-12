@@ -16,6 +16,6 @@ public class Organization {
     @GeneratedValue
     private Long organizationId;
     private String organizationName;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "Organization")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "organization")
     private List<ConferenceRoom> conferenceRooms;
 }
