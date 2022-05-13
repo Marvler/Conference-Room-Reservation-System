@@ -9,6 +9,7 @@ import com.sda.conferenceroomreservationsystem.repository.OrganizationRepository
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -18,13 +19,18 @@ public class OrganizationService {
     private final OrganizationRepository organizationRepository;
     private final OrganizationMapper organizationMapper;
 
+    public List<OrganizationDto> getAll() {
+        //TODO
+        return null;
+    }
+
+    public OrganizationDto getOrganization(String name) {
+        return organizationMapper.map(getOrganizationFromDatabase(name));
+    }
+
     public Organization add(final OrganizationRequest request) {
         final Organization organization = organizationMapper.map(request);
         return organizationRepository.save(organization);
-    }
-
-    public void delete(String name) {
-        organizationRepository.delete(getOrganizationFromDatabase(name));
     }
 
     public OrganizationDto update(String name, final OrganizationRequest request) {
@@ -35,8 +41,8 @@ public class OrganizationService {
         return organizationMapper.map(organizationRepository.save(organizationFromRequest));
     }
 
-    public OrganizationDto getOrganization(String name) {
-        return organizationMapper.map(getOrganizationFromDatabase(name));
+    public void delete(String name) {
+        organizationRepository.delete(getOrganizationFromDatabase(name));
     }
 
     public Organization getOrganizationFromDatabase(String name) {
