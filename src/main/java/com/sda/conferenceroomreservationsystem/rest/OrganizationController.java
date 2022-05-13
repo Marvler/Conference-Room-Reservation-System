@@ -1,12 +1,12 @@
 package com.sda.conferenceroomreservationsystem.rest;
 
-import com.sda.conferenceroomreservationsystem.service.ReservationService;
+import com.sda.conferenceroomreservationsystem.service.OrganizationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 
 @Controller
 @RequiredArgsConstructor
-public class ReservationController {
+public class OrganizationController {
 
-    private final ReservationService reservationService;
+    private final OrganizationService organizationService;
 }
