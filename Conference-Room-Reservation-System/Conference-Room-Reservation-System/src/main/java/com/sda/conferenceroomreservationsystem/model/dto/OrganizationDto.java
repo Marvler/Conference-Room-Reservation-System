@@ -8,6 +8,7 @@ import java.util.List;
 @Getter
 @Builder(setterPrefix = "with", builderMethodName = "Builder")
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
+@AllArgsConstructor
 public class OrganizationDto {
     private String organizationName;
     private String email;

@@ -8,6 +8,7 @@ import java.util.List;
 @Getter
 @Builder(setterPrefix = "with", builderMethodName = "Builder")
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
+@AllArgsConstructor
 public class ConferenceRoomDto {
     private String conferenceRoomName;
     private String conferenceRoomIdentifier;

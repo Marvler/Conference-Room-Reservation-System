@@ -1,15 +1,13 @@
 package com.sda.conferenceroomreservationsystem.model.dto;
 
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
 @Getter
 @Builder(setterPrefix = "with", builderMethodName = "Builder")
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
+@AllArgsConstructor
 public class ReservationDto {
     private String reservationIdentifier;
     private LocalDateTime reservationStart;

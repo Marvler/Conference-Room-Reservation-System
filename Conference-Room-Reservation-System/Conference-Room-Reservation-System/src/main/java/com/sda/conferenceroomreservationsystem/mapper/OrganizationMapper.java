@@ -3,7 +3,9 @@ package com.sda.conferenceroomreservationsystem.mapper;
 import com.sda.conferenceroomreservationsystem.model.dto.OrganizationDto;
 import com.sda.conferenceroomreservationsystem.model.entity.Organization;
 import com.sda.conferenceroomreservationsystem.model.request.OrganizationRequest;
+import org.springframework.stereotype.Component;
 
+@Component
 public class OrganizationMapper {
 
     public Organization map(final OrganizationRequest request) {
