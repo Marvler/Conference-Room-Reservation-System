@@ -1,4 +1,4 @@
-package com.sda.conferenceroomreservationsystem.model;
+package com.sda.conferenceroomreservationsystem.model.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

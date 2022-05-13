@@ -1,4 +1,4 @@
-package com.sda.conferenceroomreservationsystem.model;
+package com.sda.conferenceroomreservationsystem.model.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,6 +16,8 @@ public class Organization {
     @GeneratedValue
     private Long organizationId;
     private String organizationName;
+    private String password;
+    private String email;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "organization")
     private List<ConferenceRoom> conferenceRooms;
 }
