@@ -1,24 +1,14 @@
 package com.sda.conferenceroomreservationsystem.service;
 
-import com.sda.conferenceroomreservationsystem.repository.ConferenceRoomRepository;
-import com.sda.conferenceroomreservationsystem.repository.OrganizationRepository;
+import com.sda.conferenceroomreservationsystem.mapper.ReservationMapper;
 import com.sda.conferenceroomreservationsystem.repository.ReservationRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class ReservationService {
 
-    private final ConferenceRoomRepository conferenceRoomRepository;
-    private final OrganizationRepository organizationRepository;
     private final ReservationRepository reservationRepository;
-
-    @Autowired
-    public ReservationService(ConferenceRoomRepository conferenceRoomRepository,
-                              OrganizationRepository organizationRepository,
-                              ReservationRepository reservationRepository) {
-        this.conferenceRoomRepository = conferenceRoomRepository;
-        this.organizationRepository = organizationRepository;
-        this.reservationRepository = reservationRepository;
-    }
+    private final ReservationMapper reservationMapper;
 }

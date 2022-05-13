@@ -1,6 +1,6 @@
 package com.sda.conferenceroomreservationsystem.repository;
 
-import com.sda.conferenceroomreservationsystem.model.ConferenceRoom;
+import com.sda.conferenceroomreservationsystem.model.entity.ConferenceRoom;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
