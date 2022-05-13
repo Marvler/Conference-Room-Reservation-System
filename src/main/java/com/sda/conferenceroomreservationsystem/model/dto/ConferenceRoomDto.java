@@ -6,7 +6,7 @@ import lombok.*;
 import java.util.List;
 
 @Getter
-@Builder
+@Builder(setterPrefix = "with", builderMethodName = "Builder")
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class ConferenceRoomDto {
     private String conferenceRoomName;

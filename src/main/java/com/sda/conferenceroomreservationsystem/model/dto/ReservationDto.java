@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 import java.time.LocalDateTime;
 
 @Getter
-@Builder
+@Builder(setterPrefix = "with", builderMethodName = "Builder")
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class ReservationDto {
     private String reservationIdentifier;
