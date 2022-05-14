@@ -17,7 +17,7 @@ public class OrganizationMapper {
         return organization;
     }
 
-    public OrganizationDto map(final Organization organization) {
+    public static OrganizationDto map(final Organization organization) {
         return OrganizationDto.Builder()
                 .withOrganizationName(organization.getOrganizationName())
                 .withEmail(organization.getEmail())
