@@ -2,14 +2,15 @@ import { ConferenceRoom } from "./ConferenceRoom";
 
 export class Organization {
     organizationName: string;
-    organizationEmail: string;
-    organizationPassword: string;
-    conferenceRoomsList: ConferenceRoom[] = [];
+    email: string;
+    password: string;
+    conferenceRoomsList: ConferenceRoom[];
 
-    constructor(organizationName: string, organizationEmail: string, organizationPassword: string) {
+    constructor(organizationName: string, email: string, password: string) {
         this.organizationName = organizationName;
-        this.organizationEmail = organizationEmail;
-        this.organizationPassword = organizationPassword;
+        this.email = email;
+        this.password = password;
+        this.conferenceRoomsList = [];
     }
 
 }
