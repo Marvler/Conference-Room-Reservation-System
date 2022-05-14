@@ -4,8 +4,7 @@ body{
 	align-items: center;
 	min-height: 100vh;
 	font-family: 'Caveat', 'Jost';
-    background: linear-gradient(#b2a0f3,white,#b2a0f3);
-    background-image: "https://img.lovepik.com/photo/40168/2095.jpg_wh300.jpg";
+    background: linear-gradient(#5e74f0,white,#5e74f0);
 }
 .main{
 	width: 350px;
@@ -52,7 +51,7 @@ button{
 	justify-content: center;
 	display: block;
 	color: #fff;
-	background: #573b8a;
+	background: #5e74f0;
     font-family: 'Caveat';
 	font-size: 1.5em;
 	font-weight: bold;
@@ -64,7 +63,7 @@ button{
 	cursor: pointer;
 }
 button:hover{
-	background: #6d44b8;
+	background: #5e74f0;
 }
 .login{
 	height: 460px;
