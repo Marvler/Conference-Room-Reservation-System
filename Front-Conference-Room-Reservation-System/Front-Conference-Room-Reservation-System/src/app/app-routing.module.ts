@@ -6,6 +6,7 @@ import { OrganizationComponent } from './component/organization/organization.com
 import { PageNotFoundComponent } from './component/page-not-found/page-not-found.component';
 import { ConferenceRoomsListComponent } from './component/conference-rooms-list/conference-rooms-list.component';
 import { ReservationComponent } from './component/reservation/reservation.component';
+import { SuccessComponent } from './component/success/success.component';
 
 
 const routes: Routes = [
@@ -13,6 +14,7 @@ const routes: Routes = [
   { path: 'organization', component: OrganizationComponent },
   { path: 'reservations', component: ReservationComponent },
   { path: 'rooms', component: ConferenceRoomsListComponent },
+  { path: 'success', component: SuccessComponent },
   { path: '**', component: PageNotFoundComponent }
 ];
 
