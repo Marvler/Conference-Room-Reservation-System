@@ -7,13 +7,14 @@ import com.sda.conferenceroomreservationsystem.model.request.OrganizationRequest
 import com.sda.conferenceroomreservationsystem.service.OrganizationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/organization")
+@RequestMapping(value = "/api/organization", produces = MediaType.APPLICATION_JSON_VALUE)
 @RequiredArgsConstructor
 public class OrganizationController {
 
