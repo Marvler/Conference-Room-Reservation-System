@@ -22,7 +22,4 @@ export class LoginService {
     return this.httpClient.post<Organization>(this.createOrganizationUrl, organization);
   }
 
-
-
-
 }

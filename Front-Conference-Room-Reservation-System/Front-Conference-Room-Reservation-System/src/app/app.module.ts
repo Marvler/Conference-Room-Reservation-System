@@ -8,6 +8,7 @@ import { OrganizationComponent } from './component/organization/organization.com
 import { ReservationComponent } from './component/reservation/reservation.component';
 import { PageNotFoundComponent } from './component/page-not-found/page-not-found.component';
 import { HttpClientModule } from '@angular/common/http';
+import { NavbarComponent } from './component/navbar/navbar.component';
 
 
 @NgModule({
@@ -17,6 +18,7 @@ import { HttpClientModule } from '@angular/common/http';
     OrganizationComponent,
     ReservationComponent,
     PageNotFoundComponent,
+    NavbarComponent,
   ],
   imports: [
     BrowserModule,

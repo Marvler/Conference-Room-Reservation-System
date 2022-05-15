@@ -25,9 +25,9 @@
         <div class="login">
             <form>
                 <label for="chk" aria-hidden="true" style="color: #5e74f0">Login</label>
-                <input type="email" name="email" placeholder="Organization" required="">
-                <input type="password" name="pswd" placeholder="Password" required="">
-                <button>Login</button>
+                <input type="text" placeholder="Organization" required="">
+                <input type="password" placeholder="Password" required="">
+                <button (click)="goToPage('/organization')"> Login </button>
             </form>
         </div>
     </div>
