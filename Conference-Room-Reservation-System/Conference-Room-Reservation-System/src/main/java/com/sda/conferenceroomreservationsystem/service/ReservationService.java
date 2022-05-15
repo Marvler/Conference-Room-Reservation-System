@@ -1,9 +1,10 @@
 package com.sda.conferenceroomreservationsystem.service;
 
-import com.sda.conferenceroomreservationsystem.exception.type.ReservationNotFoundException;
+import com.sda.conferenceroomreservationsystem.exception.ReservationNotFoundException;
 import com.sda.conferenceroomreservationsystem.mapper.ReservationMapper;
 import com.sda.conferenceroomreservationsystem.model.dto.ReservationDto;
 import com.sda.conferenceroomreservationsystem.model.entity.Reservation;
+import com.sda.conferenceroomreservationsystem.model.request.ReservationRequest;
 import com.sda.conferenceroomreservationsystem.repository.ConferenceRoomRepository;
 import com.sda.conferenceroomreservationsystem.repository.OrganizationRepository;
 import com.sda.conferenceroomreservationsystem.repository.ReservationRepository;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -20,31 +22,30 @@ public class ReservationService {
     private final ConferenceRoomRepository conferenceRoomRepository;
     private final OrganizationRepository organizationRepository;
     private final ReservationRepository reservationRepository;
+    private final ReservationMapper reservationMapper;
 
-    public List<ReservationDto> getAllReservations(){
-        final List<Reservation> reservations = reservationRepository.findAll();
-        return null;
+    public List<ReservationDto> getAll(){
+        return reservationRepository.findAll().stream().map(ReservationMapper::map).collect(Collectors.toList());
     }
 
-    public ReservationDto getReservationByName(String name) {
-        //TODO
-        //return ReservationMapper.map(reservationRepository.findByName(name));
-        return null;
+    public ReservationDto getReservation(Long id) throws ReservationNotFoundException {
+        return reservationMapper.map(getReservationFromDatabaseById(id));
     }
 
-    public ReservationDto updateReservation(Long id, Reservation reservation) {
-        //TODO
-        return null;
+    public Reservation add(final ReservationRequest request) {
+        final Reservation reservation = reservationMapper.map(request);
+        return reservationRepository.save(reservation);
     }
 
-    public ReservationDto createReservation(Reservation reservation) {
-        //TODO
-        return null;
+    public ReservationDto update(Long id, final ReservationRequest request) throws ReservationNotFoundException {
+        final Reservation reservationFromDb = getReservationFromDatabaseById(id);
+        final Reservation reservationFromRequest = reservationMapper.map(request);
+        reservationFromRequest.setReservationId(reservationFromDb.getReservationId());
+
+        return reservationMapper.map(reservationRepository.save(reservationFromRequest));
     }
 
-    public void deleteReservationById(Long id)
-            throws ReservationNotFoundException {
-        //TODO
+    public void deleteReservationById(Long id) throws ReservationNotFoundException {
         reservationRepository.delete(getReservationFromDatabaseById(id));
     }
 

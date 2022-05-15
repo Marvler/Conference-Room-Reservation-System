@@ -15,7 +15,7 @@ public class ReservationMapper {
         return reservation;
     }
 
-    public ReservationDto map(final Reservation reservation) {
+    public static ReservationDto map(final Reservation reservation) {
         return ReservationDto.Builder()
                 .withReservationIdentifier(reservation.getReservationIdentifier())
                 .withReservationStart(reservation.getReservationStart())

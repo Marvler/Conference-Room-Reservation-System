@@ -1,4 +1,4 @@
-package com.sda.conferenceroomreservationsystem.exception;
+package com.sda.conferenceroomreservationsystem.exception.errorhandling;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

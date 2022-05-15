@@ -12,6 +12,7 @@ import { NavbarComponent } from './component/navbar/navbar.component';
 import { SuccessComponent } from './component/success/success.component';
 
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -26,6 +27,7 @@ import { SuccessComponent } from './component/success/success.component';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule
+
 
   ],
   providers: [],
