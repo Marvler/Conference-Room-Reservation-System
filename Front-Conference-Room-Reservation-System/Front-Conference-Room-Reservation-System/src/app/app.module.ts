@@ -9,6 +9,8 @@ import { ReservationComponent } from './component/reservation/reservation.compon
 import { PageNotFoundComponent } from './component/page-not-found/page-not-found.component';
 import { HttpClientModule } from '@angular/common/http';
 import { NavbarComponent } from './component/navbar/navbar.component';
+import { SuccessComponent } from './component/success/success.component';
+
 
 
 
@@ -20,6 +22,8 @@ import { NavbarComponent } from './component/navbar/navbar.component';
     ReservationComponent,
     PageNotFoundComponent,
     NavbarComponent,
+    SuccessComponent,
+
   ],
   imports: [
     BrowserModule,

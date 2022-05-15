@@ -18,7 +18,8 @@
                 <input #email type="email" placeholder="Email" required="">
                 <input #password type="password" placeholder="Password" required="">
                 <button type="button"
-                    (click)="createOrganization(organizationName.value,email.value,password.value)">Sign up</button>
+                    (click)="createOrganization(organizationName.value,email.value,password.value);goToPage('/success')">Sign
+                    up</button>
 
             </form>
         </div>
@@ -28,7 +29,7 @@
                 <label for="chk" aria-hidden="true" style="color: #5e74f0">Login</label>
                 <input type="text" placeholder="Organization" required="">
                 <input type="password" placeholder="Password" required="">
-                <button (click)="goToPage('/organization')"> Login </button>
+                <button> Login </button>
             </form>
         </div>
     </div>
