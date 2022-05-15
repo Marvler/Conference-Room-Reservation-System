@@ -27,30 +27,24 @@ public class ConferenceRoomController {
     }
 
     @GetMapping("/find/{id}")
-    public ResponseEntity<ConferenceRoomDto> getConferenceRoomById(@PathVariable("id") final Long id)
-            throws ConferenceRoomNotFoundException
-    {
+    public ResponseEntity<ConferenceRoomDto> getConferenceRoomById(@PathVariable("id") final Long id) {
         return ResponseEntity.ok(conferenceRoomService.getConferenceRoom(id));
     }
 
-    @PostMapping("/add")
-    public ResponseEntity<ConferenceRoom> addConferenceRoom(@RequestBody final ConferenceRoomRequest request)
-            throws ConferenceRoomAlreadyExistsException
-    {
-        return ResponseEntity.status(HttpStatus.CREATED).body(conferenceRoomService.add(request));
+    @PostMapping("/{organizationName}/add")
+    public ResponseEntity<ConferenceRoom> addConferenceRoom(@PathVariable("organizationName") final String organizationName,
+                                                            @RequestBody final ConferenceRoomRequest request) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(conferenceRoomService.add(organizationName, request));
     }
 
     @PutMapping("/update/{id}")
     public ResponseEntity<ConferenceRoomDto> updateConferenceRoom(@PathVariable("id") final Long id,
-                                                                  @RequestBody final ConferenceRoomRequest conferenceRoomRequest)
-            throws ConferenceRoomNotFoundException
-    {
+                                                                  @RequestBody final ConferenceRoomRequest conferenceRoomRequest) {
         return ResponseEntity.status(HttpStatus.CREATED).body(conferenceRoomService.update(id, conferenceRoomRequest));
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Void> deleteConferenceRoom(@PathVariable("id") Long id)
-            throws ConferenceRoomNotFoundException {
+    public ResponseEntity<Void> deleteConferenceRoom(@PathVariable("id") Long id) {
         conferenceRoomService.deleteConferenceRoomById(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }

@@ -1,6 +1,6 @@
 package com.sda.conferenceroomreservationsystem.exception;
 
-public class ReservationNotFoundException extends Exception{
+public class ReservationNotFoundException extends RuntimeException{
     public ReservationNotFoundException() {
         super("Reservation not found");
     }
