@@ -13,6 +13,7 @@ import { SuccessComponent } from './component/success/success.component';
 
 
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -22,6 +23,7 @@ import { SuccessComponent } from './component/success/success.component';
     PageNotFoundComponent,
     NavbarComponent,
     SuccessComponent,
+
   ],
   imports: [
     BrowserModule,

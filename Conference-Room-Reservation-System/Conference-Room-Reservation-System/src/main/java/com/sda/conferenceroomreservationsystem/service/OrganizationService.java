@@ -1,6 +1,6 @@
 package com.sda.conferenceroomreservationsystem.service;
 
-import com.sda.conferenceroomreservationsystem.exception.type.OrganizationNotFoundException;
+import com.sda.conferenceroomreservationsystem.exception.OrganizationNotFoundException;
 import com.sda.conferenceroomreservationsystem.mapper.OrganizationMapper;
 import com.sda.conferenceroomreservationsystem.model.dto.OrganizationDto;
 import com.sda.conferenceroomreservationsystem.model.entity.Organization;

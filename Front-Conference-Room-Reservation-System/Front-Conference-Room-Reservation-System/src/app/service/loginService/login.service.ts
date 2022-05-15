@@ -23,7 +23,5 @@ export class LoginService {
   }
 
   getOrganization() {
-
   }
-
 }
