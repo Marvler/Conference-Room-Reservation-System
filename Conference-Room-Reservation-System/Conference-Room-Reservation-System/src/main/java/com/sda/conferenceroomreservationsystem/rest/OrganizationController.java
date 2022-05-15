@@ -28,29 +28,24 @@ public class OrganizationController {
     }
 
     @GetMapping("/find/{name}")
-    public ResponseEntity<OrganizationDto> getOrganizationByName(@PathVariable("name") final String name)
-            throws OrganizationNotFoundException {
+    public ResponseEntity<OrganizationDto> getOrganizationByName(@PathVariable("name") final String name) {
         OrganizationDto organization = organizationService.getOrganization(name);
         return ResponseEntity.ok(organization);
     }
 
     @PostMapping("/add")
-    public ResponseEntity<Organization> addOrganization(@RequestBody final OrganizationRequest organizationRequest)
-            throws OrganizationAlreadyExistsException
-    {
+    public ResponseEntity<Organization> addOrganization(@RequestBody final OrganizationRequest organizationRequest) {
         return ResponseEntity.status(HttpStatus.CREATED).body(organizationService.add(organizationRequest));
     }
 
     @PutMapping("/update/{name}")
     public ResponseEntity<OrganizationDto> updateOrganization(@PathVariable("name") final String name,
-                                                              @RequestBody final OrganizationRequest organizationRequest)
-            throws OrganizationNotFoundException {
+                                                              @RequestBody final OrganizationRequest organizationRequest) {
         return ResponseEntity.status(HttpStatus.CREATED).body(organizationService.update(name, organizationRequest));
     }
 
     @DeleteMapping("/delete/{name}")
-    public ResponseEntity<Void> deleteOrganization(@PathVariable("name") String name)
-            throws OrganizationNotFoundException {
+    public ResponseEntity<Void> deleteOrganization(@PathVariable("name") String name) {
         organizationService.delete(name);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }

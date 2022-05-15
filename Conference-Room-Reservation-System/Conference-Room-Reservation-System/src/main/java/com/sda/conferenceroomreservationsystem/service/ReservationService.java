@@ -26,7 +26,7 @@ public class ReservationService {
         return reservationRepository.findAll().stream().map(ReservationMapper::map).collect(Collectors.toList());
     }
 
-    public ReservationDto getReservation(Long id) throws ReservationNotFoundException {
+    public ReservationDto getReservation(Long id) {
         return reservationMapper.map(getReservationFromDatabaseById(id));
     }
 
@@ -36,7 +36,7 @@ public class ReservationService {
         return reservationRepository.save(reservation);
     }
 
-    public ReservationDto update(Long id, final ReservationRequest request) throws ReservationNotFoundException {
+    public ReservationDto update(Long id, final ReservationRequest request) {
         final Reservation reservationFromDb = getReservationFromDatabaseById(id);
         final Reservation reservationFromRequest = reservationMapper.map(request);
         reservationFromRequest.setReservationId(reservationFromDb.getReservationId());
@@ -45,11 +45,11 @@ public class ReservationService {
         return reservationMapper.map(reservationRepository.save(reservationFromRequest));
     }
 
-    public void deleteReservationById(Long id) throws ReservationNotFoundException {
+    public void deleteReservationById(Long id) {
         reservationRepository.delete(getReservationFromDatabaseById(id));
     }
 
-    private Reservation getReservationFromDatabaseById(final Long reservationId) throws ReservationNotFoundException {
+    private Reservation getReservationFromDatabaseById(final Long reservationId) {
         final Optional<Reservation> reservationFromDatabase = reservationRepository.findById(reservationId);
         return reservationFromDatabase.orElseThrow(ReservationNotFoundException::new);
     }

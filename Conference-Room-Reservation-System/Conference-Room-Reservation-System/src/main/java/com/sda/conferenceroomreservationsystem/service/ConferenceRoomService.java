@@ -29,7 +29,7 @@ public class ConferenceRoomService {
         return conferenceRoomRepository.findAll().stream().map(ConferenceRoomMapper::map).collect(Collectors.toList());
     }
 
-    public ConferenceRoomDto getConferenceRoom(Long id) throws ConferenceRoomNotFoundException {
+    public ConferenceRoomDto getConferenceRoom(Long id) {
         return ConferenceRoomMapper.map(getConferenceRoomFromDatabaseById(id));
     }
 
@@ -39,7 +39,7 @@ public class ConferenceRoomService {
         return conferenceRoomRepository.save(conferenceRoom);
     }
 
-    public ConferenceRoomDto update(Long id, ConferenceRoomRequest request) throws ConferenceRoomNotFoundException {
+    public ConferenceRoomDto update(Long id, ConferenceRoomRequest request) {
         final ConferenceRoom conferenceRoomFromDb = getConferenceRoomFromDatabaseById(id);
         final ConferenceRoom conferenceRoomFromRequest = conferenceRoomMapper.map(request);
         conferenceRoomFromRequest.setConferenceRoomId(conferenceRoomFromDb.getConferenceRoomId());
@@ -48,7 +48,7 @@ public class ConferenceRoomService {
         return conferenceRoomMapper.map(conferenceRoomRepository.save(conferenceRoomFromRequest));
     }
 
-    public void deleteConferenceRoomById(Long id) throws ConferenceRoomNotFoundException {
+    public void deleteConferenceRoomById(Long id) {
         conferenceRoomRepository.delete(getConferenceRoomFromDatabaseById(id));
     }
 
