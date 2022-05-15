@@ -28,9 +28,9 @@ public class OrganizationService {
         return organizationMapper.map(getOrganizationFromDatabase(name));
     }
 
-    public Organization add(final OrganizationRequest request) {
+    public OrganizationDto add(final OrganizationRequest request) {
         final Organization organization = organizationMapper.map(request);
-        return organizationRepository.save(organization);
+        return organizationMapper.map(organizationRepository.save(organization));
     }
 
     public OrganizationDto update(String name, final OrganizationRequest request) {

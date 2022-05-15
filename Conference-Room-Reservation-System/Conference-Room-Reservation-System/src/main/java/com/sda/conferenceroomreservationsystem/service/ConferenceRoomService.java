@@ -33,10 +33,10 @@ public class ConferenceRoomService {
         return ConferenceRoomMapper.map(getConferenceRoomFromDatabaseById(id));
     }
 
-    public ConferenceRoom add(String organizationName, ConferenceRoomRequest request) {
+    public ConferenceRoomDto add(String organizationName, ConferenceRoomRequest request) {
         Organization organization = organizationService.getOrganizationFromDatabase(organizationName);
         final ConferenceRoom conferenceRoom = conferenceRoomMapper.map(organization, request);
-        return conferenceRoomRepository.save(conferenceRoom);
+        return conferenceRoomMapper.map(conferenceRoomRepository.save(conferenceRoom));
     }
 
     public ConferenceRoomDto update(Long id, ConferenceRoomRequest request) {

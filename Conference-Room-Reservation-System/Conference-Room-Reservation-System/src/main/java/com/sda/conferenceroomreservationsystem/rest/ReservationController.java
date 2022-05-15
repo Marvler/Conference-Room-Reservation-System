@@ -32,7 +32,7 @@ public class ReservationController {
     }
 
     @PostMapping("/{conferenceRoom}/add")
-    public ResponseEntity<Reservation> addReservation(@PathVariable("conferenceRoom") final Long conferenceRoom,
+    public ResponseEntity<ReservationDto> addReservation(@PathVariable("conferenceRoom") final Long conferenceRoom,
                                                       @RequestBody final ReservationRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(reservationService.add(conferenceRoom, request));
     }

@@ -30,10 +30,10 @@ public class ReservationService {
         return reservationMapper.map(getReservationFromDatabaseById(id));
     }
 
-    public Reservation add(Long conferenceRoomId, final ReservationRequest request) {
+    public ReservationDto add(Long conferenceRoomId, final ReservationRequest request) {
         ConferenceRoom conferenceRoom = conferenceRoomService.getConferenceRoomFromDatabaseById(conferenceRoomId);
         final Reservation reservation = reservationMapper.map(conferenceRoom, request);
-        return reservationRepository.save(reservation);
+        return reservationMapper.map(reservationRepository.save(reservation));
     }
 
     public ReservationDto update(Long id, final ReservationRequest request) {

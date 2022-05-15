@@ -32,7 +32,7 @@ public class ConferenceRoomController {
     }
 
     @PostMapping("/{organizationName}/add")
-    public ResponseEntity<ConferenceRoom> addConferenceRoom(@PathVariable("organizationName") final String organizationName,
+    public ResponseEntity<ConferenceRoomDto> addConferenceRoom(@PathVariable("organizationName") final String organizationName,
                                                             @RequestBody final ConferenceRoomRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(conferenceRoomService.add(organizationName, request));
     }

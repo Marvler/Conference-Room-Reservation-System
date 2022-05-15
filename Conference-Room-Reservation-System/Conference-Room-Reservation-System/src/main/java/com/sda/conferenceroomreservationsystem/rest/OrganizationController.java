@@ -34,7 +34,7 @@ public class OrganizationController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<Organization> addOrganization(@RequestBody final OrganizationRequest organizationRequest) {
+    public ResponseEntity<OrganizationDto> addOrganization(@RequestBody final OrganizationRequest organizationRequest) {
         return ResponseEntity.status(HttpStatus.CREATED).body(organizationService.add(organizationRequest));
     }
 
