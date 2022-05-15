@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Organization } from 'src/app/model/Organization';
 import { LoginService } from 'src/app/service/loginService/login.service';
 
@@ -10,7 +11,7 @@ import { LoginService } from 'src/app/service/loginService/login.service';
 })
 export class LoginComponent implements OnInit {
 
-  constructor(private loginService: LoginService) { }
+  constructor(private loginService: LoginService, private router: Router) { }
 
 
   ngOnInit(): void {
@@ -18,6 +19,11 @@ export class LoginComponent implements OnInit {
 
   createOrganization(organizationName: string, email: string, password: string) {
     this.loginService.createOrganization({ organizationName, email, password } as Organization).subscribe((data) => console.warn(data));
+  }
+
+
+  goToPage(pageName: string) {
+    this.router.navigate([`${pageName}`]);
   }
 
 }
