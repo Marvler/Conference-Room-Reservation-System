@@ -33,11 +33,12 @@ public class ReservationController {
         return ResponseEntity.ok(reservation);
     }
 
-    @PostMapping("/add")
-    public ResponseEntity<Reservation> addReservation(@RequestBody final ReservationRequest request)
+    @PostMapping("/{conferenceRoom}/add")
+    public ResponseEntity<Reservation> addReservation(@PathVariable("conferenceRoom") final Long conferenceRoom,
+                                                      @RequestBody final ReservationRequest request)
             throws ReservationAlreadyExistException
     {
-        return ResponseEntity.status(HttpStatus.CREATED).body(reservationService.add(request));
+        return ResponseEntity.status(HttpStatus.CREATED).body(reservationService.add(conferenceRoom, request));
     }
 
     @PutMapping("/update/{id}")

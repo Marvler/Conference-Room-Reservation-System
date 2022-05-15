@@ -3,10 +3,9 @@ package com.sda.conferenceroomreservationsystem.service;
 import com.sda.conferenceroomreservationsystem.exception.ReservationNotFoundException;
 import com.sda.conferenceroomreservationsystem.mapper.ReservationMapper;
 import com.sda.conferenceroomreservationsystem.model.dto.ReservationDto;
+import com.sda.conferenceroomreservationsystem.model.entity.ConferenceRoom;
 import com.sda.conferenceroomreservationsystem.model.entity.Reservation;
 import com.sda.conferenceroomreservationsystem.model.request.ReservationRequest;
-import com.sda.conferenceroomreservationsystem.repository.ConferenceRoomRepository;
-import com.sda.conferenceroomreservationsystem.repository.OrganizationRepository;
 import com.sda.conferenceroomreservationsystem.repository.ReservationRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,8 +18,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class ReservationService {
 
-    private final ConferenceRoomRepository conferenceRoomRepository;
-    private final OrganizationRepository organizationRepository;
+    private final ConferenceRoomService conferenceRoomService;
     private final ReservationRepository reservationRepository;
     private final ReservationMapper reservationMapper;
 
@@ -32,8 +30,9 @@ public class ReservationService {
         return reservationMapper.map(getReservationFromDatabaseById(id));
     }
 
-    public Reservation add(final ReservationRequest request) {
-        final Reservation reservation = reservationMapper.map(request);
+    public Reservation add(Long conferenceRoomId, final ReservationRequest request) {
+        ConferenceRoom conferenceRoom = conferenceRoomService.getConferenceRoomFromDatabaseById(conferenceRoomId);
+        final Reservation reservation = reservationMapper.map(conferenceRoom, request);
         return reservationRepository.save(reservation);
     }
 
@@ -41,6 +40,7 @@ public class ReservationService {
         final Reservation reservationFromDb = getReservationFromDatabaseById(id);
         final Reservation reservationFromRequest = reservationMapper.map(request);
         reservationFromRequest.setReservationId(reservationFromDb.getReservationId());
+        reservationFromRequest.setConferenceRoom(reservationFromDb.getConferenceRoom());
 
         return reservationMapper.map(reservationRepository.save(reservationFromRequest));
     }
