@@ -7,6 +7,8 @@ import { LoginComponent } from './component/login/login.component';
 import { OrganizationComponent } from './component/organization/organization.component';
 import { ReservationComponent } from './component/reservation/reservation.component';
 import { PageNotFoundComponent } from './component/page-not-found/page-not-found.component';
+import { HttpClientModule } from '@angular/common/http';
+
 
 
 @NgModule({
@@ -19,7 +21,9 @@ import { PageNotFoundComponent } from './component/page-not-found/page-not-found
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule
+
 
   ],
   providers: [],
