@@ -18,7 +18,7 @@ public class ConferenceRoomMapper {
         return conferenceRoom;
     }
 
-    public ConferenceRoomDto map(final ConferenceRoom conferenceRoom) {
+    public static ConferenceRoomDto map(final ConferenceRoom conferenceRoom) {
         return ConferenceRoomDto.Builder()
                 .withConferenceRoomName(conferenceRoom.getConferenceRoomName())
                 .withConferenceRoomIdentifier(conferenceRoom.getConferenceRoomIdentifier())

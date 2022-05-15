@@ -1,9 +1,10 @@
 package com.sda.conferenceroomreservationsystem.rest;
 
-import com.sda.conferenceroomreservationsystem.exception.type.ReservationAlreadyExistException;
-import com.sda.conferenceroomreservationsystem.exception.type.ReservationNotFoundException;
+import com.sda.conferenceroomreservationsystem.exception.ReservationAlreadyExistException;
+import com.sda.conferenceroomreservationsystem.exception.ReservationNotFoundException;
 import com.sda.conferenceroomreservationsystem.model.dto.ReservationDto;
 import com.sda.conferenceroomreservationsystem.model.entity.Reservation;
+import com.sda.conferenceroomreservationsystem.model.request.ReservationRequest;
 import com.sda.conferenceroomreservationsystem.service.ReservationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -21,34 +22,34 @@ public class ReservationController {
 
     @GetMapping("/all")
     public ResponseEntity<List<ReservationDto>> getAllReservations() {
-        List<ReservationDto> reservations = reservationService.getAllReservations();
-        return new ResponseEntity<>(reservations, HttpStatus.OK);
+        return ResponseEntity.ok(reservationService.getAll());
     }
 
-    @GetMapping("/find/{name}")
-    public ResponseEntity<ReservationDto> getReservationById(@PathVariable("name") final String name)
+    @GetMapping("/find/{id}")
+    public ResponseEntity<ReservationDto> getReservationById(@PathVariable("id") final Long id)
             throws ReservationNotFoundException
     {
-        return ResponseEntity.ok(reservationService.getReservationByName(name));
+        ReservationDto reservation = reservationService.getReservation(id);
+        return ResponseEntity.ok(reservation);
     }
 
     @PostMapping("/add")
-    public ResponseEntity<ReservationDto> addReservation(@RequestBody final Reservation reservation)
+    public ResponseEntity<Reservation> addReservation(@RequestBody final ReservationRequest request)
             throws ReservationAlreadyExistException
     {
-        return ResponseEntity.status(HttpStatus.CREATED).body(reservationService.createReservation(reservation));
+        return ResponseEntity.status(HttpStatus.CREATED).body(reservationService.add(request));
     }
 
     @PutMapping("/update/{id}")
     public ResponseEntity<ReservationDto> updateReservation(@PathVariable("id") final Long id,
-                                                            @RequestBody final Reservation reservation)
+                                                            @RequestBody final ReservationRequest request)
             throws ReservationNotFoundException
     {
-        return ResponseEntity.status(HttpStatus.CREATED).body(reservationService.updateReservation(id, reservation));
+        return ResponseEntity.status(HttpStatus.CREATED).body(reservationService.update(id, request));
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Void> deleteReservation(@PathVariable("id") Long id)
+    public ResponseEntity<Void> deleteReservation(@PathVariable("id") final Long id)
             throws ReservationNotFoundException {
         reservationService.deleteReservationById(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
