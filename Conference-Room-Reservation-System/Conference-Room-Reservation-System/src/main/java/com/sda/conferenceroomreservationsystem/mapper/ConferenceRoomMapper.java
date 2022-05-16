@@ -5,6 +5,8 @@ import com.sda.conferenceroomreservationsystem.model.entity.ConferenceRoom;
 import com.sda.conferenceroomreservationsystem.model.entity.Organization;
 import com.sda.conferenceroomreservationsystem.model.request.ConferenceRoomRequest;
 
+import java.util.ArrayList;
+
 public class ConferenceRoomMapper {
     public static ConferenceRoom mapToEntity(final Organization organization, final ConferenceRoomRequest request) {
         final ConferenceRoom conferenceRoom = new ConferenceRoom();
@@ -14,6 +16,7 @@ public class ConferenceRoomMapper {
         conferenceRoom.setNumberOfSeats(request.getNumberOfSeats());
         conferenceRoom.setNumberOfStandings(request.getNumberOfStandings());
         conferenceRoom.setOrganization(organization);
+        conferenceRoom.setReservations(new ArrayList<>());
 
         return conferenceRoom;
     }
