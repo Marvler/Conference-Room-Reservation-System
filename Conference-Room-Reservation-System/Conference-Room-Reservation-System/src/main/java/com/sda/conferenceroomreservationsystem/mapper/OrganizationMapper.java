@@ -4,6 +4,8 @@ import com.sda.conferenceroomreservationsystem.model.dto.OrganizationDto;
 import com.sda.conferenceroomreservationsystem.model.entity.Organization;
 import com.sda.conferenceroomreservationsystem.model.request.OrganizationRequest;
 
+import java.util.ArrayList;
+
 public class OrganizationMapper {
 
     public static Organization mapToEntity(final OrganizationRequest request) {
@@ -11,6 +13,7 @@ public class OrganizationMapper {
         organization.setOrganizationName(request.getOrganizationName());
         organization.setPassword(request.getPassword());
         organization.setEmail(request.getEmail());
+        organization.setConferenceRooms(new ArrayList<>());
 
         return organization;
     }
