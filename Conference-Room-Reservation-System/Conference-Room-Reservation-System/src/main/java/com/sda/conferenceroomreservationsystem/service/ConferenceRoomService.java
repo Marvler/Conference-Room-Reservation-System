@@ -25,26 +25,26 @@ public class ConferenceRoomService {
     public List<ConferenceRoomDto> getAll(String organizationName) {
         Organization organization = organizationService.getOrganizationFromDatabase(organizationName);
         return conferenceRoomRepository.findByOrganization(organization).stream()
-                .map(ConferenceRoomMapper::map).toList();
+                .map(ConferenceRoomMapper::mapToDto).toList();
     }
 
     public ConferenceRoomDto getConferenceRoom(Long id) {
-        return ConferenceRoomMapper.map(getConferenceRoomFromDatabaseById(id));
+        return ConferenceRoomMapper.mapToDto(getConferenceRoomFromDatabaseById(id));
     }
 
     public ConferenceRoomDto add(String organizationName, ConferenceRoomRequest request) {
         Organization organization = organizationService.getOrganizationFromDatabase(organizationName);
-        final ConferenceRoom conferenceRoom = ConferenceRoomMapper.map(organization, request);
-        return ConferenceRoomMapper.map(conferenceRoomRepository.save(conferenceRoom));
+        final ConferenceRoom conferenceRoom = ConferenceRoomMapper.mapToEntity(organization, request);
+        return ConferenceRoomMapper.mapToDto(conferenceRoomRepository.save(conferenceRoom));
     }
 
     public ConferenceRoomDto update(Long id, ConferenceRoomRequest request) {
         final ConferenceRoom conferenceRoomFromDb = getConferenceRoomFromDatabaseById(id);
-        final ConferenceRoom conferenceRoomFromRequest = ConferenceRoomMapper.map(request);
+        final ConferenceRoom conferenceRoomFromRequest = ConferenceRoomMapper.mapToEntity(request);
         conferenceRoomFromRequest.setConferenceRoomId(conferenceRoomFromDb.getConferenceRoomId());
         conferenceRoomFromRequest.setOrganization(conferenceRoomFromDb.getOrganization());
 
-        return ConferenceRoomMapper.map(conferenceRoomRepository.save(conferenceRoomFromRequest));
+        return ConferenceRoomMapper.mapToDto(conferenceRoomRepository.save(conferenceRoomFromRequest));
     }
 
     public void deleteConferenceRoomById(Long id) {

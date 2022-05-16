@@ -24,20 +24,20 @@ public class OrganizationService {
     }
 
     public OrganizationDto getOrganization(String name) {
-        return OrganizationMapper.map(getOrganizationFromDatabase(name));
+        return OrganizationMapper.mapToDto(getOrganizationFromDatabase(name));
     }
 
     public OrganizationDto add(final OrganizationRequest request) {
-        final Organization organization = OrganizationMapper.map(request);
-        return OrganizationMapper.map(organizationRepository.save(organization));
+        final Organization organization = OrganizationMapper.mapToEntity(request);
+        return OrganizationMapper.mapToDto(organizationRepository.save(organization));
     }
 
     public OrganizationDto update(String name, final OrganizationRequest request) {
         final Organization organizationFromDb = getOrganizationFromDatabase(name);
-        final Organization organizationFromRequest = OrganizationMapper.map(request);
+        final Organization organizationFromRequest = OrganizationMapper.mapToEntity(request);
         organizationFromRequest.setOrganizationId(organizationFromDb.getOrganizationId());
 
-        return OrganizationMapper.map(organizationRepository.save(organizationFromRequest));
+        return OrganizationMapper.mapToDto(organizationRepository.save(organizationFromRequest));
     }
 
     public void delete(String name) {

@@ -6,7 +6,7 @@ import com.sda.conferenceroomreservationsystem.model.request.OrganizationRequest
 
 public class OrganizationMapper {
 
-    public static Organization map(final OrganizationRequest request) {
+    public static Organization mapToEntity(final OrganizationRequest request) {
         final Organization organization = new Organization();
         organization.setOrganizationName(request.getOrganizationName());
         organization.setPassword(request.getPassword());
@@ -15,12 +15,12 @@ public class OrganizationMapper {
         return organization;
     }
 
-    public static OrganizationDto map(final Organization organization) {
+    public static OrganizationDto mapToDto(final Organization organization) {
         return OrganizationDto.Builder()
                 .withOrganizationName(organization.getOrganizationName())
                 .withEmail(organization.getEmail())
                 .withConferenceRooms(organization.getConferenceRooms().stream()
-                        .map(ConferenceRoomMapper::map).toList())
+                        .map(ConferenceRoomMapper::mapToDto).toList())
                 .build();
     }
 }

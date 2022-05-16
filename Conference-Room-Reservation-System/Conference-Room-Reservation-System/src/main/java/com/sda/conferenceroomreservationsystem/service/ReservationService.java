@@ -4,7 +4,6 @@ import com.sda.conferenceroomreservationsystem.exception.ReservationNotFoundExce
 import com.sda.conferenceroomreservationsystem.mapper.ReservationMapper;
 import com.sda.conferenceroomreservationsystem.model.dto.ReservationDto;
 import com.sda.conferenceroomreservationsystem.model.entity.ConferenceRoom;
-import com.sda.conferenceroomreservationsystem.model.entity.Organization;
 import com.sda.conferenceroomreservationsystem.model.entity.Reservation;
 import com.sda.conferenceroomreservationsystem.model.request.ReservationRequest;
 import com.sda.conferenceroomreservationsystem.repository.ReservationRepository;
@@ -25,27 +24,27 @@ public class ReservationService {
     public List<ReservationDto> getAll(Long id){
         ConferenceRoom conferenceRoom = conferenceRoomService.getConferenceRoomFromDatabaseById(id);
         return reservationRepository.findByConferenceRoom(conferenceRoom).stream()
-                .map(ReservationMapper::map)
+                .map(ReservationMapper::mapToDto)
                 .sorted(Comparator.comparing(ReservationDto::getReservationStart)).toList();
     }
 
     public ReservationDto getReservation(Long id) {
-        return ReservationMapper.map(getReservationFromDatabaseById(id));
+        return ReservationMapper.mapToDto(getReservationFromDatabaseById(id));
     }
 
     public ReservationDto add(Long conferenceRoomId, final ReservationRequest request) {
         ConferenceRoom conferenceRoom = conferenceRoomService.getConferenceRoomFromDatabaseById(conferenceRoomId);
-        final Reservation reservation = ReservationMapper.map(conferenceRoom, request);
-        return ReservationMapper.map(reservationRepository.save(reservation));
+        final Reservation reservation = ReservationMapper.mapToEntity(conferenceRoom, request);
+        return ReservationMapper.mapToDto(reservationRepository.save(reservation));
     }
 
     public ReservationDto update(Long id, final ReservationRequest request) {
         final Reservation reservationFromDb = getReservationFromDatabaseById(id);
-        final Reservation reservationFromRequest = ReservationMapper.map(request);
+        final Reservation reservationFromRequest = ReservationMapper.mapToEntity(request);
         reservationFromRequest.setReservationId(reservationFromDb.getReservationId());
         reservationFromRequest.setConferenceRoom(reservationFromDb.getConferenceRoom());
 
-        return ReservationMapper.map(reservationRepository.save(reservationFromRequest));
+        return ReservationMapper.mapToDto(reservationRepository.save(reservationFromRequest));
     }
 
     public void deleteReservationById(Long id) {
