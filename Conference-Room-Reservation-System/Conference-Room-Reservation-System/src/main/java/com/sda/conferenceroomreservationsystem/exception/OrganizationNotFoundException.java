@@ -1,4 +1,4 @@
-package com.sda.conferenceroomreservationsystem.exception.type;
+package com.sda.conferenceroomreservationsystem.exception;
 
 public class OrganizationNotFoundException extends RuntimeException {
 

@@ -14,6 +14,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TestComponent } from './component/test/test.component';
 
 
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -24,6 +26,7 @@ import { TestComponent } from './component/test/test.component';
     NavbarComponent,
     SuccessComponent,
     TestComponent,
+
   ],
   imports: [
     BrowserModule,
@@ -31,6 +34,7 @@ import { TestComponent } from './component/test/test.component';
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule
+
 
   ],
   providers: [],

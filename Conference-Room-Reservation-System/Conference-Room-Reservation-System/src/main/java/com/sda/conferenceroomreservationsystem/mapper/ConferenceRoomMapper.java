@@ -2,12 +2,23 @@ package com.sda.conferenceroomreservationsystem.mapper;
 
 import com.sda.conferenceroomreservationsystem.model.dto.ConferenceRoomDto;
 import com.sda.conferenceroomreservationsystem.model.entity.ConferenceRoom;
+import com.sda.conferenceroomreservationsystem.model.entity.Organization;
 import com.sda.conferenceroomreservationsystem.model.request.ConferenceRoomRequest;
-import org.springframework.stereotype.Component;
 
-@Component
 public class ConferenceRoomMapper {
-    public ConferenceRoom map(final ConferenceRoomRequest request) {
+    public static ConferenceRoom map(final Organization organization, final ConferenceRoomRequest request) {
+        final ConferenceRoom conferenceRoom = new ConferenceRoom();
+        conferenceRoom.setConferenceRoomName(request.getConferenceRoomName());
+        conferenceRoom.setConferenceRoomIdentifier(request.getConferenceRoomIdentifier());
+        conferenceRoom.setLevel(request.getLevel());
+        conferenceRoom.setNumberOfSeats(request.getNumberOfSeats());
+        conferenceRoom.setNumberOfStandings(request.getNumberOfStandings());
+        conferenceRoom.setOrganization(organization);
+
+        return conferenceRoom;
+    }
+
+    public static ConferenceRoom map(final ConferenceRoomRequest request) {
         final ConferenceRoom conferenceRoom = new ConferenceRoom();
         conferenceRoom.setConferenceRoomName(request.getConferenceRoomName());
         conferenceRoom.setConferenceRoomIdentifier(request.getConferenceRoomIdentifier());
@@ -18,7 +29,7 @@ public class ConferenceRoomMapper {
         return conferenceRoom;
     }
 
-    public ConferenceRoomDto map(final ConferenceRoom conferenceRoom) {
+    public static ConferenceRoomDto map(final ConferenceRoom conferenceRoom) {
         return ConferenceRoomDto.Builder()
                 .withConferenceRoomName(conferenceRoom.getConferenceRoomName())
                 .withConferenceRoomIdentifier(conferenceRoom.getConferenceRoomIdentifier())

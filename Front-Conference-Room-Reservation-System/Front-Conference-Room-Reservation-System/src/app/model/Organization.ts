@@ -12,5 +12,4 @@ export class Organization {
         this.password = password;
 
     }
-
 }

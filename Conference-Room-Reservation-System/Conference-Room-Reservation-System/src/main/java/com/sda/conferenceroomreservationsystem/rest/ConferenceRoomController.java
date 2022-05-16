@@ -1,10 +1,8 @@
 package com.sda.conferenceroomreservationsystem.rest;
 
 
-import com.sda.conferenceroomreservationsystem.exception.type.ConferenceRoomAlreadyExistsException;
-import com.sda.conferenceroomreservationsystem.exception.type.ConferenceRoomNotFoundException;
 import com.sda.conferenceroomreservationsystem.model.dto.ConferenceRoomDto;
-import com.sda.conferenceroomreservationsystem.model.entity.ConferenceRoom;
+import com.sda.conferenceroomreservationsystem.model.request.ConferenceRoomRequest;
 import com.sda.conferenceroomreservationsystem.service.ConferenceRoomService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -20,37 +18,30 @@ public class ConferenceRoomController {
 
     private final ConferenceRoomService conferenceRoomService;
 
-    @GetMapping("/all")
-    public ResponseEntity<List<ConferenceRoomDto>> getAllConferenceRooms() {
-        List<ConferenceRoomDto> conferenceRooms = conferenceRoomService.getAllConferenceRooms;
-        return new ResponseEntity<>(conferenceRooms, HttpStatus.OK);
+    @GetMapping("/{organizationName}/all")
+    public ResponseEntity<List<ConferenceRoomDto>> getAllConferenceRooms(@PathVariable("organizationName") final String organizationName) {
+        return ResponseEntity.ok(conferenceRoomService.getAll(organizationName));
     }
 
-    @GetMapping("/find/{name}")
-    public ResponseEntity<ConferenceRoomDto> getConferenceRoomById(@PathVariable("name") final String name)
-            throws ConferenceRoomNotFoundException
-    {
-        return ResponseEntity.ok(conferenceRoomService.getConferenceRoomByName(name));
+    @GetMapping("/find/{id}")
+    public ResponseEntity<ConferenceRoomDto> getConferenceRoomById(@PathVariable("id") final Long id) {
+        return ResponseEntity.ok(conferenceRoomService.getConferenceRoom(id));
     }
 
-    @PostMapping("/add")
-    public ResponseEntity<ConferenceRoomDto> addConferenceRoom(@RequestBody final ConferenceRoomDto conferenceRoomDto)
-            throws ConferenceRoomAlreadyExistsException
-    {
-        return ResponseEntity.status(HttpStatus.CREATED).body(conferenceRoomService.createConferenceRoom(conferenceRoomDto));
+    @PostMapping("/{organizationName}/add")
+    public ResponseEntity<ConferenceRoomDto> addConferenceRoom(@PathVariable("organizationName") final String organizationName,
+                                                            @RequestBody final ConferenceRoomRequest request) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(conferenceRoomService.add(organizationName, request));
     }
 
     @PutMapping("/update/{id}")
     public ResponseEntity<ConferenceRoomDto> updateConferenceRoom(@PathVariable("id") final Long id,
-                                                                  @RequestBody final ConferenceRoom conferenceRoom)
-            throws ConferenceRoomNotFoundException
-    {
-        return ResponseEntity.status(HttpStatus.CREATED).body(conferenceRoomService.updateConferenceRoom(id, conferenceRoom));
+                                                                  @RequestBody final ConferenceRoomRequest conferenceRoomRequest) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(conferenceRoomService.update(id, conferenceRoomRequest));
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Void> deleteConferenceRoom(@PathVariable("id") Long id)
-            throws ConferenceRoomNotFoundException {
+    public ResponseEntity<Void> deleteConferenceRoom(@PathVariable("id") Long id) {
         conferenceRoomService.deleteConferenceRoomById(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }

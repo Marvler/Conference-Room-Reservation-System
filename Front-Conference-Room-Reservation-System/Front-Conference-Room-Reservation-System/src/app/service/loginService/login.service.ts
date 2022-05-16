@@ -24,6 +24,6 @@ export class LoginService {
 
   getOrganization(organizationName: string): Observable<Organization> {
     return this.httpClient.get<Organization>(this.organizationUrl + organizationName)
-  }
 
+  }
 }
