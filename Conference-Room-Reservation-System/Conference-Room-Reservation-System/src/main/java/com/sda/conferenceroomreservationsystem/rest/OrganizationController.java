@@ -18,32 +18,30 @@ public class OrganizationController {
 
     private final OrganizationService organizationService;
 
-
     @GetMapping("/all")
     public ResponseEntity<List<OrganizationDto>> getAllOrganizations() {
         return ResponseEntity.ok(organizationService.getAll());
     }
 
-    @GetMapping("/find/{name}")
-    public ResponseEntity<OrganizationDto> getOrganizationByName(@PathVariable("name") final String name) {
-        OrganizationDto organization = organizationService.getOrganization(name);
-        return ResponseEntity.ok(organization);
+    @GetMapping("/{id}")
+    public ResponseEntity<OrganizationDto> getOrganization(@PathVariable("id") final Long id) {
+        return ResponseEntity.ok(organizationService.getOrganization(id));
     }
 
-    @PostMapping("/add")
-    public ResponseEntity<OrganizationDto> addOrganization(@RequestBody final OrganizationRequest organizationRequest) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(organizationService.add(organizationRequest));
+    @PostMapping
+    public ResponseEntity<OrganizationDto> addOrganization(@RequestBody final OrganizationRequest request) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(organizationService.add(request));
     }
 
-    @PutMapping("/update/{name}")
-    public ResponseEntity<OrganizationDto> updateOrganization(@PathVariable("name") final String name,
-                                                              @RequestBody final OrganizationRequest organizationRequest) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(organizationService.update(name, organizationRequest));
+    @PutMapping("/{id}")
+    public ResponseEntity<OrganizationDto> updateOrganization(@PathVariable("id") final Long id,
+                                                              @RequestBody final OrganizationRequest request) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(organizationService.update(id, request));
     }
 
-    @DeleteMapping("/delete/{name}")
-    public ResponseEntity<Void> deleteOrganization(@PathVariable("name") String name) {
-        organizationService.delete(name);
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteOrganization(@PathVariable("id") final Long id) {
+        organizationService.delete(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }

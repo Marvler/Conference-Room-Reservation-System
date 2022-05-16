@@ -20,6 +20,7 @@ public class OrganizationMapper {
 
     public static OrganizationDto mapToDto(final Organization organization) {
         return OrganizationDto.Builder()
+                .withOrganizationId(organization.getOrganizationId())
                 .withOrganizationName(organization.getOrganizationName())
                 .withEmail(organization.getEmail())
                 .withConferenceRooms(organization.getConferenceRooms().stream()

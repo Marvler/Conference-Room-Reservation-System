@@ -17,30 +17,28 @@ public class ReservationController {
 
     private final ReservationService reservationService;
 
-    @GetMapping("/{conferenceRoom}/all")
-    public ResponseEntity<List<ReservationDto>> getAllReservations(@PathVariable("conferenceRoom") final Long conferenceRoom) {
-        return ResponseEntity.ok(reservationService.getAll(conferenceRoom));
+    @GetMapping("/{conferenceRoomId}/all")
+    public ResponseEntity<List<ReservationDto>> getAllReservations(@PathVariable("conferenceRoomId") final Long conferenceRoomId) {
+        return ResponseEntity.ok(reservationService.getAll(conferenceRoomId));
     }
 
-    @GetMapping("/find/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<ReservationDto> getReservationById(@PathVariable("id") final Long id) {
-        ReservationDto reservation = reservationService.getReservation(id);
-        return ResponseEntity.ok(reservation);
+        return ResponseEntity.ok(reservationService.getReservation(id));
     }
 
-    @PostMapping("/{conferenceRoom}/add")
-    public ResponseEntity<ReservationDto> addReservation(@PathVariable("conferenceRoom") final Long conferenceRoom,
-                                                      @RequestBody final ReservationRequest request) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(reservationService.add(conferenceRoom, request));
+    @PostMapping
+    public ResponseEntity<ReservationDto> addReservation(@RequestBody final ReservationRequest request) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(reservationService.add(request));
     }
 
-    @PutMapping("/update/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<ReservationDto> updateReservation(@PathVariable("id") final Long id,
                                                             @RequestBody final ReservationRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(reservationService.update(id, request));
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteReservation(@PathVariable("id") final Long id) {
         reservationService.deleteReservationById(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();

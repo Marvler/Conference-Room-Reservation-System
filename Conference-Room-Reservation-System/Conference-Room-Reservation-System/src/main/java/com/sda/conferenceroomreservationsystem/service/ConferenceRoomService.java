@@ -22,8 +22,8 @@ public class ConferenceRoomService {
 
 
 
-    public List<ConferenceRoomDto> getAll(String organizationName) {
-        Organization organization = organizationService.getOrganizationFromDatabase(organizationName);
+    public List<ConferenceRoomDto> getAll(Long organizationId) {
+        Organization organization = organizationService.getOrganizationFromDatabase(organizationId);
         return conferenceRoomRepository.findByOrganization(organization).stream()
                 .map(ConferenceRoomMapper::mapToDto).toList();
     }
@@ -32,8 +32,8 @@ public class ConferenceRoomService {
         return ConferenceRoomMapper.mapToDto(getConferenceRoomFromDatabaseById(id));
     }
 
-    public ConferenceRoomDto add(String organizationName, ConferenceRoomRequest request) {
-        Organization organization = organizationService.getOrganizationFromDatabase(organizationName);
+    public ConferenceRoomDto add(ConferenceRoomRequest request) {
+        Organization organization = organizationService.getOrganizationFromDatabase(request.getOrganizationId());
         final ConferenceRoom conferenceRoom = ConferenceRoomMapper.mapToEntity(organization, request);
         return ConferenceRoomMapper.mapToDto(conferenceRoomRepository.save(conferenceRoom));
     }

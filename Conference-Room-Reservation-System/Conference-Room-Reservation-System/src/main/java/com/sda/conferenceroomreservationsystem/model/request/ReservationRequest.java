@@ -11,4 +11,6 @@ public class ReservationRequest {
     private LocalDateTime reservationStart;
     @NotNull
     private LocalDateTime reservationEnd;
+    @NotNull
+    private Long conferenceRoomId;
 }

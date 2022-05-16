@@ -1,6 +1,5 @@
 package com.sda.conferenceroomreservationsystem.model.dto;
 
-import com.sda.conferenceroomreservationsystem.model.entity.ConferenceRoom;
 import lombok.*;
 
 import java.util.List;
@@ -10,6 +9,7 @@ import java.util.List;
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 @AllArgsConstructor
 public class OrganizationDto {
+    private Long organizationId;
     private String organizationName;
     private String email;
     private List<ConferenceRoomDto> conferenceRooms;
