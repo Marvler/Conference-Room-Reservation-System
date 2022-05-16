@@ -17,7 +17,6 @@ import java.util.Optional;
 public class OrganizationService {
 
     private final OrganizationRepository organizationRepository;
-    private final OrganizationMapper organizationMapper;
 
     public List<OrganizationDto> getAll() {
         //TODO
@@ -25,20 +24,20 @@ public class OrganizationService {
     }
 
     public OrganizationDto getOrganization(String name) {
-        return organizationMapper.map(getOrganizationFromDatabase(name));
+        return OrganizationMapper.map(getOrganizationFromDatabase(name));
     }
 
-    public Organization add(final OrganizationRequest request) {
-        final Organization organization = organizationMapper.map(request);
-        return organizationRepository.save(organization);
+    public OrganizationDto add(final OrganizationRequest request) {
+        final Organization organization = OrganizationMapper.map(request);
+        return OrganizationMapper.map(organizationRepository.save(organization));
     }
 
     public OrganizationDto update(String name, final OrganizationRequest request) {
         final Organization organizationFromDb = getOrganizationFromDatabase(name);
-        final Organization organizationFromRequest = organizationMapper.map(request);
+        final Organization organizationFromRequest = OrganizationMapper.map(request);
         organizationFromRequest.setOrganizationId(organizationFromDb.getOrganizationId());
 
-        return organizationMapper.map(organizationRepository.save(organizationFromRequest));
+        return OrganizationMapper.map(organizationRepository.save(organizationFromRequest));
     }
 
     public void delete(String name) {

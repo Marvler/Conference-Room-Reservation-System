@@ -1,9 +1,6 @@
 package com.sda.conferenceroomreservationsystem.rest;
 
-import com.sda.conferenceroomreservationsystem.exception.ReservationAlreadyExistException;
-import com.sda.conferenceroomreservationsystem.exception.ReservationNotFoundException;
 import com.sda.conferenceroomreservationsystem.model.dto.ReservationDto;
-import com.sda.conferenceroomreservationsystem.model.entity.Reservation;
 import com.sda.conferenceroomreservationsystem.model.request.ReservationRequest;
 import com.sda.conferenceroomreservationsystem.service.ReservationService;
 import lombok.RequiredArgsConstructor;
@@ -20,9 +17,9 @@ public class ReservationController {
 
     private final ReservationService reservationService;
 
-    @GetMapping("/all")
-    public ResponseEntity<List<ReservationDto>> getAllReservations() {
-        return ResponseEntity.ok(reservationService.getAll());
+    @GetMapping("/{conferenceRoom}/all")
+    public ResponseEntity<List<ReservationDto>> getAllReservations(@PathVariable("conferenceRoom") final Long conferenceRoom) {
+        return ResponseEntity.ok(reservationService.getAll(conferenceRoom));
     }
 
     @GetMapping("/find/{id}")
@@ -32,7 +29,7 @@ public class ReservationController {
     }
 
     @PostMapping("/{conferenceRoom}/add")
-    public ResponseEntity<Reservation> addReservation(@PathVariable("conferenceRoom") final Long conferenceRoom,
+    public ResponseEntity<ReservationDto> addReservation(@PathVariable("conferenceRoom") final Long conferenceRoom,
                                                       @RequestBody final ReservationRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(reservationService.add(conferenceRoom, request));
     }
