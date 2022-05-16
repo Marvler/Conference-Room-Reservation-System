@@ -19,8 +19,7 @@ public class OrganizationService {
     private final OrganizationRepository organizationRepository;
 
     public List<OrganizationDto> getAll() {
-        //TODO
-        return null;
+        return organizationRepository.findAll().stream().map(OrganizationMapper::mapToDto).toList();
     }
 
     public OrganizationDto getOrganization(Long id) {
