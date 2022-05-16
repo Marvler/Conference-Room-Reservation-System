@@ -4,6 +4,7 @@ import com.sda.conferenceroomreservationsystem.exception.ReservationNotFoundExce
 import com.sda.conferenceroomreservationsystem.mapper.ReservationMapper;
 import com.sda.conferenceroomreservationsystem.model.dto.ReservationDto;
 import com.sda.conferenceroomreservationsystem.model.entity.ConferenceRoom;
+import com.sda.conferenceroomreservationsystem.model.entity.Organization;
 import com.sda.conferenceroomreservationsystem.model.entity.Reservation;
 import com.sda.conferenceroomreservationsystem.model.request.ReservationRequest;
 import com.sda.conferenceroomreservationsystem.repository.ReservationRepository;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
 @Service
 @RequiredArgsConstructor
@@ -35,7 +37,7 @@ public class ReservationService {
     public ReservationDto add(final ReservationRequest request) {
         ConferenceRoom conferenceRoom = conferenceRoomService.getConferenceRoomFromDatabaseById(request.getConferenceRoomId());
         final Reservation reservation = ReservationMapper.mapToEntity(conferenceRoom, request);
-        return ReservationMapper.mapToDto(reservationRepository.save(reservation));
+        return ReservationMapper.mapToDto(reservationRepository.save(generateReservationWithIdentifier(reservation)));
     }
 
     public ReservationDto update(Long id, final ReservationRequest request) {
@@ -54,5 +56,17 @@ public class ReservationService {
     private Reservation getReservationFromDatabaseById(final Long reservationId) {
         final Optional<Reservation> reservationFromDatabase = reservationRepository.findById(reservationId);
         return reservationFromDatabase.orElseThrow(ReservationNotFoundException::new);
+    }
+
+    private Reservation generateReservationWithIdentifier(Reservation reservation) {
+        Random random = new Random();
+
+        ConferenceRoom conferenceRoom = reservation.getConferenceRoom();
+        Organization organization = conferenceRoom.getOrganization();
+        String organizationAbr = organization.getOrganizationName().substring(0,2).toUpperCase();
+        String conferenceRoomAbr = conferenceRoom.getConferenceRoomName().substring(0,2).toUpperCase();
+        String identifier = organizationAbr + "-" + conferenceRoomAbr + "-" + (random.nextInt(9000) + 1000);
+        reservation.setReservationIdentifier(identifier);
+        return reservation;
     }
 }
