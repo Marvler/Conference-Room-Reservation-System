@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Organization } from './model/Organization';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +7,8 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'Front-Conference-Room-Reservation-System';
+  title = 'Conference-Room-Reservation-System';
+
+
+
 }

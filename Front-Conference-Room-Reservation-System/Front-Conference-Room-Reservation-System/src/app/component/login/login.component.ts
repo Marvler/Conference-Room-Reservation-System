@@ -24,7 +24,6 @@ export class LoginComponent implements OnInit {
   }
 
   createOrganization() {
-    this.organization = new Organization(this.organizationName, this.email, this.password);
     console.log(this.organizationName, this.email, this.password)
     this.loginService.createOrganization(this.organization as Organization).subscribe((data) => console.warn(data));
   }
