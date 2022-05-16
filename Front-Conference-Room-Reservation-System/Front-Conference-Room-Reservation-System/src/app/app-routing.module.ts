@@ -7,6 +7,7 @@ import { PageNotFoundComponent } from './component/page-not-found/page-not-found
 import { ConferenceRoomsListComponent } from './component/conference-rooms-list/conference-rooms-list.component';
 import { ReservationComponent } from './component/reservation/reservation.component';
 import { SuccessComponent } from './component/success/success.component';
+import { TestComponent } from './component/test/test.component';
 
 
 const routes: Routes = [
@@ -15,6 +16,8 @@ const routes: Routes = [
   { path: 'reservations', component: ReservationComponent },
   { path: 'rooms', component: ConferenceRoomsListComponent },
   { path: 'success', component: SuccessComponent },
+  { path: 'test', component: TestComponent },
+  { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent }
 ];
 
