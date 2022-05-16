@@ -1,4 +1,7 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { Organization } from 'src/app/model/Organization';
+import { OrganizationService } from 'src/app/service/organizationService/organization.service';
 
 @Component({
   selector: 'app-test',
@@ -7,11 +10,26 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TestComponent implements OnInit {
 
-  name: any = '';
+  public organizations: Organization[];
 
-  constructor() { }
+  constructor(private organizationService: OrganizationService) {
+    this.organizations = [];
+  }
 
   ngOnInit(): void {
+    this.getOrganizations();
+  }
+
+  getOrganizations(): void {
+    this.organizationService.getOrganizations().subscribe(
+      (response: Organization[]) => {
+        this.organizations = response;
+      },
+      (error: HttpErrorResponse) => {
+        alert(error.message);
+      }
+
+    );
   }
 
 }
