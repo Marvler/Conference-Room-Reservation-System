@@ -36,6 +36,7 @@ public class OrganizationService {
         final Organization organizationFromDb = getOrganizationFromDatabase(name);
         final Organization organizationFromRequest = OrganizationMapper.mapToEntity(request);
         organizationFromRequest.setOrganizationId(organizationFromDb.getOrganizationId());
+        organizationFromRequest.setConferenceRooms(organizationFromDb.getConferenceRooms());
 
         return OrganizationMapper.mapToDto(organizationRepository.save(organizationFromRequest));
     }

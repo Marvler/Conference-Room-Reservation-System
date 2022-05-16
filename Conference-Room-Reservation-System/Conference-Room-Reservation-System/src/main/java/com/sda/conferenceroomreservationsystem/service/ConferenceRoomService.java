@@ -43,6 +43,7 @@ public class ConferenceRoomService {
         final ConferenceRoom conferenceRoomFromRequest = ConferenceRoomMapper.mapToEntity(request);
         conferenceRoomFromRequest.setConferenceRoomId(conferenceRoomFromDb.getConferenceRoomId());
         conferenceRoomFromRequest.setOrganization(conferenceRoomFromDb.getOrganization());
+        conferenceRoomFromRequest.setReservations(conferenceRoomFromDb.getReservations());
 
         return ConferenceRoomMapper.mapToDto(conferenceRoomRepository.save(conferenceRoomFromRequest));
     }
