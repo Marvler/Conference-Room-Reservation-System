@@ -7,26 +7,25 @@ import com.sda.conferenceroomreservationsystem.model.entity.ConferenceRoom;
 import com.sda.conferenceroomreservationsystem.model.entity.Organization;
 import com.sda.conferenceroomreservationsystem.model.request.ConferenceRoomRequest;
 import com.sda.conferenceroomreservationsystem.repository.ConferenceRoomRepository;
-import com.sda.conferenceroomreservationsystem.repository.OrganizationRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class ConferenceRoomService {
 
     private final ConferenceRoomRepository conferenceRoomRepository;
-    private final ConferenceRoomMapper conferenceRoomMapper;
     private final OrganizationService organizationService;
 
 
 
-    public List<ConferenceRoomDto> getAll() {
-        return conferenceRoomRepository.findAll().stream().map(ConferenceRoomMapper::map).collect(Collectors.toList());
+    public List<ConferenceRoomDto> getAll(String organizationName) {
+        Organization organization = organizationService.getOrganizationFromDatabase(organizationName);
+        return conferenceRoomRepository.findByOrganization(organization).stream()
+                .map(ConferenceRoomMapper::map).toList();
     }
 
     public ConferenceRoomDto getConferenceRoom(Long id) {
@@ -35,17 +34,17 @@ public class ConferenceRoomService {
 
     public ConferenceRoomDto add(String organizationName, ConferenceRoomRequest request) {
         Organization organization = organizationService.getOrganizationFromDatabase(organizationName);
-        final ConferenceRoom conferenceRoom = conferenceRoomMapper.map(organization, request);
-        return conferenceRoomMapper.map(conferenceRoomRepository.save(conferenceRoom));
+        final ConferenceRoom conferenceRoom = ConferenceRoomMapper.map(organization, request);
+        return ConferenceRoomMapper.map(conferenceRoomRepository.save(conferenceRoom));
     }
 
     public ConferenceRoomDto update(Long id, ConferenceRoomRequest request) {
         final ConferenceRoom conferenceRoomFromDb = getConferenceRoomFromDatabaseById(id);
-        final ConferenceRoom conferenceRoomFromRequest = conferenceRoomMapper.map(request);
+        final ConferenceRoom conferenceRoomFromRequest = ConferenceRoomMapper.map(request);
         conferenceRoomFromRequest.setConferenceRoomId(conferenceRoomFromDb.getConferenceRoomId());
         conferenceRoomFromRequest.setOrganization(conferenceRoomFromDb.getOrganization());
 
-        return conferenceRoomMapper.map(conferenceRoomRepository.save(conferenceRoomFromRequest));
+        return ConferenceRoomMapper.map(conferenceRoomRepository.save(conferenceRoomFromRequest));
     }
 
     public void deleteConferenceRoomById(Long id) {

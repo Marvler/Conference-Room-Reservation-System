@@ -1,9 +1,6 @@
 package com.sda.conferenceroomreservationsystem.rest;
 
-import com.sda.conferenceroomreservationsystem.exception.OrganizationAlreadyExistsException;
-import com.sda.conferenceroomreservationsystem.exception.OrganizationNotFoundException;
 import com.sda.conferenceroomreservationsystem.model.dto.OrganizationDto;
-import com.sda.conferenceroomreservationsystem.model.entity.Organization;
 import com.sda.conferenceroomreservationsystem.model.request.OrganizationRequest;
 import com.sda.conferenceroomreservationsystem.service.OrganizationService;
 import lombok.RequiredArgsConstructor;

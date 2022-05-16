@@ -1,10 +1,7 @@
 package com.sda.conferenceroomreservationsystem.rest;
 
 
-import com.sda.conferenceroomreservationsystem.exception.ConferenceRoomAlreadyExistsException;
-import com.sda.conferenceroomreservationsystem.exception.ConferenceRoomNotFoundException;
 import com.sda.conferenceroomreservationsystem.model.dto.ConferenceRoomDto;
-import com.sda.conferenceroomreservationsystem.model.entity.ConferenceRoom;
 import com.sda.conferenceroomreservationsystem.model.request.ConferenceRoomRequest;
 import com.sda.conferenceroomreservationsystem.service.ConferenceRoomService;
 import lombok.RequiredArgsConstructor;
@@ -21,9 +18,9 @@ public class ConferenceRoomController {
 
     private final ConferenceRoomService conferenceRoomService;
 
-    @GetMapping("/all")
-    public ResponseEntity<List<ConferenceRoomDto>> getAllConferenceRooms() {
-        return ResponseEntity.ok(conferenceRoomService.getAll());
+    @GetMapping("/{organizationName}/all")
+    public ResponseEntity<List<ConferenceRoomDto>> getAllConferenceRooms(@PathVariable("organizationName") final String organizationName) {
+        return ResponseEntity.ok(conferenceRoomService.getAll(organizationName));
     }
 
     @GetMapping("/find/{id}")
