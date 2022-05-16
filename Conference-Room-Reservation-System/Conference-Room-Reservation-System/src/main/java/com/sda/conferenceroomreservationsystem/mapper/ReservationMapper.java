@@ -25,6 +25,7 @@ public class ReservationMapper {
 
     public static ReservationDto mapToDto(final Reservation reservation) {
         return ReservationDto.Builder()
+                .withReservationId(reservation.getReservationId())
                 .withReservationIdentifier(reservation.getReservationIdentifier())
                 .withReservationStart(reservation.getReservationStart())
                 .withReservationEnd(reservation.getReservationEnd())

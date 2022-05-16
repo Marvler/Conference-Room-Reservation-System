@@ -1,6 +1,5 @@
 package com.sda.conferenceroomreservationsystem.model.dto;
 
-import com.sda.conferenceroomreservationsystem.model.entity.ConferenceRoom;
 import lombok.*;
 
 import java.util.List;

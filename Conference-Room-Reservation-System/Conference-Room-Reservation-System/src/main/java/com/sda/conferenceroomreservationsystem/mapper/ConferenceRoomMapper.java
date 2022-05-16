@@ -34,6 +34,7 @@ public class ConferenceRoomMapper {
 
     public static ConferenceRoomDto mapToDto(final ConferenceRoom conferenceRoom) {
         return ConferenceRoomDto.Builder()
+                .withConferenceRoomId(conferenceRoom.getConferenceRoomId())
                 .withConferenceRoomName(conferenceRoom.getConferenceRoomName())
                 .withConferenceRoomIdentifier(conferenceRoom.getConferenceRoomIdentifier())
                 .withLevel(conferenceRoom.getLevel())
