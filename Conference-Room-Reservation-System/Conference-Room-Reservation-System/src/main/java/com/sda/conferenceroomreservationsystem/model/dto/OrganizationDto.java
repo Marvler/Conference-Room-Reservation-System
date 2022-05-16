@@ -12,5 +12,5 @@ import java.util.List;
 public class OrganizationDto {
     private String organizationName;
     private String email;
-    private List<ConferenceRoom> conferenceRooms;
+    private List<ConferenceRoomDto> conferenceRooms;
 }

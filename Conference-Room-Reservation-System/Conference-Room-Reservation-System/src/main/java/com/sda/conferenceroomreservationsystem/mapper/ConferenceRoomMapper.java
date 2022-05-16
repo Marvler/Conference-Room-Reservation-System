@@ -6,7 +6,7 @@ import com.sda.conferenceroomreservationsystem.model.entity.Organization;
 import com.sda.conferenceroomreservationsystem.model.request.ConferenceRoomRequest;
 
 public class ConferenceRoomMapper {
-    public static ConferenceRoom map(final Organization organization, final ConferenceRoomRequest request) {
+    public static ConferenceRoom mapToEntity(final Organization organization, final ConferenceRoomRequest request) {
         final ConferenceRoom conferenceRoom = new ConferenceRoom();
         conferenceRoom.setConferenceRoomName(request.getConferenceRoomName());
         conferenceRoom.setConferenceRoomIdentifier(request.getConferenceRoomIdentifier());
@@ -18,7 +18,7 @@ public class ConferenceRoomMapper {
         return conferenceRoom;
     }
 
-    public static ConferenceRoom map(final ConferenceRoomRequest request) {
+    public static ConferenceRoom mapToEntity(final ConferenceRoomRequest request) {
         final ConferenceRoom conferenceRoom = new ConferenceRoom();
         conferenceRoom.setConferenceRoomName(request.getConferenceRoomName());
         conferenceRoom.setConferenceRoomIdentifier(request.getConferenceRoomIdentifier());
@@ -29,7 +29,7 @@ public class ConferenceRoomMapper {
         return conferenceRoom;
     }
 
-    public static ConferenceRoomDto map(final ConferenceRoom conferenceRoom) {
+    public static ConferenceRoomDto mapToDto(final ConferenceRoom conferenceRoom) {
         return ConferenceRoomDto.Builder()
                 .withConferenceRoomName(conferenceRoom.getConferenceRoomName())
                 .withConferenceRoomIdentifier(conferenceRoom.getConferenceRoomIdentifier())
@@ -37,7 +37,7 @@ public class ConferenceRoomMapper {
                 .withAvailability(conferenceRoom.getAvailability())
                 .withNumberOfSeats(conferenceRoom.getNumberOfSeats())
                 .withNumberOfStandings(conferenceRoom.getNumberOfStandings())
-                .withReservations(conferenceRoom.getReservations())
+                .withReservations(conferenceRoom.getReservations().stream().map(ReservationMapper::mapToDto).toList())
                 .build();
     }
 }

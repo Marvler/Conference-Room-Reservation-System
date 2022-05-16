@@ -6,7 +6,7 @@ import com.sda.conferenceroomreservationsystem.model.entity.Reservation;
 import com.sda.conferenceroomreservationsystem.model.request.ReservationRequest;
 
 public class ReservationMapper {
-    public static Reservation map(final ConferenceRoom conferenceRoom, final ReservationRequest request) {
+    public static Reservation mapToEntity(final ConferenceRoom conferenceRoom, final ReservationRequest request) {
         final Reservation reservation = new Reservation();
         reservation.setReservationStart(request.getReservationStart());
         reservation.setReservationEnd(request.getReservationEnd());
@@ -15,7 +15,7 @@ public class ReservationMapper {
         return reservation;
     }
 
-    public static Reservation map(final ReservationRequest request) {
+    public static Reservation mapToEntity(final ReservationRequest request) {
         final Reservation reservation = new Reservation();
         reservation.setReservationStart(request.getReservationStart());
         reservation.setReservationEnd(request.getReservationEnd());
@@ -23,7 +23,7 @@ public class ReservationMapper {
         return reservation;
     }
 
-    public static ReservationDto map(final Reservation reservation) {
+    public static ReservationDto mapToDto(final Reservation reservation) {
         return ReservationDto.Builder()
                 .withReservationIdentifier(reservation.getReservationIdentifier())
                 .withReservationStart(reservation.getReservationStart())
