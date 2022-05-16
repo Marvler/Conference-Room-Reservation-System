@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
@@ -26,4 +27,16 @@ public class ConferenceRoom {
     @ManyToOne
     @JoinColumn(name = "organizationId")
     private Organization organization;
+
+    public Boolean isAvailable() {
+        Boolean availability = true;
+
+        for (Reservation r : this.reservations) {
+            if (r.getReservationStart().isBefore(LocalDateTime.now()) && r.getReservationEnd().isAfter(LocalDateTime.now())) {
+                availability = false;
+            }
+        }
+
+        return availability;
+    }
 }

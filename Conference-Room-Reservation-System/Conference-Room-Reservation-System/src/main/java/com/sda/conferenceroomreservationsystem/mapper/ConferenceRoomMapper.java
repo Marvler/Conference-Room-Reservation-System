@@ -38,7 +38,7 @@ public class ConferenceRoomMapper {
                 .withConferenceRoomName(conferenceRoom.getConferenceRoomName())
                 .withConferenceRoomIdentifier(conferenceRoom.getConferenceRoomIdentifier())
                 .withLevel(conferenceRoom.getLevel())
-                .withAvailability(conferenceRoom.getAvailability())
+                .withAvailability(conferenceRoom.isAvailable())
                 .withNumberOfSeats(conferenceRoom.getNumberOfSeats())
                 .withNumberOfStandings(conferenceRoom.getNumberOfStandings())
                 .withReservations(conferenceRoom.getReservations().stream().map(ReservationMapper::mapToDto).toList())
