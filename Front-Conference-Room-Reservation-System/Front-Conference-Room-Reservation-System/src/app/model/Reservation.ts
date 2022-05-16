@@ -1,13 +1,7 @@
-export class Reservation{
+export interface Reservation {
 
-    reservationIdentifier:string;
+    reservationIdentifier: string;
     reservationStart: Date;
     reservationEnd: Date;
 
-    constructor(reservationIdentifier:string,reservationStart: Date,reservationEnd: Date){
-        this.reservationIdentifier = reservationIdentifier;
-        this.reservationStart = reservationStart;
-        this.reservationEnd = reservationEnd;
-
-    }
 }
