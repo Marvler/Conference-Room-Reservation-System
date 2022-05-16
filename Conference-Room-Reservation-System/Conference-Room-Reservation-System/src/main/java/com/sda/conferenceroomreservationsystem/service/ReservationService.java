@@ -11,6 +11,7 @@ import com.sda.conferenceroomreservationsystem.repository.ReservationRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,7 +24,9 @@ public class ReservationService {
 
     public List<ReservationDto> getAll(Long id){
         ConferenceRoom conferenceRoom = conferenceRoomService.getConferenceRoomFromDatabaseById(id);
-        return reservationRepository.findByConferenceRoom(conferenceRoom).stream().map(ReservationMapper::map).toList();
+        return reservationRepository.findByConferenceRoom(conferenceRoom).stream()
+                .map(ReservationMapper::map)
+                .sorted(Comparator.comparing(ReservationDto::getReservationStart)).toList();
     }
 
     public ReservationDto getReservation(Long id) {

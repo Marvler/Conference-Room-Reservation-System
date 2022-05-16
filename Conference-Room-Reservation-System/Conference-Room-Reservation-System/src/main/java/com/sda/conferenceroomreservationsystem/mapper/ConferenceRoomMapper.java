@@ -37,7 +37,7 @@ public class ConferenceRoomMapper {
                 .withAvailability(conferenceRoom.getAvailability())
                 .withNumberOfSeats(conferenceRoom.getNumberOfSeats())
                 .withNumberOfStandings(conferenceRoom.getNumberOfStandings())
-                .withReservations(conferenceRoom.getReservations())
+                .withReservations(conferenceRoom.getReservations().stream().map(ReservationMapper::map).toList())
                 .build();
     }
 }

@@ -19,7 +19,8 @@ public class OrganizationMapper {
         return OrganizationDto.Builder()
                 .withOrganizationName(organization.getOrganizationName())
                 .withEmail(organization.getEmail())
-                .withConferenceRooms(organization.getConferenceRooms())
+                .withConferenceRooms(organization.getConferenceRooms().stream()
+                        .map(ConferenceRoomMapper::map).toList())
                 .build();
     }
 }
