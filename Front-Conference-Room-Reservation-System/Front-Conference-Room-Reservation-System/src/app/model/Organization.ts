@@ -4,13 +4,13 @@ export class Organization {
     organizationName: string;
     email: string;
     password: string;
-    conferenceRoomsList: ConferenceRoom[];
+    conferenceRoomsList: ConferenceRoom[] = [];
 
     constructor(organizationName: string, email: string, password: string) {
         this.organizationName = organizationName;
         this.email = email;
         this.password = password;
-        this.conferenceRoomsList = [];
+
     }
 
 }

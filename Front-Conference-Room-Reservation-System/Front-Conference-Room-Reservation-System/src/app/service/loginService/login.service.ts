@@ -11,7 +11,7 @@ import { Organization } from 'src/app/model/Organization';
 })
 export class LoginService {
 
-  private createOrganizationUrl: string = "http://localhost:8081/api/organization/"
+  private organizationUrl: string = "http://localhost:8081/api/organization/"
 
   constructor(private httpClient: HttpClient) { }
 
@@ -19,11 +19,11 @@ export class LoginService {
     localStorage.setItem("organizationName", organization.organizationName);
     localStorage.setItem("email", organization.email);
     localStorage.setItem("password", organization.password);
-    return this.httpClient.post<Organization>(this.createOrganizationUrl + "add", organization);
+    return this.httpClient.post<Organization>(this.organizationUrl + "add", organization);
   }
 
-  getOrganization() {
-
+  getOrganization(organizationName: string): Observable<Organization> {
+    return this.httpClient.get<Organization>(this.organizationUrl + organizationName)
   }
 
 }
