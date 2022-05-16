@@ -1,6 +1,5 @@
 package com.sda.conferenceroomreservationsystem.rest;
 
-
 import com.sda.conferenceroomreservationsystem.model.dto.ConferenceRoomDto;
 import com.sda.conferenceroomreservationsystem.model.request.ConferenceRoomRequest;
 import com.sda.conferenceroomreservationsystem.service.ConferenceRoomService;
@@ -12,36 +11,35 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/conferenceroom")
+@RequestMapping("api/conference-room")
 @RequiredArgsConstructor
 public class ConferenceRoomController {
 
     private final ConferenceRoomService conferenceRoomService;
 
-    @GetMapping("/{organizationName}/all")
-    public ResponseEntity<List<ConferenceRoomDto>> getAllConferenceRooms(@PathVariable("organizationName") final String organizationName) {
-        return ResponseEntity.ok(conferenceRoomService.getAll(organizationName));
+    @GetMapping("/{organizationId}/all")
+    public ResponseEntity<List<ConferenceRoomDto>> getAllConferenceRooms(@PathVariable("organizationId") final Long organizationId) {
+        return ResponseEntity.ok(conferenceRoomService.getAll(organizationId));
     }
 
-    @GetMapping("/find/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<ConferenceRoomDto> getConferenceRoomById(@PathVariable("id") final Long id) {
         return ResponseEntity.ok(conferenceRoomService.getConferenceRoom(id));
     }
 
-    @PostMapping("/{organizationName}/add")
-    public ResponseEntity<ConferenceRoomDto> addConferenceRoom(@PathVariable("organizationName") final String organizationName,
-                                                            @RequestBody final ConferenceRoomRequest request) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(conferenceRoomService.add(organizationName, request));
+    @PostMapping
+    public ResponseEntity<ConferenceRoomDto> addConferenceRoom(@RequestBody final ConferenceRoomRequest request) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(conferenceRoomService.add(request));
     }
 
-    @PutMapping("/update/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<ConferenceRoomDto> updateConferenceRoom(@PathVariable("id") final Long id,
-                                                                  @RequestBody final ConferenceRoomRequest conferenceRoomRequest) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(conferenceRoomService.update(id, conferenceRoomRequest));
+                                                                  @RequestBody final ConferenceRoomRequest request) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(conferenceRoomService.update(id, request));
     }
 
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Void> deleteConferenceRoom(@PathVariable("id") Long id) {
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteConferenceRoom(@PathVariable("id") final Long id) {
         conferenceRoomService.deleteConferenceRoomById(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }

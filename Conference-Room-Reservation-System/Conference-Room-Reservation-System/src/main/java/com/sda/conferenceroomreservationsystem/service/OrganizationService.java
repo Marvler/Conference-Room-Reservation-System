@@ -23,8 +23,8 @@ public class OrganizationService {
         return null;
     }
 
-    public OrganizationDto getOrganization(String name) {
-        return OrganizationMapper.mapToDto(getOrganizationFromDatabase(name));
+    public OrganizationDto getOrganization(Long id) {
+        return OrganizationMapper.mapToDto(getOrganizationFromDatabase(id));
     }
 
     public OrganizationDto add(final OrganizationRequest request) {
@@ -32,8 +32,8 @@ public class OrganizationService {
         return OrganizationMapper.mapToDto(organizationRepository.save(organization));
     }
 
-    public OrganizationDto update(String name, final OrganizationRequest request) {
-        final Organization organizationFromDb = getOrganizationFromDatabase(name);
+    public OrganizationDto update(Long id, final OrganizationRequest request) {
+        final Organization organizationFromDb = getOrganizationFromDatabase(id);
         final Organization organizationFromRequest = OrganizationMapper.mapToEntity(request);
         organizationFromRequest.setOrganizationId(organizationFromDb.getOrganizationId());
         organizationFromRequest.setConferenceRooms(organizationFromDb.getConferenceRooms());
@@ -41,12 +41,12 @@ public class OrganizationService {
         return OrganizationMapper.mapToDto(organizationRepository.save(organizationFromRequest));
     }
 
-    public void delete(String name) {
-        organizationRepository.delete(getOrganizationFromDatabase(name));
+    public void delete(Long id) {
+        organizationRepository.delete(getOrganizationFromDatabase(id));
     }
 
-    public Organization getOrganizationFromDatabase(String name) {
-        final Optional<Organization> organization = organizationRepository.findByOrganizationName(name);
+    public Organization getOrganizationFromDatabase(Long id) {
+        final Optional<Organization> organization = organizationRepository.findById(id);
         return organization.orElseThrow(OrganizationNotFoundException::new);
     }
 

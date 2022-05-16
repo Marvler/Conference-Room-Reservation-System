@@ -32,8 +32,8 @@ public class ReservationService {
         return ReservationMapper.mapToDto(getReservationFromDatabaseById(id));
     }
 
-    public ReservationDto add(Long conferenceRoomId, final ReservationRequest request) {
-        ConferenceRoom conferenceRoom = conferenceRoomService.getConferenceRoomFromDatabaseById(conferenceRoomId);
+    public ReservationDto add(final ReservationRequest request) {
+        ConferenceRoom conferenceRoom = conferenceRoomService.getConferenceRoomFromDatabaseById(request.getConferenceRoomId());
         final Reservation reservation = ReservationMapper.mapToEntity(conferenceRoom, request);
         return ReservationMapper.mapToDto(reservationRepository.save(reservation));
     }

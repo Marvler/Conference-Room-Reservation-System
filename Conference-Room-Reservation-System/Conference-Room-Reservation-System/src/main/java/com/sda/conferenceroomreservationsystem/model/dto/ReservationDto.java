@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 @AllArgsConstructor
 public class ReservationDto {
+    private Long reservationId;
     private String reservationIdentifier;
     private LocalDateTime reservationStart;
     private LocalDateTime reservationEnd;

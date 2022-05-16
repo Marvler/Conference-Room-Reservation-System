@@ -13,4 +13,6 @@ public class ConferenceRoomRequest {
     private Integer level;
     private Integer numberOfSeats;
     private Integer numberOfStandings;
+    @NotNull
+    private Long organizationId;
 }
