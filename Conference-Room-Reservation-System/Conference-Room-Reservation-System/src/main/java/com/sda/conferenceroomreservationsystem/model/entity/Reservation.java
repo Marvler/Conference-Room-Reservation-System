@@ -15,6 +15,7 @@ public class Reservation {
     @Id
     @GeneratedValue
     private Long reservationId;
+    @Column(unique = true)
     private String reservationIdentifier;
     private LocalDateTime reservationStart;
     private LocalDateTime reservationEnd;

@@ -1,7 +1,8 @@
 package com.sda.conferenceroomreservationsystem.service;
 
+import com.sda.conferenceroomreservationsystem.exception.ConferenceRoomAlreadyExistsException;
+import com.sda.conferenceroomreservationsystem.exception.ConferenceRoomIdentifierAlreadyExistsException;
 import com.sda.conferenceroomreservationsystem.exception.ConferenceRoomNotFoundException;
-import com.sda.conferenceroomreservationsystem.exception.OrganizationNotFoundException;
 import com.sda.conferenceroomreservationsystem.mapper.ConferenceRoomMapper;
 import com.sda.conferenceroomreservationsystem.model.dto.ConferenceRoomDto;
 import com.sda.conferenceroomreservationsystem.model.entity.ConferenceRoom;
@@ -9,6 +10,7 @@ import com.sda.conferenceroomreservationsystem.model.entity.Organization;
 import com.sda.conferenceroomreservationsystem.model.request.ConferenceRoomRequest;
 import com.sda.conferenceroomreservationsystem.repository.ConferenceRoomRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -44,9 +46,16 @@ public class ConferenceRoomService {
         Organization organization = organizationService.getOrganizationFromDatabase(request.getOrganizationId());
 
         principalValidator(organization, principal);
-
         final ConferenceRoom conferenceRoom = ConferenceRoomMapper.mapToEntity(organization, request);
-        return ConferenceRoomMapper.mapToDto(conferenceRoomRepository.save(conferenceRoom));
+        try {
+            conferenceRoomRepository.save(conferenceRoom);
+        } catch (DataIntegrityViolationException e) {
+            if (conferenceRoomRepository.existsByConferenceRoomName(conferenceRoom.getConferenceRoomName())) {
+                throw new ConferenceRoomAlreadyExistsException();
+            }
+            throw new ConferenceRoomIdentifierAlreadyExistsException();
+        }
+        return ConferenceRoomMapper.mapToDto(conferenceRoom);
     }
 
     public ConferenceRoomDto update(Long id, ConferenceRoomRequest request, String principal) {

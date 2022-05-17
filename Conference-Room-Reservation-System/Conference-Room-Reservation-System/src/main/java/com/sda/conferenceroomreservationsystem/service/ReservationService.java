@@ -1,6 +1,7 @@
 package com.sda.conferenceroomreservationsystem.service;
 
 import com.sda.conferenceroomreservationsystem.exception.ConferenceRoomNotFoundException;
+import com.sda.conferenceroomreservationsystem.exception.ReservationAlreadyExistException;
 import com.sda.conferenceroomreservationsystem.exception.ReservationCollidesException;
 import com.sda.conferenceroomreservationsystem.exception.ReservationNotFoundException;
 import com.sda.conferenceroomreservationsystem.mapper.ReservationMapper;
@@ -11,6 +12,7 @@ import com.sda.conferenceroomreservationsystem.model.entity.Reservation;
 import com.sda.conferenceroomreservationsystem.model.request.ReservationRequest;
 import com.sda.conferenceroomreservationsystem.repository.ReservationRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
@@ -51,8 +53,14 @@ public class ReservationService {
         if (request.isOccupied(conferenceRoom.getReservations())) {
             throw new ReservationCollidesException();
         }
-        final Reservation reservation = ReservationMapper.mapToEntity(conferenceRoom, request);
-        return ReservationMapper.mapToDto(reservationRepository.save(generateReservationWithIdentifier(reservation)));
+
+        final Reservation reservation = generateReservationWithIdentifier(ReservationMapper.mapToEntity(conferenceRoom, request));
+        try {
+            reservationRepository.save(reservation);
+        } catch (DataIntegrityViolationException e) {
+            throw new ReservationAlreadyExistException();
+        }
+        return ReservationMapper.mapToDto(reservation);
     }
 
     public ReservationDto update(Long id, final ReservationRequest request, String principal) {
