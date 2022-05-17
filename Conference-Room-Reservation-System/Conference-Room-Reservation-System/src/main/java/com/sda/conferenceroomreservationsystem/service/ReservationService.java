@@ -1,5 +1,6 @@
 package com.sda.conferenceroomreservationsystem.service;
 
+import com.sda.conferenceroomreservationsystem.exception.ReservationCollidesException;
 import com.sda.conferenceroomreservationsystem.exception.ReservationNotFoundException;
 import com.sda.conferenceroomreservationsystem.mapper.ReservationMapper;
 import com.sda.conferenceroomreservationsystem.model.dto.ReservationDto;
@@ -36,6 +37,9 @@ public class ReservationService {
 
     public ReservationDto add(final ReservationRequest request) {
         ConferenceRoom conferenceRoom = conferenceRoomService.getConferenceRoomFromDatabaseById(request.getConferenceRoomId());
+        if (request.isOccupied(conferenceRoom.getReservations())) {
+            throw new ReservationCollidesException();
+        }
         final Reservation reservation = ReservationMapper.mapToEntity(conferenceRoom, request);
         return ReservationMapper.mapToDto(reservationRepository.save(generateReservationWithIdentifier(reservation)));
     }

@@ -44,4 +44,10 @@ public class GlobalErrorHandling {
     public Error handleReservationAlreadyExist(final ReservationAlreadyExistException exception) {
         return new Error(exception.getMessage());
     }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(ReservationCollidesException.class)
+    public Error handleReservationCollision(final ReservationCollidesException exception) {
+        return new Error(exception.getMessage());
+    }
 }
