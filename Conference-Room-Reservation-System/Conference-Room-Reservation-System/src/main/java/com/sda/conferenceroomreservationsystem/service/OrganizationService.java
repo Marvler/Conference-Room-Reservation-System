@@ -1,5 +1,6 @@
 package com.sda.conferenceroomreservationsystem.service;
 
+import com.sda.conferenceroomreservationsystem.exception.OrganizationAlreadyExistsException;
 import com.sda.conferenceroomreservationsystem.exception.OrganizationNotFoundException;
 import com.sda.conferenceroomreservationsystem.mapper.OrganizationMapper;
 import com.sda.conferenceroomreservationsystem.model.dto.OrganizationDto;
@@ -7,6 +8,7 @@ import com.sda.conferenceroomreservationsystem.model.entity.Organization;
 import com.sda.conferenceroomreservationsystem.model.request.OrganizationRequest;
 import com.sda.conferenceroomreservationsystem.repository.OrganizationRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -33,7 +35,12 @@ public class OrganizationService {
 
     public OrganizationDto add(final OrganizationRequest request) {
         final Organization organization = organizationMapper.mapToEntity(request);
-        return organizationMapper.mapToDto(organizationRepository.save(organization));
+        try {
+            organizationRepository.save(organization);
+        } catch (DataIntegrityViolationException e) {
+            throw new OrganizationAlreadyExistsException();
+        }
+        return organizationMapper.mapToDto(organization);
     }
 
     public OrganizationDto update(Long id, final OrganizationRequest request, String principal) {

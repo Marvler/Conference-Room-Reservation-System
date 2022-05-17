@@ -15,6 +15,7 @@ public class Organization {
     @Id
     @GeneratedValue
     private Long organizationId;
+    @Column(unique = true)
     private String organizationName;
     private String password;
     private String email;

@@ -10,4 +10,5 @@ import java.util.List;
 @Repository
 public interface ConferenceRoomRepository extends JpaRepository<ConferenceRoom, Long> {
     List<ConferenceRoom> findByOrganization(Organization organization);
+    boolean existsByConferenceRoomName(String conferenceRoomName);
 }
