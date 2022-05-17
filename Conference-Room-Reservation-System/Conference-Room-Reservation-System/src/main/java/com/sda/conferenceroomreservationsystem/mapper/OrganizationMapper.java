@@ -5,9 +5,11 @@ import com.sda.conferenceroomreservationsystem.model.entity.Organization;
 import com.sda.conferenceroomreservationsystem.model.request.OrganizationRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 
+@Component
 @RequiredArgsConstructor
 public class OrganizationMapper {
 
