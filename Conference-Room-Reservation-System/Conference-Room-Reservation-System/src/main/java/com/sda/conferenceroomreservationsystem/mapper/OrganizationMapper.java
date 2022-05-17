@@ -3,22 +3,27 @@ package com.sda.conferenceroomreservationsystem.mapper;
 import com.sda.conferenceroomreservationsystem.model.dto.OrganizationDto;
 import com.sda.conferenceroomreservationsystem.model.entity.Organization;
 import com.sda.conferenceroomreservationsystem.model.request.OrganizationRequest;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.ArrayList;
 
+@RequiredArgsConstructor
 public class OrganizationMapper {
 
-    public static Organization mapToEntity(final OrganizationRequest request) {
+    private final PasswordEncoder passwordEncoder;
+
+    public Organization mapToEntity(final OrganizationRequest request) {
         final Organization organization = new Organization();
         organization.setOrganizationName(request.getOrganizationName());
-        organization.setPassword(request.getPassword());
+        organization.setPassword(passwordEncoder.encode(request.getPassword()));
         organization.setEmail(request.getEmail());
         organization.setConferenceRooms(new ArrayList<>());
 
         return organization;
     }
 
-    public static OrganizationDto mapToDto(final Organization organization) {
+    public OrganizationDto mapToDto(final Organization organization) {
         return OrganizationDto.Builder()
                 .withOrganizationId(organization.getOrganizationId())
                 .withOrganizationName(organization.getOrganizationName())
