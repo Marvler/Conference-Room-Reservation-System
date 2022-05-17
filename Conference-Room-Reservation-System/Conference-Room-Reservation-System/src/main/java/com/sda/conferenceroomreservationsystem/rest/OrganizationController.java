@@ -9,6 +9,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -24,7 +25,8 @@ public class OrganizationController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<OrganizationDto> getOrganization(@PathVariable("id") final Long id) {
+    public ResponseEntity<OrganizationDto> getOrganization(@PathVariable("id") final Long id,
+                                                           Principal principal) {
         return ResponseEntity.ok(organizationService.getOrganization(id));
     }
 
