@@ -27,7 +27,7 @@ public class OrganizationController {
     @GetMapping("/{id}")
     public ResponseEntity<OrganizationDto> getOrganization(@PathVariable("id") final Long id,
                                                            Principal principal) {
-        return ResponseEntity.ok(organizationService.getOrganization(id));
+        return ResponseEntity.ok(organizationService.getOrganization(principal.getName(), id));
     }
 
     @PostMapping
@@ -37,13 +37,15 @@ public class OrganizationController {
 
     @PutMapping("/{id}")
     public ResponseEntity<OrganizationDto> updateOrganization(@PathVariable("id") final Long id,
-                                                              @RequestBody final OrganizationRequest request) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(organizationService.update(id, request));
+                                                              @RequestBody final OrganizationRequest request,
+                                                              Principal principal) {
+        return ResponseEntity.ok(organizationService.update(id, request, principal.getName()));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteOrganization(@PathVariable("id") final Long id) {
-        organizationService.delete(id);
+    public ResponseEntity<Void> deleteOrganization(@PathVariable("id") final Long id,
+                                                   Principal principal) {
+        organizationService.deleteOrganizationById(id, principal.getName());
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }
