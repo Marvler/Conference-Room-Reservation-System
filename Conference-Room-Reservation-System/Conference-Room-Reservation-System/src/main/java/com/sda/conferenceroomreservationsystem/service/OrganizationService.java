@@ -73,7 +73,7 @@ public class OrganizationService {
         return organization.orElseThrow(OrganizationNotFoundException::new);
     }
 
-    private void principalValidator(Organization organization, String name) {
+    public static void principalValidator(Organization organization, String name) {
         if (!organization.getOrganizationName().equals(name)) {
             throw new OrganizationNotFoundException();
         }
