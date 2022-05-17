@@ -39,7 +39,7 @@ public class OrganizationController {
     public ResponseEntity<OrganizationDto> updateOrganization(@PathVariable("id") final Long id,
                                                               @RequestBody final OrganizationRequest request,
                                                               Principal principal) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(organizationService.update(id, request, principal.getName()));
+        return ResponseEntity.ok(organizationService.update(id, request, principal.getName()));
     }
 
     @DeleteMapping("/{id}")

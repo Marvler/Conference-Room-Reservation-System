@@ -40,7 +40,7 @@ public class ConferenceRoomController {
     public ResponseEntity<ConferenceRoomDto> updateConferenceRoom(@PathVariable("id") final Long id,
                                                                   @RequestBody final ConferenceRoomRequest request,
                                                                   Principal principal) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(conferenceRoomService.update(id, request, principal.getName()));
+        return ResponseEntity.ok(conferenceRoomService.update(id, request, principal.getName()));
     }
 
     @DeleteMapping("/{id}")
