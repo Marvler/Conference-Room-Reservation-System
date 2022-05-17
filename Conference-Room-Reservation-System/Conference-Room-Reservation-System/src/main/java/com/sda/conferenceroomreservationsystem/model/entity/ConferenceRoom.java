@@ -5,17 +5,22 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
+@AllArgsConstructor(staticName = "of")
 @Entity
 public class ConferenceRoom {
     @Id
     @GeneratedValue
     private Long conferenceRoomId;
+
+    @NotBlank(message = "Conference room name can't be null")
+    @Size(min = 2, max = 20, message="Conference room name must be between 2-20 chars long")
     private String conferenceRoomName;
     private String conferenceRoomIdentifier;
     private Integer level;
@@ -36,7 +41,6 @@ public class ConferenceRoom {
                 availability = false;
             }
         }
-
         return availability;
     }
 }

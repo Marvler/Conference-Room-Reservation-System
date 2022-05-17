@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -28,12 +29,12 @@ public class ReservationController {
     }
 
     @PostMapping
-    public ResponseEntity<ReservationDto> addReservation(@RequestBody final ReservationRequest request) {
+    public ResponseEntity<ReservationDto> addReservation(@Valid @RequestBody final ReservationRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(reservationService.add(request));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ReservationDto> updateReservation(@PathVariable("id") final Long id,
+    public ResponseEntity<ReservationDto> updateReservation(@Valid @PathVariable("id") final Long id,
                                                             @RequestBody final ReservationRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(reservationService.update(id, request));
     }

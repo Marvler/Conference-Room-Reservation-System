@@ -9,6 +9,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -29,12 +30,12 @@ public class OrganizationController {
     }
 
     @PostMapping
-    public ResponseEntity<OrganizationDto> addOrganization(@RequestBody final OrganizationRequest request) {
+    public ResponseEntity<OrganizationDto> addOrganization(@Valid @RequestBody final OrganizationRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(organizationService.add(request));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<OrganizationDto> updateOrganization(@PathVariable("id") final Long id,
+    public ResponseEntity<OrganizationDto> updateOrganization(@Valid @PathVariable("id") final Long id,
                                                               @RequestBody final OrganizationRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(organizationService.update(id, request));
     }
