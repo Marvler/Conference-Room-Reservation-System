@@ -8,6 +8,11 @@ import { OrganizationComponent } from './component/organization/organization.com
 import { ReservationComponent } from './component/reservation/reservation.component';
 import { PageNotFoundComponent } from './component/page-not-found/page-not-found.component';
 import { HttpClientModule } from '@angular/common/http';
+import { NavbarComponent } from './component/navbar/navbar.component';
+import { SuccessComponent } from './component/success/success.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { TestComponent } from './component/test/test.component';
+
 
 
 
@@ -18,11 +23,17 @@ import { HttpClientModule } from '@angular/common/http';
     OrganizationComponent,
     ReservationComponent,
     PageNotFoundComponent,
+    NavbarComponent,
+    SuccessComponent,
+    TestComponent,
+
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule,
+    ReactiveFormsModule
 
 
   ],

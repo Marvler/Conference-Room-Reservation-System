@@ -6,6 +6,7 @@ body{
 	font-family: 'Caveat', 'Jost';
     background: linear-gradient(#5e74f0,white,#5e74f0);
 }
+
 .main{
 	width: 350px;
 	height: 500px;
@@ -87,3 +88,7 @@ button:hover{
 #chk:checked ~ .signup label{
 	transform: scale(.6);
 }
+
+input:invalid {
+    border: red solid 3px;
+  }
