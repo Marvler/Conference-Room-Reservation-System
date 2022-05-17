@@ -1,5 +1,6 @@
 package com.sda.conferenceroomreservationsystem.service;
 
+import com.sda.conferenceroomreservationsystem.exception.ConferenceRoomNotFoundException;
 import com.sda.conferenceroomreservationsystem.exception.ReservationCollidesException;
 import com.sda.conferenceroomreservationsystem.exception.ReservationNotFoundException;
 import com.sda.conferenceroomreservationsystem.mapper.ReservationMapper;
@@ -24,19 +25,29 @@ public class ReservationService {
     private final ConferenceRoomService conferenceRoomService;
     private final ReservationRepository reservationRepository;
 
-    public List<ReservationDto> getAll(Long id){
+    public List<ReservationDto> getAll(Long id, String principal){
         ConferenceRoom conferenceRoom = conferenceRoomService.getConferenceRoomFromDatabaseById(id);
+
+        principalValidator(conferenceRoom.getOrganization(), principal);
+
         return reservationRepository.findByConferenceRoom(conferenceRoom).stream()
                 .map(ReservationMapper::mapToDto)
                 .sorted(Comparator.comparing(ReservationDto::getReservationStart)).toList();
     }
 
-    public ReservationDto getReservation(Long id) {
-        return ReservationMapper.mapToDto(getReservationFromDatabaseById(id));
+    public ReservationDto getReservation(Long id, String principal) {
+        Reservation reservation = getReservationFromDatabaseById(id);
+
+        principalValidator(reservation.getConferenceRoom().getOrganization(), principal);
+
+        return ReservationMapper.mapToDto(reservation);
     }
 
-    public ReservationDto add(final ReservationRequest request) {
+    public ReservationDto add(final ReservationRequest request, String principal) {
         ConferenceRoom conferenceRoom = conferenceRoomService.getConferenceRoomFromDatabaseById(request.getConferenceRoomId());
+
+        principalValidator(conferenceRoom.getOrganization(), principal);
+
         if (request.isOccupied(conferenceRoom.getReservations())) {
             throw new ReservationCollidesException();
         }
@@ -44,17 +55,24 @@ public class ReservationService {
         return ReservationMapper.mapToDto(reservationRepository.save(generateReservationWithIdentifier(reservation)));
     }
 
-    public ReservationDto update(Long id, final ReservationRequest request) {
+    public ReservationDto update(Long id, final ReservationRequest request, String principal) {
         final Reservation reservationFromDb = getReservationFromDatabaseById(id);
         final Reservation reservationFromRequest = ReservationMapper.mapToEntity(request);
+
+        principalValidator(reservationFromDb.getConferenceRoom().getOrganization(), principal);
+
         reservationFromRequest.setReservationId(reservationFromDb.getReservationId());
         reservationFromRequest.setConferenceRoom(reservationFromDb.getConferenceRoom());
 
         return ReservationMapper.mapToDto(reservationRepository.save(reservationFromRequest));
     }
 
-    public void deleteReservationById(Long id) {
-        reservationRepository.delete(getReservationFromDatabaseById(id));
+    public void deleteReservationById(Long id, String principal) {
+        Reservation reservation = getReservationFromDatabaseById(id);
+
+        principalValidator(reservation.getConferenceRoom().getOrganization(), principal);
+
+        reservationRepository.delete(reservation);
     }
 
     private Reservation getReservationFromDatabaseById(final Long reservationId) {
@@ -72,5 +90,11 @@ public class ReservationService {
         String identifier = organizationAbr + "-" + conferenceRoomAbr + "-" + (random.nextInt(9000) + 1000);
         reservation.setReservationIdentifier(identifier);
         return reservation;
+    }
+
+    private void principalValidator(Organization organization, String name) {
+        if (!organization.getOrganizationName().equals(name)) {
+            throw new ReservationNotFoundException();
+        }
     }
 }
