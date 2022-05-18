@@ -27,7 +27,7 @@ public class ConferenceRoomService {
 
     public List<ConferenceRoomDto> getAll(Long organizationId, String principal) {
         Organization organization = organizationService.getOrganizationFromDatabase(organizationId);
-
+      
         OrganizationService.principalValidator(organization, principal);
 
         return conferenceRoomRepository.findByOrganization(organization).stream()
