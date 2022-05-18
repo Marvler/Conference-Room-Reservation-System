@@ -12,7 +12,6 @@ import javax.validation.constraints.Size;
 @AllArgsConstructor(staticName = "of")
 public class OrganizationRequest {
 
-    @NotNull
     @NotBlank
     @Size(min = 2, max = 20, message="must be between 2-20 chars long")
     private String organizationName;

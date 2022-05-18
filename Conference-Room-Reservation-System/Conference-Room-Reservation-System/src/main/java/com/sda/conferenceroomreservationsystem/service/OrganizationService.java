@@ -5,10 +5,12 @@ import com.sda.conferenceroomreservationsystem.exception.OrganizationNotFoundExc
 import com.sda.conferenceroomreservationsystem.mapper.OrganizationMapper;
 import com.sda.conferenceroomreservationsystem.model.dto.OrganizationDto;
 import com.sda.conferenceroomreservationsystem.model.entity.Organization;
+import com.sda.conferenceroomreservationsystem.model.request.OrganizationAuthRequest;
 import com.sda.conferenceroomreservationsystem.model.request.OrganizationRequest;
 import com.sda.conferenceroomreservationsystem.repository.OrganizationRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,6 +22,7 @@ public class OrganizationService {
 
     private final OrganizationRepository organizationRepository;
     private final OrganizationMapper organizationMapper;
+    private final PasswordEncoder passwordEncoder;
 
     public List<OrganizationDto> getAll() {
         return organizationRepository.findAll().stream().map(organizationMapper::mapToDto).toList();
@@ -31,6 +34,12 @@ public class OrganizationService {
         principalValidator(organization, principal);
 
         return organizationMapper.mapToDto(organization);
+    }
+
+    public Long getOrganizationId(String name) {
+        Organization organization = getOrganizationIdFromDatabaseWithAuth(name);
+
+        return organization == null? null : organization.getOrganizationId();
     }
 
     public OrganizationDto add(final OrganizationRequest request) {
@@ -68,9 +77,9 @@ public class OrganizationService {
         return organization.orElseThrow(OrganizationNotFoundException::new);
     }
 
-    public Organization getOrganizationFromDatabaseWithAuth(String name, String password) {
-        final Optional<Organization> organization = organizationRepository.findByOrganizationNameAndPassword(name, password);
-        return organization.orElseThrow(OrganizationNotFoundException::new);
+    public Organization getOrganizationIdFromDatabaseWithAuth(String name) {
+        final Optional<Organization> organization = organizationRepository.findByOrganizationName(name);
+        return organization.orElse(null);
     }
 
     public static void principalValidator(Organization organization, String name) {
