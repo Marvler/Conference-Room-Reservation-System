@@ -16,7 +16,9 @@ public class ConferenceRoom {
     @Id
     @GeneratedValue
     private Long conferenceRoomId;
+    @Column(unique = true)
     private String conferenceRoomName;
+    @Column(unique = true)
     private String conferenceRoomIdentifier;
     private Integer level;
     private Boolean availability;

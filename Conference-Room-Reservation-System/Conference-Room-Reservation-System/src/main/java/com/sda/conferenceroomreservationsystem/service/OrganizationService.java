@@ -1,5 +1,6 @@
 package com.sda.conferenceroomreservationsystem.service;
 
+import com.sda.conferenceroomreservationsystem.exception.OrganizationAlreadyExistsException;
 import com.sda.conferenceroomreservationsystem.exception.OrganizationNotFoundException;
 import com.sda.conferenceroomreservationsystem.mapper.OrganizationMapper;
 import com.sda.conferenceroomreservationsystem.model.dto.OrganizationDto;
@@ -7,7 +8,7 @@ import com.sda.conferenceroomreservationsystem.model.entity.Organization;
 import com.sda.conferenceroomreservationsystem.model.request.OrganizationRequest;
 import com.sda.conferenceroomreservationsystem.repository.OrganizationRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,32 +19,48 @@ import java.util.Optional;
 public class OrganizationService {
 
     private final OrganizationRepository organizationRepository;
-    private final PasswordEncoder passwordEncoder;
+    private final OrganizationMapper organizationMapper;
 
     public List<OrganizationDto> getAll() {
-        return organizationRepository.findAll().stream().map(org -> new OrganizationMapper(passwordEncoder).mapToDto(org)).toList();
+        return organizationRepository.findAll().stream().map(organizationMapper::mapToDto).toList();
     }
 
-    public OrganizationDto getOrganization(Long id) {
-        return new OrganizationMapper(passwordEncoder).mapToDto(getOrganizationFromDatabase(id));
+    public OrganizationDto getOrganization(String principal, Long id) {
+        Organization organization = getOrganizationFromDatabase(id);
+
+        principalValidator(organization, principal);
+
+        return organizationMapper.mapToDto(organization);
     }
 
     public OrganizationDto add(final OrganizationRequest request) {
-        final Organization organization = new OrganizationMapper(passwordEncoder).mapToEntity(request);
-        return new OrganizationMapper(passwordEncoder).mapToDto(organizationRepository.save(organization));
+        final Organization organization = organizationMapper.mapToEntity(request);
+        try {
+            organizationRepository.save(organization);
+        } catch (DataIntegrityViolationException e) {
+            throw new OrganizationAlreadyExistsException();
+        }
+        return organizationMapper.mapToDto(organization);
     }
 
-    public OrganizationDto update(Long id, final OrganizationRequest request) {
+    public OrganizationDto update(Long id, final OrganizationRequest request, String principal) {
         final Organization organizationFromDb = getOrganizationFromDatabase(id);
-        final Organization organizationFromRequest = new OrganizationMapper(passwordEncoder).mapToEntity(request);
+        final Organization organizationFromRequest = organizationMapper.mapToEntity(request);
+
+        principalValidator(organizationFromDb, principal);
+
         organizationFromRequest.setOrganizationId(organizationFromDb.getOrganizationId());
         organizationFromRequest.setConferenceRooms(organizationFromDb.getConferenceRooms());
 
-        return new OrganizationMapper(passwordEncoder).mapToDto(organizationRepository.save(organizationFromRequest));
+        return organizationMapper.mapToDto(organizationRepository.save(organizationFromRequest));
     }
 
-    public void delete(Long id) {
-        organizationRepository.delete(getOrganizationFromDatabase(id));
+    public void deleteOrganizationById(Long id, String principal) {
+        Organization organization = getOrganizationFromDatabase(id);
+
+        principalValidator(organization, principal);
+
+        organizationRepository.delete(organization);
     }
 
     public Organization getOrganizationFromDatabase(Long id) {
@@ -54,5 +71,11 @@ public class OrganizationService {
     public Organization getOrganizationFromDatabaseWithAuth(String name, String password) {
         final Optional<Organization> organization = organizationRepository.findByOrganizationNameAndPassword(name, password);
         return organization.orElseThrow(OrganizationNotFoundException::new);
+    }
+
+    public static void principalValidator(Organization organization, String name) {
+        if (!organization.getOrganizationName().equals(name)) {
+            throw new OrganizationNotFoundException();
+        }
     }
 }

@@ -1,31 +1,41 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Reservation } from 'src/app/model/Reservation';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ReservationService {
 
-  private apiServerUrl = '';
+  private apiServerUrl = environment.apiServerUrl + "/reservation";
+  httpOptions = {
+    headers: new HttpHeaders({
+      'Authorization': 'Basic ' + btoa('admin:admin')
+    })
+  };
 
   constructor(private http: HttpClient) {
   }
 
-  public getReservations(): Observable<Reservation[]> {
-    return this.http.get<Reservation[]>(`${this.apiServerUrl}/reservation/all`)
+  public getReservations(conferenceRoomId: number): Observable<Reservation[]> {
+    return this.http.get<Reservation[]>(`${this.apiServerUrl}/${conferenceRoomId}/all`, this.httpOptions)
+  }
+
+  public getReservation(reservationId: number): Observable<Reservation> {
+    return this.http.get<Reservation>(`${this.apiServerUrl}/${reservationId}`, this.httpOptions)
   }
 
   public addReservation(reservation: Reservation): Observable<Reservation> {
-    return this.http.post<Reservation>(`${this.apiServerUrl}/reservation/add`, reservation)
+    return this.http.post<Reservation>(`${this.apiServerUrl}`, reservation, this.httpOptions)
   }
 
   public udpateReservation(reservation: Reservation): Observable<Reservation> {
-    return this.http.put<Reservation>(`${this.apiServerUrl}/reservation/udpate`, reservation)
+    return this.http.put<Reservation>(`${this.apiServerUrl}/${reservation.reservationId}`, reservation, this.httpOptions)
   }
 
-  public deleteReservation(reservationIdentifier: string): Observable<void> {
-    return this.http.delete<void>(`${this.apiServerUrl}/reservation/delete/${reservationIdentifier}`)
+  public deleteReservation(reservationId: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiServerUrl}/${reservationId}`, this.httpOptions)
   }
 }

@@ -9,6 +9,8 @@ import { ReservationComponent } from './component/reservation/reservation.compon
 import { SuccessComponent } from './component/success/success.component';
 import { TestComponent } from './component/test/test.component';
 import { AccessForbiddenComponent } from './component/access-forbidden/access-forbidden.component';
+import { AdminPageComponent } from './component/admin-page/admin-page.component';
+
 
 
 const routes: Routes = [
@@ -19,6 +21,7 @@ const routes: Routes = [
   { path: 'success', component: SuccessComponent },
   { path: 'test', component: TestComponent },
   { path: 'forbidden', component: AccessForbiddenComponent },
+  { path: 'admin', component: AdminPageComponent },
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent }
 ];
