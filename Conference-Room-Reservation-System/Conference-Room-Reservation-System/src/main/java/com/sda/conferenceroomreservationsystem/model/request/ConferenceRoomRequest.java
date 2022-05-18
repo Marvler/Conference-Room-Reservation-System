@@ -8,7 +8,6 @@ import javax.validation.constraints.Size;
 
 @Data
 public class ConferenceRoomRequest {
-    @NotNull
     @NotBlank
     @Size(min = 2, max = 20, message="must be between 2-20 chars long")
     private String conferenceRoomName;
