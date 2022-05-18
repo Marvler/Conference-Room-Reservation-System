@@ -50,15 +50,14 @@ export class LoginComponent implements OnInit {
     console.log(this.password)
   }
 
-  // signIn() {
-  //   this.authService.login(this.organizationName, this.password)
-  //     .subscribe(result => {
-  //       if (result)
-  //         this.router.navigate(['/']);
-  //       else
-  //         this.invalidLogin = true;
-  //     });
-  // }
+  signIn() {
+    if (this.organizationName === 'admin' && this.password === 'admin') {
+      this.router.navigate(['admin'])
+    } else {
+      this.router.navigate(['forbidden'])
+    }
+  }
+
 
 
 }
