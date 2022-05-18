@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.security.Principal;
 import java.util.List;
 
@@ -31,13 +32,13 @@ public class ConferenceRoomController {
     }
 
     @PostMapping
-    public ResponseEntity<ConferenceRoomDto> addConferenceRoom(@RequestBody final ConferenceRoomRequest request,
+    public ResponseEntity<ConferenceRoomDto> addConferenceRoom(@Valid @RequestBody final ConferenceRoomRequest request,
                                                                Principal principal) {
         return ResponseEntity.status(HttpStatus.CREATED).body(conferenceRoomService.add(request, principal.getName()));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ConferenceRoomDto> updateConferenceRoom(@PathVariable("id") final Long id,
+    public ResponseEntity<ConferenceRoomDto> updateConferenceRoom(@Valid @PathVariable("id") final Long id,
                                                                   @RequestBody final ConferenceRoomRequest request,
                                                                   Principal principal) {
         return ResponseEntity.ok(conferenceRoomService.update(id, request, principal.getName()));
