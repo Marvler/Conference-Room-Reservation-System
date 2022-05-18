@@ -12,6 +12,7 @@ import com.sda.conferenceroomreservationsystem.repository.ConferenceRoomReposito
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -28,7 +29,7 @@ public class ConferenceRoomService {
     public List<ConferenceRoomDto> getAll(Long organizationId, String principal) {
         Organization organization = organizationService.getOrganizationFromDatabase(organizationId);
       
-        OrganizationService.principalValidator(organization, principal);
+        PrincipalValidator.validateOrganization(organization, principal);
 
         return conferenceRoomRepository.findByOrganization(organization).stream()
                 .map(ConferenceRoomMapper::mapToDto).toList();
@@ -37,7 +38,7 @@ public class ConferenceRoomService {
     public ConferenceRoomDto getConferenceRoom(Long id, String principal) {
         ConferenceRoom conferenceRoom = getConferenceRoomFromDatabaseById(id);
 
-        principalValidator(conferenceRoom.getOrganization(), principal);
+        PrincipalValidator.validateConferenceRoom(conferenceRoom.getOrganization(), principal);
 
         return ConferenceRoomMapper.mapToDto(conferenceRoom);
     }
@@ -45,7 +46,7 @@ public class ConferenceRoomService {
     public ConferenceRoomDto add(ConferenceRoomRequest request, String principal) {
         Organization organization = organizationService.getOrganizationFromDatabase(request.getOrganizationId());
 
-        OrganizationService.principalValidator(organization, principal);
+        PrincipalValidator.validateOrganization(organization, principal);
         final ConferenceRoom conferenceRoom = ConferenceRoomMapper.mapToEntity(organization, request);
         try {
             conferenceRoomRepository.save(conferenceRoom);
@@ -58,11 +59,12 @@ public class ConferenceRoomService {
         return ConferenceRoomMapper.mapToDto(conferenceRoom);
     }
 
+    @Transactional
     public ConferenceRoomDto update(Long id, ConferenceRoomRequest request, String principal) {
         final ConferenceRoom conferenceRoomFromDb = getConferenceRoomFromDatabaseById(id);
         final ConferenceRoom conferenceRoomFromRequest = ConferenceRoomMapper.mapToEntity(request);
 
-        principalValidator(conferenceRoomFromDb.getOrganization(), principal);
+        PrincipalValidator.validateConferenceRoom(conferenceRoomFromDb.getOrganization(), principal);
 
         conferenceRoomFromRequest.setConferenceRoomId(conferenceRoomFromDb.getConferenceRoomId());
         conferenceRoomFromRequest.setOrganization(conferenceRoomFromDb.getOrganization());
@@ -74,7 +76,7 @@ public class ConferenceRoomService {
     public void deleteConferenceRoomById(Long id, String principal) {
         ConferenceRoom conferenceRoom = getConferenceRoomFromDatabaseById(id);
 
-        principalValidator(conferenceRoom.getOrganization(), principal);
+        PrincipalValidator.validateConferenceRoom(conferenceRoom.getOrganization(), principal);
 
         conferenceRoomRepository.delete(conferenceRoom);
     }
@@ -82,11 +84,5 @@ public class ConferenceRoomService {
     public ConferenceRoom getConferenceRoomFromDatabaseById(final Long conferenceRoomId) {
         final Optional<ConferenceRoom> conferenceRoomFormDatabase = conferenceRoomRepository.findById(conferenceRoomId);
         return conferenceRoomFormDatabase.orElseThrow(ConferenceRoomNotFoundException::new);
-    }
-
-    public static void principalValidator(Organization organization, String name) {
-        if (!organization.getOrganizationName().equals(name)) {
-            throw new ConferenceRoomNotFoundException();
-        }
     }
 }
