@@ -8,19 +8,22 @@ import com.sda.conferenceroomreservationsystem.model.entity.Organization;
 public class PrincipalValidator {
 
     public static void validateOrganization(Organization organization, String name) {
-        if (!organization.getOrganizationName().equals(name)) {
+        if (!organization.getOrganizationName().equals(name) &&
+                !name.equals("admin")) {
             throw new OrganizationNotFoundException();
         }
     }
 
     public static void validateConferenceRoom(Organization organization, String name) {
-        if (!organization.getOrganizationName().equals(name)) {
+        if (!organization.getOrganizationName().equals(name) &&
+                !name.equals("admin")) {
             throw new ConferenceRoomNotFoundException();
         }
     }
 
     public static void validateReservation(Organization organization, String name) {
-        if (!organization.getOrganizationName().equals(name)) {
+        if (!organization.getOrganizationName().equals(name) &&
+                !name.equals("admin")) {
             throw new ReservationNotFoundException();
         }
     }
