@@ -30,7 +30,7 @@ public class ReservationService {
     public List<ReservationDto> getAll(Long id, String principal){
         ConferenceRoom conferenceRoom = conferenceRoomService.getConferenceRoomFromDatabaseById(id);
 
-        principalValidator(conferenceRoom.getOrganization(), principal);
+        ConferenceRoomService.principalValidator(conferenceRoom.getOrganization(), principal);
 
         return reservationRepository.findByConferenceRoom(conferenceRoom).stream()
                 .map(ReservationMapper::mapToDto)
@@ -48,7 +48,7 @@ public class ReservationService {
     public ReservationDto add(final ReservationRequest request, String principal) {
         ConferenceRoom conferenceRoom = conferenceRoomService.getConferenceRoomFromDatabaseById(request.getConferenceRoomId());
 
-        principalValidator(conferenceRoom.getOrganization(), principal);
+        ConferenceRoomService.principalValidator(conferenceRoom.getOrganization(), principal);
 
         if (request.isOccupied(conferenceRoom.getReservations())) {
             throw new ReservationCollidesException();
@@ -64,13 +64,15 @@ public class ReservationService {
     }
 
     public ReservationDto update(Long id, final ReservationRequest request, String principal) {
+        final ConferenceRoom conferenceRoom = conferenceRoomService.getConferenceRoomFromDatabaseById(request.getConferenceRoomId());
         final Reservation reservationFromDb = getReservationFromDatabaseById(id);
-        final Reservation reservationFromRequest = ReservationMapper.mapToEntity(request);
+        final Reservation reservationFromRequest = ReservationMapper.mapToEntity(conferenceRoom, request);
 
         principalValidator(reservationFromDb.getConferenceRoom().getOrganization(), principal);
+        ConferenceRoomService.principalValidator(conferenceRoom.getOrganization(), principal);
 
         reservationFromRequest.setReservationId(reservationFromDb.getReservationId());
-        reservationFromRequest.setConferenceRoom(reservationFromDb.getConferenceRoom());
+        reservationFromRequest.setReservationIdentifier(reservationFromDb.getReservationIdentifier());
 
         return ReservationMapper.mapToDto(reservationRepository.save(reservationFromRequest));
     }
