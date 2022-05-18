@@ -22,12 +22,18 @@ public class ReservationRequest {
         boolean isOccupied = false;
 
         for (Reservation r : reservations) {
-            if (r.getReservationStart().isBefore(reservationEnd.minusSeconds(1)) && !r.getReservationEnd().isBefore(reservationStart.plusSeconds(1)) ||
-                    r.getReservationEnd().isAfter(reservationStart.plusSeconds(1)) && !r.getReservationStart().isAfter(reservationEnd.minusSeconds(1))) {
+            if (doesReservationCollide(r)) {
                 isOccupied = true;
             }
         }
-
         return isOccupied;
+    }
+
+    private boolean doesReservationCollide (Reservation reservation) {
+
+        return reservation.getReservationStart().isBefore(reservationEnd.minusSeconds(1)) &&
+                !reservation.getReservationEnd().isBefore(reservationStart.plusSeconds(1)) ||
+                reservation.getReservationEnd().isAfter(reservationStart.plusSeconds(1)) &&
+                !reservation.getReservationStart().isAfter(reservationEnd.minusSeconds(1));
     }
 }

@@ -16,13 +16,12 @@ public class OrganizationMapper {
     private final PasswordEncoder passwordEncoder;
 
     public Organization mapToEntity(final OrganizationRequest request) {
-        final Organization organization = new Organization();
-        organization.setOrganizationName(request.getOrganizationName());
-        organization.setPassword(passwordEncoder.encode(request.getPassword()));
-        organization.setEmail(request.getEmail());
-        organization.setConferenceRooms(new ArrayList<>());
-
-        return organization;
+        return Organization.Builder()
+                .withOrganizationName(request.getOrganizationName())
+                .withPassword(passwordEncoder.encode(request.getPassword()))
+                .withEmail(request.getEmail())
+                .withConferenceRooms(new ArrayList<>())
+                .build();
     }
 
     public OrganizationDto mapToDto(final Organization organization) {
