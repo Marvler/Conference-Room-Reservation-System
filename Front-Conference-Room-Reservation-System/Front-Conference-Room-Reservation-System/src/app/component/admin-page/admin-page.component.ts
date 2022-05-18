@@ -25,6 +25,7 @@ export class AdminPageComponent implements OnInit {
     this.organizationService.getOrganizations().subscribe(
       (response: Organization[]) => {
         this.organizations = response;
+
         console.log(this.organizations);
       },
       (error: HttpErrorResponse) => {
@@ -76,7 +77,7 @@ export class AdminPageComponent implements OnInit {
     console.log(key);
     const results: Organization[] = [];
     for (const organization of this.organizations) {
-      if (organization.organizationName.toLowerCase().indexOf(key.toLowerCase()) !== -1 && organization.organizationName.toLowerCase() !== "admin") {
+      if (organization.organizationName.toLowerCase().indexOf(key.toLowerCase()) !== -1) {
         results.push(organization);
       }
     }
@@ -106,6 +107,5 @@ export class AdminPageComponent implements OnInit {
     container!.appendChild(button);
     button.click();
   }
-
 
 }

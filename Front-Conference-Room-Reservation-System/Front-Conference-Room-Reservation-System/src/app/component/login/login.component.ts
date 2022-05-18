@@ -30,7 +30,8 @@ export class LoginComponent implements OnInit {
   createOrganization() {
     let organizationRequest = {
       "organizationName": this.organizationName,
-      "email": this.email, "password": this.password
+      "email": this.email,
+      "password": this.password
     }
     this.loginService.createOrganization(organizationRequest as Organization).subscribe((data) => console.warn(data));
   }
