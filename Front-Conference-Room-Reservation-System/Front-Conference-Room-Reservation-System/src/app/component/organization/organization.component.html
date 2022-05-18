@@ -1,16 +1,227 @@
-<!DOCTYPE html>
-<html>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" style="color:white;">{{organizationName}}</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02"
+        aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarColor02">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" (click)="onOpenModal(null, 'add')">Add Conference Room<span
+                        class="sr-only">(current)</span></a>
+            </li>
+        </ul>
+        <form class="form-inline my-2 my-lg-0">
+            <input type="search" (ngModelChange)="searchConferenceRooms(key.value)" #key="ngModel" ngModel name="key"
+                id="searchName" class="form-control mr-sm-2" placeholder="Search conference room..." required>
+        </form>
+    </div>
+</nav>
+<div class="container" id="main-container">
+    <div class="row">
+        <div *ngFor="let conferenceRoom of conferenceRooms" class="col-md-6 col-xl-3">
+            <div class="card m-b-30">
+                <div class="card-body row">
+                    <div class="col-6 card-title align-self-center mb-0">
+                        <h5>{{conferenceRoom?.conferenceRoomName}}</h5>
+                        <p class="m-0">Identifier: {{conferenceRoom?.conferenceRoomIdentifier}}</p>
+                        <p class="m-0">Level : {{conferenceRoom?.level}}</p>
+                        <p class="m-0">Is Available {{conferenceRoom?.availability}}</p>
+                        <p class="m-0">Number Of Seats {{conferenceRoom?.numberOfSeats}}</p>
+                        <p class="m-0">Number Of Standings {{conferenceRoom?.numberOfStandings}}</p>
+                    </div>
+                </div>
+                <div *ngFor="let reservation of conferenceRoom.reservations">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item"><i class="fa fa-phone float-right"></i>Reservations:
+                            {{reservation?.reservationIdentifier}}
 
-<head>
-    <link rel="stylesheet" type="text/css" href="organization.component.css">
-    <link href="https://fonts.googleapis.com/css2?family=Caveat&family=Oleo+Script+Swash+Caps&display=swap"
-        rel="stylesheet">
-</head>
-<app-navbar></app-navbar>
+                        </li>
+                    </ul>
+                </div>
+                <div class="card-body">
+                    <div class="float-right btn-group btn-group-sm">
+                        <a (click)="onOpenModal(conferenceRoom, 'edit')" class="btn btn-primary tooltips"
+                            data-placement="top" data-original-title="Edit"><i class="fa fa-times">edit</i> </a>
+                        <a (click)="onOpenModal(conferenceRoom, 'delete')" class="btn btn-secondary tooltips"
+                            data-placement="top" data-original-title="Delete"><i class="fa fa-phone">delete</i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-<body>
+    <!-- Add Conference Room Modal -->
+    <div class=" modal fade" id="addConferenceRoomModal" tabindex="-1" role="dialog"
+        aria-labelledby="addConferenceRoomModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addConferenceRoomModalLabel">Add Conference Room</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form #addForm="ngForm" (ngSubmit)="onAddConferenceRoom(addForm)">
+                        <div class="form-group">
+                            <label for="conferenceRoomName">Conference Room Name</label>
+                            <input type="text" ngModel name="conferenceRoomName" class="form-control"
+                                id="conferenceRoomName" placeholder="Conference Room Name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="conferenceRoomIdentifier">Conference Room Identifier</label>
+                            <input type="text" ngModel name="conferenceRoomIdentifier" class="form-control"
+                                id="conferenceRoomIdentifier" placeholder="Conference Room Identifier" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="level">Level</label>
+                            <input type="number" ngModel name="level" class="form-control" id="level"
+                                placeholder="Level" required>
+                        </div>
+                        <div class="form-group">
+                            <!-- <fieldset>
+                                <legend>Is available?</legend>
 
+                                <div>
+                                    <input type="radio" ngModel name="availability" class="form-control"
+                                        id="availability" name="availability" value="true" checked>
+                                    <label for="availability">Yes</label>
+                                </div>
+                                <div>
+                                    <input type="radio" ngModel name="availability" class="form-control"
+                                        id="availability" name="availability" value="false">
+                                    <label for="availability">No</label>
+                                </div>
+                            </fieldset> -->
 
-</body>
+                            <label for="availability">Availability</label>
+                            <input type="radio" ngModel name="availability" class="form-control" id="availability"
+                                value="true" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="numberOfSeats">Number Of Seats"</label>
+                            <input type="number" ngModel name="numberOfSeats" class="form-control" id="numberOfSeats"
+                                placeholder="Number Of Seats" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="numberOfStandings">Number Of Standings</label>
+                            <input type="number" ngModel name="numberOfSeats" class="form-control" id="numberOfSeats"
+                                placeholder="Number Of Seats" required>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" id="add-conference-room-form" class="btn btn-secondary"
+                                data-dismiss="modal">Close</button>
+                            <button [disabled]="addForm.invalid" type="submit" class="btn btn-primary">Save
+                                changes</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 
-</html>
+    <!-- Edit Modal -->
+    <div class="modal fade" id="updateConferenceRoomModal" tabindex="-1" role="dialog"
+        aria-labelledby="conferenceRoomEditModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="updateConferenceRoomModalLabel">Edit Conference Room
+                        {{editConferenceRoom?.conferenceRoomIdentifier}}
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form #editForm="ngForm">
+                        <div class="form-group">
+                            <input type="hidden" ngModel="{{editConferenceRoom?.conferenceRoomId}}"
+                                name="conferenceRoomId" class="form-control" id="conferenceRoomId">
+                        </div>
+                        <div class="form-group">
+                            <label for="conferenceRoomName">Conference Room Name</label>
+                            <input type="text" ngModel="{{editConferenceRoom?.conferenceRoomName}}"
+                                name="conferenceRoomName" class="form-control" id="conferenceRoomName"
+                                aria-describedby="emailHelp" placeholder="Conference Room Name">
+                        </div>
+                        <div class="form-group">
+                            <label for="conferenceRoomIdentifier">Conference Room Identifier</label>
+                            <input type="text" ngModel="{{editConferenceRoom?.conferenceRoomIdentifier}}"
+                                name="conferenceRoomIdentifier" class="form-control" id="conferenceRoomIdentifier"
+                                aria-describedby="emailHelp" placeholder="Conference Room Identifier">
+                        </div>
+                        <div class="form-group">
+                            <label for="level">Level</label>
+                            <input type="number" ngModel="{{editConferenceRoom?.level}}" name="level"
+                                class="form-control" id="level" placeholder="Level">
+                        </div>
+                        <div class="form-group">
+                            <label for="availability">Availability</label>
+                            <input type="radio" ngModel="{{editConferenceRoom?.availability}}" name="availability"
+                                class="form-control" id="availability">
+                        </div>
+                        <div class="form-group">
+                            <label for="numberOfSeats">Number Of Seats</label>
+                            <input type="number" ngModel="{{editConferenceRoom?.numberOfSeats}}" name="numberOfSeats"
+                                class="form-control" id="numberOfSeats" placeholder="Number Of Seats">
+                        </div>
+                        <div class="form-group">
+                            <label for="numberOfStandings">Number Of Standings</label>
+                            <input type="number" ngModel="{{editConferenceRoom?.numberOfStandings}}"
+                                name="numberOfStandings" class="form-control" id="numberOfStandings"
+                                placeholder="Number Of Standings">
+                        </div>
+                        <div class="form-group">
+                            <input type="hidden" ngModel="{{editConferenceRoom?.reservations}}" name="reservations"
+                                class="form-control" id="reservations" placeholder="reservations">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" id="" data-dismiss="modal" class="btn btn-secondary">Close</button>
+                            <button (click)="onUpdateConferenceRoom(editForm.value)" data-dismiss="modal"
+                                class="btn btn-primary">Save
+                                changes</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Modal -->
+    <div class="modal fade" id="deleteConferenceRoomModal" tabindex="-1" role="dialog"
+        aria-labelledby="deleteConferenceRoomModelLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteConferenceRoomModelLabel">Delete Conference Room</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete conference room:
+                        {{deleteConferenceRoom?.conferenceRoomIdentifier}}?</p>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                        <button (click)="onDeleteConferenceRoom(deleteConferenceRoom?.conferenceRoomId)"
+                            class="btn btn-danger" data-dismiss="modal">Yes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Notification for no employees -->
+<div *ngIf="conferenceRooms?.length == 0" class="col-lg-12 col-md-12 col-xl-12">
+    <div class="alert alert-info" role="alert">
+        <h4 class="alert-heading">NO Conference Rooms</h4>
+        <p>No Conference Room were found.</p>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>

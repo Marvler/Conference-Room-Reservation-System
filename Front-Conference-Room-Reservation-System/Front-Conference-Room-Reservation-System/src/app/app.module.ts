@@ -8,10 +8,10 @@ import { OrganizationComponent } from './component/organization/organization.com
 import { ReservationComponent } from './component/reservation/reservation.component';
 import { PageNotFoundComponent } from './component/page-not-found/page-not-found.component';
 import { HttpClientModule } from '@angular/common/http';
-import { NavbarComponent } from './component/navbar/navbar.component';
 import { SuccessComponent } from './component/success/success.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TestComponent } from './component/test/test.component';
+import { AdminPageComponent } from './component/admin-page/admin-page.component';
 
 
 
@@ -23,9 +23,9 @@ import { TestComponent } from './component/test/test.component';
     OrganizationComponent,
     ReservationComponent,
     PageNotFoundComponent,
-    NavbarComponent,
     SuccessComponent,
     TestComponent,
+    AdminPageComponent,
 
   ],
   imports: [
