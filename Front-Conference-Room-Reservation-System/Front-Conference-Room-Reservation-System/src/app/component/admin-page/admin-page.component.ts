@@ -11,9 +11,9 @@ import { OrganizationService } from 'src/app/service/organizationService/organiz
 })
 export class AdminPageComponent implements OnInit {
 
-  public organizations!: Organization[];
-  public editOrganization!: Organization;
-  public deleteOrganization!: Organization;
+  public organizations: Organization[];
+  public editOrganization: Organization;
+  public deleteOrganization: Organization;
 
   constructor(private organizationService: OrganizationService) { }
 
@@ -76,7 +76,7 @@ export class AdminPageComponent implements OnInit {
     console.log(key);
     const results: Organization[] = [];
     for (const organization of this.organizations) {
-      if (organization.organizationName.toLowerCase().indexOf(key.toLowerCase()) !== -1) {
+      if (organization.organizationName.toLowerCase().indexOf(key.toLowerCase()) !== -1 && organization.organizationName.toLowerCase() !== "admin") {
         results.push(organization);
       }
     }
