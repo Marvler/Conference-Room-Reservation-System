@@ -1,6 +1,7 @@
 package com.sda.conferenceroomreservationsystem.model.request;
 
 import com.sda.conferenceroomreservationsystem.model.entity.Reservation;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;
@@ -8,6 +9,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
+@AllArgsConstructor(staticName = "of")
 public class ReservationRequest {
     @NotNull
     private LocalDateTime reservationStart;

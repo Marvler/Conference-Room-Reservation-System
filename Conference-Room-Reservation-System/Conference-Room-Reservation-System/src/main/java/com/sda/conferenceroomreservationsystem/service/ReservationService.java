@@ -1,6 +1,5 @@
 package com.sda.conferenceroomreservationsystem.service;
 
-import com.sda.conferenceroomreservationsystem.exception.ConferenceRoomNotFoundException;
 import com.sda.conferenceroomreservationsystem.exception.ReservationAlreadyExistException;
 import com.sda.conferenceroomreservationsystem.exception.ReservationCollidesException;
 import com.sda.conferenceroomreservationsystem.exception.ReservationNotFoundException;
@@ -14,6 +13,7 @@ import com.sda.conferenceroomreservationsystem.repository.ReservationRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Comparator;
 import java.util.List;
@@ -30,7 +30,7 @@ public class ReservationService {
     public List<ReservationDto> getAll(Long id, String principal){
         ConferenceRoom conferenceRoom = conferenceRoomService.getConferenceRoomFromDatabaseById(id);
 
-        ConferenceRoomService.principalValidator(conferenceRoom.getOrganization(), principal);
+        PrincipalValidator.validateConferenceRoom(conferenceRoom.getOrganization(), principal);
 
         return reservationRepository.findByConferenceRoom(conferenceRoom).stream()
                 .map(ReservationMapper::mapToDto)
@@ -40,7 +40,7 @@ public class ReservationService {
     public ReservationDto getReservation(Long id, String principal) {
         Reservation reservation = getReservationFromDatabaseById(id);
 
-        principalValidator(reservation.getConferenceRoom().getOrganization(), principal);
+        PrincipalValidator.validateReservation(reservation.getConferenceRoom().getOrganization(), principal);
 
         return ReservationMapper.mapToDto(reservation);
     }
@@ -48,13 +48,13 @@ public class ReservationService {
     public ReservationDto add(final ReservationRequest request, String principal) {
         ConferenceRoom conferenceRoom = conferenceRoomService.getConferenceRoomFromDatabaseById(request.getConferenceRoomId());
 
-        ConferenceRoomService.principalValidator(conferenceRoom.getOrganization(), principal);
+        PrincipalValidator.validateConferenceRoom(conferenceRoom.getOrganization(), principal);
 
         if (request.isOccupied(conferenceRoom.getReservations())) {
             throw new ReservationCollidesException();
         }
 
-        final Reservation reservation = generateReservationWithIdentifier(ReservationMapper.mapToEntity(conferenceRoom, request));
+        final Reservation reservation = ReservationIdentifierGenerator.generate(ReservationMapper.mapToEntity(conferenceRoom, request));
         try {
             reservationRepository.save(reservation);
         } catch (DataIntegrityViolationException e) {
@@ -63,13 +63,14 @@ public class ReservationService {
         return ReservationMapper.mapToDto(reservation);
     }
 
+    @Transactional
     public ReservationDto update(Long id, final ReservationRequest request, String principal) {
         final ConferenceRoom conferenceRoom = conferenceRoomService.getConferenceRoomFromDatabaseById(request.getConferenceRoomId());
         final Reservation reservationFromDb = getReservationFromDatabaseById(id);
         final Reservation reservationFromRequest = ReservationMapper.mapToEntity(conferenceRoom, request);
 
-        principalValidator(reservationFromDb.getConferenceRoom().getOrganization(), principal);
-        ConferenceRoomService.principalValidator(conferenceRoom.getOrganization(), principal);
+        PrincipalValidator.validateReservation(reservationFromDb.getConferenceRoom().getOrganization(), principal);
+        PrincipalValidator.validateConferenceRoom(conferenceRoom.getOrganization(), principal);
 
         reservationFromRequest.setReservationId(reservationFromDb.getReservationId());
         reservationFromRequest.setReservationIdentifier(reservationFromDb.getReservationIdentifier());
@@ -80,7 +81,7 @@ public class ReservationService {
     public void deleteReservationById(Long id, String principal) {
         Reservation reservation = getReservationFromDatabaseById(id);
 
-        principalValidator(reservation.getConferenceRoom().getOrganization(), principal);
+        PrincipalValidator.validateReservation(reservation.getConferenceRoom().getOrganization(), principal);
 
         reservationRepository.delete(reservation);
     }
@@ -88,23 +89,5 @@ public class ReservationService {
     private Reservation getReservationFromDatabaseById(final Long reservationId) {
         final Optional<Reservation> reservationFromDatabase = reservationRepository.findById(reservationId);
         return reservationFromDatabase.orElseThrow(ReservationNotFoundException::new);
-    }
-
-    private Reservation generateReservationWithIdentifier(Reservation reservation) {
-        Random random = new Random();
-
-        ConferenceRoom conferenceRoom = reservation.getConferenceRoom();
-        Organization organization = conferenceRoom.getOrganization();
-        String organizationAbr = organization.getOrganizationName().substring(0,2).toUpperCase();
-        String conferenceRoomAbr = conferenceRoom.getConferenceRoomName().substring(0,2).toUpperCase();
-        String identifier = organizationAbr + "-" + conferenceRoomAbr + "-" + (random.nextInt(9000) + 1000);
-        reservation.setReservationIdentifier(identifier);
-        return reservation;
-    }
-
-    private void principalValidator(Organization organization, String name) {
-        if (!organization.getOrganizationName().equals(name)) {
-            throw new ReservationNotFoundException();
-        }
     }
 }
