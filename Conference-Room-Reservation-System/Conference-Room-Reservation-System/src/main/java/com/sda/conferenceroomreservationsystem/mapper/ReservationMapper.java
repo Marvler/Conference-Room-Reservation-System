@@ -15,14 +15,6 @@ public class ReservationMapper {
         return reservation;
     }
 
-    public static Reservation mapToEntity(final ReservationRequest request) {
-        final Reservation reservation = new Reservation();
-        reservation.setReservationStart(request.getReservationStart());
-        reservation.setReservationEnd(request.getReservationEnd());
-
-        return reservation;
-    }
-
     public static ReservationDto mapToDto(final Reservation reservation) {
         return ReservationDto.Builder()
                 .withReservationId(reservation.getReservationId())

@@ -1,6 +1,8 @@
 import { Reservation } from "./Reservation";
 
 export interface ConferenceRoom {
+    conferenceRoomId: number;
+    conferenceRoomName: string;
     conferenceRoomIdentifier: string;
     level: number;
     availability: boolean;

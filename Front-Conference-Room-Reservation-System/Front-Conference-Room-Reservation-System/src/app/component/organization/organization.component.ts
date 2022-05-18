@@ -1,4 +1,8 @@
+import { HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { NgForm } from '@angular/forms';
+import { ConferenceRoom } from 'src/app/model/ConferenceRoom';
+import { ConferenceRoomService } from 'src/app/service/conferenceRoomService/conference-room.service';
 
 @Component({
   selector: 'app-organization',
@@ -7,9 +11,103 @@ import { Component, OnInit } from '@angular/core';
 })
 export class OrganizationComponent implements OnInit {
 
-  constructor() { }
+  public conferenceRooms: ConferenceRoom[];
+  public editConferenceRoom: ConferenceRoom;
+  public deleteConferenceRoom: ConferenceRoom;
+  public organizationId: number = 1;
+  public organizationName: string = 'Transporeon'
+  public emptyReservations = [];
 
-  ngOnInit(): void {
+
+  constructor(private conferenceRoomService: ConferenceRoomService) { }
+
+  ngOnInit() {
+    this.getConferenceRooms();
   }
 
+  public getConferenceRooms(): void {
+    this.conferenceRoomService.getConferenceRooms(this.organizationId).subscribe(
+      (response: ConferenceRoom[]) => {
+        this.conferenceRooms = response;
+        console.log(this.conferenceRooms);
+      },
+      (error: HttpErrorResponse) => {
+        alert(error.message);
+      }
+    );
+  }
+
+  public onAddConferenceRoom(addForm: NgForm): void {
+    document.getElementById('add-conference-room-form')!.click();
+    this.conferenceRoomService.addConferenceRoom(addForm.value).subscribe(
+      (response: ConferenceRoom) => {
+        console.log(response);
+        this.getConferenceRooms();
+        addForm.reset();
+      },
+      (error: HttpErrorResponse) => {
+        alert(error.message);
+        addForm.reset();
+      }
+    );
+  }
+
+  public onUpdateConferenceRoom(conferenceRoom: ConferenceRoom): void {
+    this.conferenceRoomService.udpateConferenceRoom(conferenceRoom, conferenceRoom.conferenceRoomId).subscribe(
+      (response: ConferenceRoom) => {
+        console.log(response);
+        this.getConferenceRooms();
+      },
+      (error: HttpErrorResponse) => {
+        alert(error.message);
+      }
+    );
+  }
+
+  public onDeleteConferenceRoom(conferenceRoomId: number): void {
+    this.conferenceRoomService.deleteConferenceRoom(conferenceRoomId).subscribe(
+      (response: void) => {
+        console.log(response);
+        this.getConferenceRooms();
+      },
+      (error: HttpErrorResponse) => {
+        alert(error.message);
+      }
+    );
+  }
+
+  public searchConferenceRooms(key: string): void {
+    console.log(key);
+    const results: ConferenceRoom[] = [];
+    for (const conferenceRoom of this.conferenceRooms) {
+      if (conferenceRoom.conferenceRoomIdentifier.toLowerCase().indexOf(key.toLowerCase()) !== -1) {
+        results.push(conferenceRoom);
+      }
+    }
+    this.conferenceRooms = results;
+    if (key.length === 0) {
+      this.getConferenceRooms();
+    }
+  }
+
+  public onOpenModal(conferenceRoom: ConferenceRoom, mode: string): void {
+    const container = document.getElementById('main-container');
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.style.display = 'none';
+    button.setAttribute('data-toggle', 'modal');
+    if (mode === 'add') {
+      button.setAttribute('data-target', '#addConferenceRoomModal');
+    }
+    if (mode === 'edit') {
+      this.editConferenceRoom = conferenceRoom;
+      button.setAttribute('data-target', '#updateConferenceRoomModal');
+    }
+    if (mode === 'delete') {
+      this.deleteConferenceRoom = conferenceRoom;
+      button.setAttribute('data-target', '#deleteConferenceRoomModal');
+    }
+    container!.appendChild(button);
+    button.click();
+  }
 }

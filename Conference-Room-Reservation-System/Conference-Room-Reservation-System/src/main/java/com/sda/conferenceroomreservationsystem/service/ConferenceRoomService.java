@@ -28,7 +28,7 @@ public class ConferenceRoomService {
     public List<ConferenceRoomDto> getAll(Long organizationId, String principal) {
         Organization organization = organizationService.getOrganizationFromDatabase(organizationId);
 
-        principalValidator(organization, principal);
+        OrganizationService.principalValidator(organization, principal);
 
         return conferenceRoomRepository.findByOrganization(organization).stream()
                 .map(ConferenceRoomMapper::mapToDto).toList();
@@ -45,7 +45,7 @@ public class ConferenceRoomService {
     public ConferenceRoomDto add(ConferenceRoomRequest request, String principal) {
         Organization organization = organizationService.getOrganizationFromDatabase(request.getOrganizationId());
 
-        principalValidator(organization, principal);
+        OrganizationService.principalValidator(organization, principal);
         final ConferenceRoom conferenceRoom = ConferenceRoomMapper.mapToEntity(organization, request);
         try {
             conferenceRoomRepository.save(conferenceRoom);
@@ -84,7 +84,7 @@ public class ConferenceRoomService {
         return conferenceRoomFormDatabase.orElseThrow(ConferenceRoomNotFoundException::new);
     }
 
-    private void principalValidator(Organization organization, String name) {
+    public static void principalValidator(Organization organization, String name) {
         if (!organization.getOrganizationName().equals(name)) {
             throw new ConferenceRoomNotFoundException();
         }
