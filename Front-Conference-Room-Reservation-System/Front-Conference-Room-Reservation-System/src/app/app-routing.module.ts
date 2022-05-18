@@ -12,16 +12,15 @@ import { AccessForbiddenComponent } from './component/access-forbidden/access-fo
 import { AdminPageComponent } from './component/admin-page/admin-page.component';
 
 
-
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'organization', component: OrganizationComponent },
   { path: 'reservations', component: ReservationComponent },
   { path: 'rooms', component: ConferenceRoomsListComponent },
+  { path: 'admin', component: AdminPageComponent },
   { path: 'success', component: SuccessComponent },
   { path: 'test', component: TestComponent },
   { path: 'forbidden', component: AccessForbiddenComponent },
-  { path: 'admin', component: AdminPageComponent },
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent }
 ];

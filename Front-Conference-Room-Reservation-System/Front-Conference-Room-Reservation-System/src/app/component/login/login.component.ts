@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Organization } from 'src/app/model/Organization';
 import { LoginService } from 'src/app/service/loginService/login.service';
-import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AuthService } from 'src/app/service/authService/auth.service';
 
 
 @Component({
@@ -12,20 +12,27 @@ import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/fo
 })
 export class LoginComponent implements OnInit {
 
-  organization!: Organization;
+  organization: Organization;
   organizationName: string = '';
   email: string = '';
   password: string = '';
+  invalidLogin: boolean;
 
-  constructor(private loginService: LoginService, private router: Router) { }
+  constructor(
+    private loginService: LoginService,
+    private router: Router,
+    private authService: AuthService) { }
 
 
   ngOnInit(): void {
   }
 
   createOrganization() {
-    console.log(this.organizationName, this.email, this.password)
-    this.loginService.createOrganization(this.organization as Organization).subscribe((data) => console.warn(data));
+    let organizationRequest = {
+      "organizationName": this.organizationName,
+      "email": this.email, "password": this.password
+    }
+    this.loginService.createOrganization(organizationRequest as Organization).subscribe((data) => console.warn(data));
   }
 
 
@@ -39,7 +46,18 @@ export class LoginComponent implements OnInit {
 
   showName() {
     console.log(this.organizationName)
+    console.log(this.password)
   }
+
+  // signIn() {
+  //   this.authService.login(this.organizationName, this.password)
+  //     .subscribe(result => {
+  //       if (result)
+  //         this.router.navigate(['/']);
+  //       else
+  //         this.invalidLogin = true;
+  //     });
+  // }
 
 
 }
