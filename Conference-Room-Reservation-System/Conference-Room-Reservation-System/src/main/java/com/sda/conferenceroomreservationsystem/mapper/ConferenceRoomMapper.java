@@ -9,27 +9,25 @@ import java.util.ArrayList;
 
 public class ConferenceRoomMapper {
     public static ConferenceRoom mapToEntity(final Organization organization, final ConferenceRoomRequest request) {
-        final ConferenceRoom conferenceRoom = new ConferenceRoom();
-        conferenceRoom.setConferenceRoomName(request.getConferenceRoomName());
-        conferenceRoom.setConferenceRoomIdentifier(request.getConferenceRoomIdentifier());
-        conferenceRoom.setLevel(request.getLevel());
-        conferenceRoom.setNumberOfSeats(request.getNumberOfSeats());
-        conferenceRoom.setNumberOfStandings(request.getNumberOfStandings());
-        conferenceRoom.setOrganization(organization);
-        conferenceRoom.setReservations(new ArrayList<>());
-
-        return conferenceRoom;
+        return ConferenceRoom.Builder()
+                .withConferenceRoomName(request.getConferenceRoomName())
+                .withConferenceRoomIdentifier(request.getConferenceRoomIdentifier())
+                .withLevel(request.getLevel())
+                .withNumberOfSeats(request.getNumberOfSeats())
+                .withNumberOfStandings(request.getNumberOfStandings())
+                .withOrganization(organization)
+                .withReservations(new ArrayList<>())
+                .build();
     }
 
     public static ConferenceRoom mapToEntity(final ConferenceRoomRequest request) {
-        final ConferenceRoom conferenceRoom = new ConferenceRoom();
-        conferenceRoom.setConferenceRoomName(request.getConferenceRoomName());
-        conferenceRoom.setConferenceRoomIdentifier(request.getConferenceRoomIdentifier());
-        conferenceRoom.setLevel(request.getLevel());
-        conferenceRoom.setNumberOfSeats(request.getNumberOfSeats());
-        conferenceRoom.setNumberOfStandings(request.getNumberOfStandings());
-
-        return conferenceRoom;
+        return ConferenceRoom.Builder()
+                .withConferenceRoomName(request.getConferenceRoomName())
+                .withConferenceRoomIdentifier(request.getConferenceRoomIdentifier())
+                .withLevel(request.getLevel())
+                .withNumberOfSeats(request.getNumberOfSeats())
+                .withNumberOfStandings(request.getNumberOfStandings())
+                .build();
     }
 
     public static ConferenceRoomDto mapToDto(final ConferenceRoom conferenceRoom) {
