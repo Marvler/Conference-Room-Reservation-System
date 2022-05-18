@@ -1,6 +1,7 @@
 package com.sda.conferenceroomreservationsystem.rest;
 
 import com.sda.conferenceroomreservationsystem.model.dto.OrganizationDto;
+import com.sda.conferenceroomreservationsystem.model.request.OrganizationAuthRequest;
 import com.sda.conferenceroomreservationsystem.model.request.OrganizationRequest;
 import com.sda.conferenceroomreservationsystem.service.OrganizationService;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +24,11 @@ public class OrganizationController {
     @GetMapping("/all")
     public ResponseEntity<List<OrganizationDto>> getAllOrganizations() {
         return ResponseEntity.ok(organizationService.getAll());
+    }
+
+    @GetMapping("/auth/{name}")
+    public ResponseEntity<Long> getOrganizationId(@PathVariable("name") final String name) {
+        return ResponseEntity.ok(organizationService.getOrganizationId(name));
     }
 
     @GetMapping("/{id}")
