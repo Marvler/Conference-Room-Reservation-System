@@ -13,10 +13,12 @@
 
         <div class="signup">
             <form>
+
                 <label for="chk" aria-hidden="true" style="color: #5e74f0">Sign up</label>
                 <input id="organization" type="text" name="organization" placeholder="Organization"
                     [(ngModel)]="organizationName" pattern="[A-Za-z0-9]{2,20}" [ngModelOptions]="{standalone: true}"
                     [ngModelOptions]="{standalone: true}" required="">
+
                 <input id="name" type="email" placeholder="Email" [(ngModel)]="email"
                     [ngModelOptions]="{standalone: true}" required="">
                 <input id="password" type="password" placeholder="Password" [(ngModel)]="password"
@@ -27,17 +29,39 @@
             </form>
         </div>
 
+        <!-- <div class="login">
+            <form class="form-signin" #f="ngForm" (ngSubmit)="signIn(f.value)">
+                <label for="chk" aria-hidden="true" style="color: #5e74f0">Login</label>
+                <div *ngIf="invalidLogin" class="alert alert-danger">Invalid username and/or password.</div>
+
+                <input for="inputOrganization" class="" placeholder="Organization" [(ngModel)]="organizationName"
+                    [ngModelOptions]="{standalone: true}" pattern="[A-Za-z0-9]{2,20}" required>
+
+                <input type="password" placeholder="Password" [(ngModel)]="password"
+                    [ngModelOptions]="{standalone: true}" pattern="[A-Za-z0-9]{3,20}" required>
+                <button type="submit" id="submit_form" (click)="showName()"> Login </button>
+            </form>
+        </div> -->
+
         <div class="login">
             <form>
+                <div *ngIf="invalidLogin" class="alert alert-danger">
+                    Invalid credentials
+                </div>
                 <label for="chk" aria-hidden="true" style="color: #5e74f0">Login</label>
-                <input type="text" placeholder="Organization" [(ngModel)]="organizationName"
-                    [ngModelOptions]="{standalone: true}" pattern="[A-Za-z0-9]{2,20}" required="">
+                <div *ngIf="invalidLogin" class="alert alert-danger">Invalid username and/or password.</div>
+
+                <input for="inputOrganization" class="" placeholder="Organization" [(ngModel)]="organizationName"
+                    [ngModelOptions]="{standalone: true}" pattern="[A-Za-z0-9]{2,20}" required>
+
                 <input type="password" placeholder="Password" [(ngModel)]="password"
-                    [ngModelOptions]="{standalone: true}" pattern="[A-Za-z0-9]{3,20}" required="">
-                <button id="submit_form" (click)="goToPage('/organization');showName()"> Login </button>
+                    [ngModelOptions]="{standalone: true}" pattern="[A-Za-z0-9]{3,20}" required>
+                <button type="submit" id="submit_form" (click)="signIn()"> Login </button>
             </form>
         </div>
+
     </div>
+
 </body>
 
 </html>

@@ -11,9 +11,9 @@ import { OrganizationService } from 'src/app/service/organizationService/organiz
 })
 export class AdminPageComponent implements OnInit {
 
-  public organizations!: Organization[];
-  public editOrganization!: Organization;
-  public deleteOrganization!: Organization;
+  public organizations: Organization[];
+  public editOrganization: Organization;
+  public deleteOrganization: Organization;
 
   constructor(private organizationService: OrganizationService) { }
 
@@ -25,6 +25,7 @@ export class AdminPageComponent implements OnInit {
     this.organizationService.getOrganizations().subscribe(
       (response: Organization[]) => {
         this.organizations = response;
+
         console.log(this.organizations);
       },
       (error: HttpErrorResponse) => {
@@ -106,6 +107,5 @@ export class AdminPageComponent implements OnInit {
     container!.appendChild(button);
     button.click();
   }
-
 
 }

@@ -10,8 +10,8 @@ import { PageNotFoundComponent } from './component/page-not-found/page-not-found
 import { HttpClientModule } from '@angular/common/http';
 import { SuccessComponent } from './component/success/success.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { TestComponent } from './component/test/test.component';
 import { AdminPageComponent } from './component/admin-page/admin-page.component';
+
 
 
 
@@ -24,7 +24,6 @@ import { AdminPageComponent } from './component/admin-page/admin-page.component'
     ReservationComponent,
     PageNotFoundComponent,
     SuccessComponent,
-    TestComponent,
     AdminPageComponent,
 
   ],
@@ -33,8 +32,7 @@ import { AdminPageComponent } from './component/admin-page/admin-page.component'
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
-    ReactiveFormsModule
-
+    ReactiveFormsModule,
 
   ],
   providers: [],

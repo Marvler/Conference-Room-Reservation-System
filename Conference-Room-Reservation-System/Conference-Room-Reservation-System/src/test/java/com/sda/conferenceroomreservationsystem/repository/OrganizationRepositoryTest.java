@@ -28,21 +28,4 @@ class OrganizationRepositoryTest {
         Assertions.assertThat(organizationFoundByName.get().getOrganizationName()).isEqualTo(organizationName);
 
     }
-
-
-    @Test
-    void findByOrganizationNameAndPasswordShouldReturnOrganizationEntity() {
-        String organizationName = "Transporeon";
-        String passwordForOrganization = "password";
-
-        Organization organization = new Organization();
-        organization.setOrganizationName(organizationName);
-        organization.setPassword(passwordForOrganization);
-
-        organizationRepository.save(organization);
-
-        Optional<Organization> organizationFoundByNameAndPassword = organizationRepository.findByOrganizationNameAndPassword(organizationName, passwordForOrganization);
-        Assertions.assertThat(organizationFoundByNameAndPassword.get().getOrganizationName()).isEqualTo(organizationName);
-        Assertions.assertThat(organizationFoundByNameAndPassword.get().getPassword()).isEqualTo(passwordForOrganization);
-    }
 }
