@@ -47,8 +47,11 @@ export class LoginComponent implements OnInit {
   }
 
   getOrganizationId(organizationName: string) {
-    this.loginService.getOrganizationId(organizationName).subscribe(organization => this.organizationId = organization.organizationId)
-    this.organizationId = this.organization.organizationId;
+    this.loginService.getOrganizationId(organizationName).subscribe(organization => this.organization = organization)
+    setTimeout(() => {
+      console.log(this.organization);
+      this.organizationId = this.organization.organizationId;
+    }, 213.7);
   }
 
   showName() {
@@ -61,15 +64,10 @@ export class LoginComponent implements OnInit {
       this.router.navigate(['admin'])
     } else {
       this.getOrganizationId(this.organizationName);
-      console.log(this.organization)
-      console.log(this.organizationId)
-      this.router.navigate(['organization', this.organizationId]);
-      this.redirect();
+      setTimeout(() => {
+        this.router.navigate(['organization', this.organizationId]);
+      }, 420);
     }
-  }
-
-  redirect() {
-    this.router.navigate([`organization/${this.organizationId}`]);
   }
 
 }
