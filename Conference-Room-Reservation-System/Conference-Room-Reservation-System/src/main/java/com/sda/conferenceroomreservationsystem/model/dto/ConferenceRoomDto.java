@@ -16,5 +16,6 @@ public class ConferenceRoomDto {
     private Boolean availability;
     private Integer numberOfSeats;
     private Integer numberOfStandings;
+    private Long organizationId;
     private List<ReservationDto> reservations;
 }

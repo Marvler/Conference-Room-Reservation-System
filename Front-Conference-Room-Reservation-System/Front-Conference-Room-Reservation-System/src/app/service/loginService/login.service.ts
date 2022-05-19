@@ -33,6 +33,9 @@ export class LoginService {
 
   getOrganization(organizationName: string): Observable<Organization> {
     return this.httpClient.get<Organization>(this.apiServerUrl + organizationName)
+  }
 
+  public getOrganizationId(organizationName: String): Observable<Organization> {
+    return this.httpClient.get<Organization>(`${this.apiServerUrl}/auth/${organizationName}`, this.httpOptions);
   }
 }

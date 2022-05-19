@@ -26,9 +26,9 @@
                         <h5>{{conferenceRoom?.conferenceRoomName}}</h5>
                         <p class="m-0">Identifier: {{conferenceRoom?.conferenceRoomIdentifier}}</p>
                         <p class="m-0">Level : {{conferenceRoom?.level}}</p>
-                        <p class="m-0">Is Available {{conferenceRoom?.availability}}</p>
-                        <p class="m-0">Number Of Seats {{conferenceRoom?.numberOfSeats}}</p>
-                        <p class="m-0">Number Of Standings {{conferenceRoom?.numberOfStandings}}</p>
+                        <p class="m-0">Is Available: {{conferenceRoom?.availability}}</p>
+                        <p class="m-0">Number Of Seats: {{conferenceRoom?.numberOfSeats}}</p>
+                        <p class="m-0">Number Of Standings: {{conferenceRoom?.numberOfStandings}}</p>
                     </div>
                 </div>
                 <div *ngFor="let reservation of conferenceRoom.reservations">
@@ -41,6 +41,8 @@
                 </div>
                 <div class="card-body">
                     <div class="float-right btn-group btn-group-sm">
+                        <a (click)="onOpenModal(conferenceRoom, 'reserve')" class="btn btn-secondary tooltips"
+                            data-placement="top" data-original-title="Edit"><i class="fa fa-times">reserve</i> </a>
                         <a (click)="onOpenModal(conferenceRoom, 'edit')" class="btn btn-primary tooltips"
                             data-placement="top" data-original-title="Edit"><i class="fa fa-times">edit</i> </a>
                         <a (click)="onOpenModal(conferenceRoom, 'delete')" class="btn btn-secondary tooltips"
@@ -79,8 +81,8 @@
                             <input type="number" ngModel name="level" class="form-control" id="level"
                                 placeholder="Level" required>
                         </div>
-                        <div class="form-group">
-                            <!-- <fieldset>
+                        <!-- <div class="form-group">
+                            <fieldset>
                                 <legend>Is available?</legend>
 
                                 <div>
@@ -93,14 +95,14 @@
                                         id="availability" name="availability" value="false">
                                     <label for="availability">No</label>
                                 </div>
-                            </fieldset> -->
+                            </fieldset>
 
                             <label for="availability">Availability</label>
                             <input type="radio" ngModel name="availability" class="form-control" id="availability"
                                 value="true" required>
-                        </div>
+                        </div> -->
                         <div class="form-group">
-                            <label for="numberOfSeats">Number Of Seats"</label>
+                            <label for="numberOfSeats">Number Of Seats</label>
                             <input type="number" ngModel name="numberOfSeats" class="form-control" id="numberOfSeats"
                                 placeholder="Number Of Seats" required>
                         </div>
@@ -157,11 +159,11 @@
                             <input type="number" ngModel="{{editConferenceRoom?.level}}" name="level"
                                 class="form-control" id="level" placeholder="Level">
                         </div>
-                        <div class="form-group">
+                        <!-- <div class="form-group">
                             <label for="availability">Availability</label>
                             <input type="radio" ngModel="{{editConferenceRoom?.availability}}" name="availability"
                                 class="form-control" id="availability">
-                        </div>
+                        </div> -->
                         <div class="form-group">
                             <label for="numberOfSeats">Number Of Seats</label>
                             <input type="number" ngModel="{{editConferenceRoom?.numberOfSeats}}" name="numberOfSeats"
@@ -212,6 +214,46 @@
             </div>
         </div>
     </div>
+</div>
+
+<!-- Add Reservation Modal -->
+<div class=" modal fade" id="addReservationModal" tabindex="-1" role="dialog"
+aria-labelledby="addReservationModalLabel" aria-hidden="true">
+<div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="addReservationModalLabel">Add Reservation</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <form #addResForm="ngForm" (ngSubmit)="onAddReservation(addResForm)">
+                <div class="form-group">
+                    <label for="reservationStart">Reservation start</label>
+                    <input type="datetime-local" ngModel name="reservationStart" class="form-control"
+                        id="reservationStart" placeholder="Time of start" required>
+                </div>
+                <div class="form-group">
+                    <label for="reservationEnd">Reservation end</label>
+                    <input type="datetime-local" ngModel name="reservationEnd" class="form-control"
+                        id="reservationEnd" placeholder="Time of end" required>
+                </div>
+                <div class="form-group">
+                    <input type="hidden" ngModel name="conferenceRoomId" class="form-control"
+                        id="conferenceoomId">
+                        <!-- ="{{conferenceRoom?.conferenceRoomId}}" -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="add-reservation-form" class="btn btn-secondary"
+                        data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save
+                        changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 </div>
 
 <!-- Notification for no employees -->

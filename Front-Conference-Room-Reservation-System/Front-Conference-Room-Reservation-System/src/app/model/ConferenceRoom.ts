@@ -8,6 +8,7 @@ export interface ConferenceRoom {
     availability: boolean;
     numberOfSeats: number;
     numberOfStandings: number;
+    organizationId: number;
     reservations: Reservation[];
 
 }
