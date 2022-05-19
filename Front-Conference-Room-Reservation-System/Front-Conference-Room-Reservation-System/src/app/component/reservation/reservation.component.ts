@@ -1,6 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { Reservation } from 'src/app/model/Reservation';
 import { ReservationService } from 'src/app/service/reservationService/reservation.service';
 
@@ -14,13 +15,16 @@ export class ReservationComponent implements OnInit {
   public reservations: Reservation[];
   public editReservation: Reservation;
   public deleteReservation: Reservation;
-  public conferenceRoomId: number = 1;
-  public conferenceRoomName: string = 'Kam-123'
+  public conferenceRoomId: number;
+  public conferenceRoomName: string;
 
 
-  constructor(private reservationService: ReservationService) { }
+  constructor(private reservationService: ReservationService,
+    private route: ActivatedRoute) { }
 
   ngOnInit() {
+    let id = parseInt(this.route.snapshot.paramMap.get('conferenceRoomId'));
+    this.conferenceRoomId = id;
     this.getReservations();
   }
 
@@ -38,7 +42,7 @@ export class ReservationComponent implements OnInit {
 
   public onAddReservation(addForm: NgForm): void {
     document.getElementById('add-reservation-room-form')!.click();
-    this.reservationService.addReservation(addForm.value).subscribe(
+    this.reservationService.addReservation(addForm.value, this.conferenceRoomId).subscribe(
       (response: Reservation) => {
         console.log(response);
         this.getReservations();

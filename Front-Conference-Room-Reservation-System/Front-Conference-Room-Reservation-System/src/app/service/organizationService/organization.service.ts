@@ -9,7 +9,7 @@ import { catchError, map, tap } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class OrganizationService {
-  private apiServerUrl = environment.apiServerUrl;
+  private apiServerUrl = environment.apiServerUrl + "/organization";
   httpOptions = {
     headers: new HttpHeaders({
       'Authorization': 'Basic ' + btoa('admin:admin')
@@ -20,23 +20,23 @@ export class OrganizationService {
   constructor(private http: HttpClient) { }
 
   public getOrganizations(): Observable<Organization[]> {
-    return this.http.get<Organization[]>(`${this.apiServerUrl}/organization/all`, this.httpOptions);
+    return this.http.get<Organization[]>(`${this.apiServerUrl}/all`, this.httpOptions);
   }
 
   public getOrganization(organizationId: number): Observable<Organization> {
-    return this.http.get<Organization>(`${this.apiServerUrl}/organization/${organizationId}`, this.httpOptions);
+    return this.http.get<Organization>(`${this.apiServerUrl}/${organizationId}`, this.httpOptions);
   }
 
   public addOrganization(organization: Organization): Observable<Organization> {
-    return this.http.post<Organization>(`${this.apiServerUrl}/organization/`, organization, this.httpOptions);
+    return this.http.post<Organization>(`${this.apiServerUrl}/`, organization, this.httpOptions);
   }
 
   public updateOrganization(organization: Organization): Observable<Organization> {
-    return this.http.put<Organization>(`${this.apiServerUrl}/organization/${organization.organizationId}`, organization, this.httpOptions);
+    return this.http.put<Organization>(`${this.apiServerUrl}/${organization.organizationId}`, organization, this.httpOptions);
   }
 
   public deleteOrganization(organizationId: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiServerUrl}/organization/${organizationId}`, this.httpOptions);
+    return this.http.delete<void>(`${this.apiServerUrl}/${organizationId}`, this.httpOptions);
   }
 
   // public getOrganizationByName(organizationName: string) {
