@@ -14,7 +14,7 @@ import { AdminPageComponent } from './component/admin-page/admin-page.component'
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'organization/:organizationId', component: OrganizationComponent },
-  { path: 'reservations', component: ReservationComponent },
+  { path: 'reservations/:conferenceRoomId', component: ReservationComponent },
   { path: 'rooms', component: ConferenceRoomsListComponent },
   { path: 'admin', component: AdminPageComponent },
   { path: 'success', component: SuccessComponent },

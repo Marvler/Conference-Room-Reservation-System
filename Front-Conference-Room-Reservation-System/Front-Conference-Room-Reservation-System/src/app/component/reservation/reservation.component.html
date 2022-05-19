@@ -25,7 +25,7 @@
                     <div class="col-6 card-title align-self-center mb-0">
                         <h5>{{reservation?.reservationIdentifier}}</h5>
                         <p class="m-0">Reservation Start: {{reservation?.reservationStart}}</p>
-                        <p class="m-0">Reservation End: {{reservation?.reservationStart}}</p>
+                        <p class="m-0">Reservation End: {{reservation?.reservationEnd}}</p>
 
                     </div>
                 </div>
@@ -67,7 +67,7 @@
                                 placeholder="Reservation End">
                         </div>
                         <div class="modal-footer">
-                            <button type="button" id="add-reservation-form" class="btn btn-secondary"
+                            <button type="button" id="add-reservation-room-form" class="btn btn-secondary"
                                 data-dismiss="modal">Close</button>
                             <button [disabled]="addForm.invalid" type="submit" class="btn btn-primary">Save
                                 changes</button>
@@ -98,8 +98,7 @@
                                 <input type="hidden" ngModel="{{editReservation?.reservationId}}" name="reservationId"
                                     class="form-control" id="reservationId">
                             </div>
-                            <label for="reservationIdentifier">Reservation Identifier</label>
-                            <input type="text" ngModel="{{editReservation?.reservationIdentifier}}"
+                            <input type="hidden" ngModel="{{editReservation?.reservationIdentifier}}"
                                 name="reservationIdentifier" class="form-control" id="reservationIdentifier"
                                 aria-describedby="emailHelp" placeholder="Reservation Identifier">
                         </div>
