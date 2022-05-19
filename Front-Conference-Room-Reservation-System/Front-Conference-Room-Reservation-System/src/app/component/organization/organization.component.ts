@@ -1,11 +1,11 @@
 import { Reservation } from './../../model/Reservation';
 import { ReservationService } from './../../service/reservationService/reservation.service';
-import { HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ConferenceRoom } from 'src/app/model/ConferenceRoom';
 import { ConferenceRoomService } from 'src/app/service/conferenceRoomService/conference-room.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-organization',
@@ -23,7 +23,7 @@ export class OrganizationComponent implements OnInit {
 
 
   constructor(private conferenceRoomService: ConferenceRoomService,
-    private reservationService: ReservationService,
+    private router: Router,
     private route: ActivatedRoute) { }
 
   ngOnInit() {
@@ -55,6 +55,9 @@ export class OrganizationComponent implements OnInit {
       (error: HttpErrorResponse) => {
         alert(error.message);
         addForm.reset();
+      },
+      (message?: HttpResponse<Response>) => {
+        console.log(message.body);
       }
     );
   }
@@ -79,21 +82,6 @@ export class OrganizationComponent implements OnInit {
       },
       (error: HttpErrorResponse) => {
         alert(error.message);
-      }
-    );
-  }
-
-  public onAddReservation(addResForm: NgForm): void {
-    document.getElementById('add-reservation-form')!.click();
-    this.reservationService.addReservation(addResForm.value).subscribe(
-      (response: Reservation) => {
-        console.log(response);
-        this.getConferenceRooms();
-        addResForm.reset();
-      },
-      (error: HttpErrorResponse) => {
-        alert(error.message);
-        addResForm.reset();
       }
     );
   }
@@ -130,8 +118,7 @@ export class OrganizationComponent implements OnInit {
       button.setAttribute('data-target', '#deleteConferenceRoomModal');
     }
     if (mode === 'reserve') {
-      this.deleteConferenceRoom = conferenceRoom;
-      button.setAttribute('data-target', '#addReservationModal');
+      this.router.navigate(['reservations', conferenceRoom.conferenceRoomId])
     }
     container!.appendChild(button);
     button.click();

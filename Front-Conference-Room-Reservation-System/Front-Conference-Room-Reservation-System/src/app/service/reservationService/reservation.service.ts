@@ -27,7 +27,8 @@ export class ReservationService {
     return this.http.get<Reservation>(`${this.apiServerUrl}/${reservationId}`, this.httpOptions)
   }
 
-  public addReservation(reservation: Reservation): Observable<Reservation> {
+  public addReservation(reservation: Reservation, conferenceRoomId: number): Observable<Reservation> {
+    reservation.conferenceRoomId = conferenceRoomId;
     return this.http.post<Reservation>(`${this.apiServerUrl}`, reservation, this.httpOptions)
   }
 

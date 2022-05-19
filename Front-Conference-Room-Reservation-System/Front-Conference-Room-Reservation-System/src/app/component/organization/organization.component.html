@@ -31,18 +31,18 @@
                         <p class="m-0">Number Of Standings: {{conferenceRoom?.numberOfStandings}}</p>
                     </div>
                 </div>
-                <div *ngFor="let reservation of conferenceRoom.reservations">
+                <!-- <div *ngFor="let reservation of conferenceRoom.reservations">
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item"><i class="fa fa-phone float-right"></i>Reservations:
                             {{reservation?.reservationIdentifier}}
 
                         </li>
                     </ul>
-                </div>
+                </div> -->
                 <div class="card-body">
                     <div class="float-right btn-group btn-group-sm">
                         <a (click)="onOpenModal(conferenceRoom, 'reserve')" class="btn btn-secondary tooltips"
-                            data-placement="top" data-original-title="Edit"><i class="fa fa-times">reserve</i> </a>
+                            data-placement="top" data-original-title="Reserve"><i class="fa fa-times">reservations</i> </a>
                         <a (click)="onOpenModal(conferenceRoom, 'edit')" class="btn btn-primary tooltips"
                             data-placement="top" data-original-title="Edit"><i class="fa fa-times">edit</i> </a>
                         <a (click)="onOpenModal(conferenceRoom, 'delete')" class="btn btn-secondary tooltips"
@@ -214,46 +214,6 @@
             </div>
         </div>
     </div>
-</div>
-
-<!-- Add Reservation Modal -->
-<div class=" modal fade" id="addReservationModal" tabindex="-1" role="dialog"
-aria-labelledby="addReservationModalLabel" aria-hidden="true">
-<div class="modal-dialog" role="document">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h5 class="modal-title" id="addReservationModalLabel">Add Reservation</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-        <div class="modal-body">
-            <form #addResForm="ngForm" (ngSubmit)="onAddReservation(addResForm)">
-                <div class="form-group">
-                    <label for="reservationStart">Reservation start</label>
-                    <input type="datetime-local" ngModel name="reservationStart" class="form-control"
-                        id="reservationStart" placeholder="Time of start" required>
-                </div>
-                <div class="form-group">
-                    <label for="reservationEnd">Reservation end</label>
-                    <input type="datetime-local" ngModel name="reservationEnd" class="form-control"
-                        id="reservationEnd" placeholder="Time of end" required>
-                </div>
-                <div class="form-group">
-                    <input type="hidden" ngModel name="conferenceRoomId" class="form-control"
-                        id="conferenceoomId">
-                        <!-- ="{{conferenceRoom?.conferenceRoomId}}" -->
-                </div>
-                <div class="modal-footer">
-                    <button type="button" id="add-reservation-form" class="btn btn-secondary"
-                        data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Save
-                        changes</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
 </div>
 
 <!-- Notification for no employees -->
