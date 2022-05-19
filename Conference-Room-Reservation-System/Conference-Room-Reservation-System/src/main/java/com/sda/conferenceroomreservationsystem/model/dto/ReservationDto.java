@@ -13,4 +13,5 @@ public class ReservationDto {
     private String reservationIdentifier;
     private LocalDateTime reservationStart;
     private LocalDateTime reservationEnd;
+    private Long conferenceRoomId;
 }

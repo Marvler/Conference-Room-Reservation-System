@@ -13,7 +13,7 @@ import { AdminPageComponent } from './component/admin-page/admin-page.component'
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
-  { path: 'organization', component: OrganizationComponent },
+  { path: 'organization/:organizationId', component: OrganizationComponent },
   { path: 'reservations', component: ReservationComponent },
   { path: 'rooms', component: ConferenceRoomsListComponent },
   { path: 'admin', component: AdminPageComponent },

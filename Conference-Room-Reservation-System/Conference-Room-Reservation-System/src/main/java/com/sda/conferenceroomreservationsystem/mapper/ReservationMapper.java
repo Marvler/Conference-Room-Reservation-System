@@ -20,6 +20,7 @@ public class ReservationMapper {
                 .withReservationIdentifier(reservation.getReservationIdentifier())
                 .withReservationStart(reservation.getReservationStart())
                 .withReservationEnd(reservation.getReservationEnd())
+                .withConferenceRoomId(reservation.getConferenceRoom().getConferenceRoomId())
                 .build();
     }
 }

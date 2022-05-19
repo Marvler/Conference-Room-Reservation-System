@@ -1,6 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Organization } from 'src/app/model/Organization';
 import { OrganizationService } from 'src/app/service/organizationService/organization.service';
 
@@ -15,10 +16,13 @@ export class AdminPageComponent implements OnInit {
   public editOrganization: Organization;
   public deleteOrganization: Organization;
 
-  constructor(private organizationService: OrganizationService) { }
+  constructor(
+    private organizationService: OrganizationService,
+    private router: Router) { }
 
   ngOnInit() {
     this.getOrganizations();
+    console.log(this.organizations)
   }
 
   public getOrganizations(): void {
@@ -103,6 +107,9 @@ export class AdminPageComponent implements OnInit {
     if (mode === 'delete') {
       this.deleteOrganization = organization;
       button.setAttribute('data-target', '#deleteOrganizationModal');
+    }
+    if (mode === 'room') {
+      this.router.navigate(['organization', organization.organizationId])
     }
     container!.appendChild(button);
     button.click();

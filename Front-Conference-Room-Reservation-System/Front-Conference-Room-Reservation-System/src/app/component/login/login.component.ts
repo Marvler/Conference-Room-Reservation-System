@@ -13,9 +13,10 @@ import { AuthService } from 'src/app/service/authService/auth.service';
 export class LoginComponent implements OnInit {
 
   organization: Organization;
-  organizationName: string = '';
-  email: string = '';
-  password: string = '';
+  organizationId: number;
+  organizationName: string;
+  email: string;
+  password: string;
   invalidLogin: boolean;
 
   constructor(
@@ -45,6 +46,11 @@ export class LoginComponent implements OnInit {
     this.loginService.getOrganization(organizationName).subscribe(organization => this.organization = organization)
   }
 
+  getOrganizationId(organizationName: string) {
+    this.loginService.getOrganizationId(organizationName).subscribe(organization => this.organizationId = organization.organizationId)
+    this.organizationId = this.organization.organizationId;
+  }
+
   showName() {
     console.log(this.organizationName)
     console.log(this.password)
@@ -54,10 +60,16 @@ export class LoginComponent implements OnInit {
     if (this.organizationName === 'admin' && this.password === 'admin') {
       this.router.navigate(['admin'])
     } else {
-      this.router.navigate(['forbidden'])
+      this.getOrganizationId(this.organizationName);
+      console.log(this.organization)
+      console.log(this.organizationId)
+      this.router.navigate(['organization', this.organizationId]);
+      this.redirect();
     }
   }
 
-
+  redirect() {
+    this.router.navigate([`organization/${this.organizationId}`]);
+  }
 
 }

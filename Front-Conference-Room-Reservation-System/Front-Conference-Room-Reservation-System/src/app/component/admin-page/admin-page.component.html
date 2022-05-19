@@ -27,16 +27,18 @@
                         <p class="m-0">{{organization?.email}}</p>
                     </div>
                 </div>
-                <div *ngFor="let conferenceRoom of organization.conferenceRooms">
+                <!-- <div *ngFor="let conferenceRoom of organization.conferenceRooms">
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item"><i class="fa fa-phone float-right"></i>Conference Rooms :
                             {{conferenceRoom?.conferenceRoomIdentifier}}
 
                         </li>
                     </ul>
-                </div>
+                </div> -->
                 <div class="card-body">
                     <div class="float-right btn-group btn-group-sm">
+                        <a (click)="onOpenModal(organization, 'room')" class="btn btn-primary tooltips"
+                            data-placement="top" data-original-title="Room"><i class="fa fa-times">room</i> </a>
                         <a (click)="onOpenModal(organization, 'edit')" class="btn btn-primary tooltips"
                             data-placement="top" data-original-title="Edit"><i class="fa fa-times">edit</i> </a>
                         <a (click)="onOpenModal(organization, 'delete')" class="btn btn-secondary tooltips"

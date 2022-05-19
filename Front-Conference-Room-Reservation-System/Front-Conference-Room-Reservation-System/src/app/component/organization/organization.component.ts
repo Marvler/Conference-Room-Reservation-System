@@ -1,8 +1,11 @@
+import { Reservation } from './../../model/Reservation';
+import { ReservationService } from './../../service/reservationService/reservation.service';
 import { HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ConferenceRoom } from 'src/app/model/ConferenceRoom';
 import { ConferenceRoomService } from 'src/app/service/conferenceRoomService/conference-room.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-organization',
@@ -14,14 +17,18 @@ export class OrganizationComponent implements OnInit {
   public conferenceRooms: ConferenceRoom[];
   public editConferenceRoom: ConferenceRoom;
   public deleteConferenceRoom: ConferenceRoom;
-  public organizationId: number = 1;
-  public organizationName: string = 'Transporeon'
+  public organizationId: number;
+  public organizationName: string;
   public emptyReservations = [];
 
 
-  constructor(private conferenceRoomService: ConferenceRoomService) { }
+  constructor(private conferenceRoomService: ConferenceRoomService,
+    private reservationService: ReservationService,
+    private route: ActivatedRoute) { }
 
   ngOnInit() {
+    let id = parseInt(this.route.snapshot.paramMap.get('organizationId'));
+    this.organizationId = id;
     this.getConferenceRooms();
   }
 
@@ -39,7 +46,7 @@ export class OrganizationComponent implements OnInit {
 
   public onAddConferenceRoom(addForm: NgForm): void {
     document.getElementById('add-conference-room-form')!.click();
-    this.conferenceRoomService.addConferenceRoom(addForm.value).subscribe(
+    this.conferenceRoomService.addConferenceRoom(addForm.value, this.organizationId).subscribe(
       (response: ConferenceRoom) => {
         console.log(response);
         this.getConferenceRooms();
@@ -76,6 +83,21 @@ export class OrganizationComponent implements OnInit {
     );
   }
 
+  public onAddReservation(addResForm: NgForm): void {
+    document.getElementById('add-reservation-form')!.click();
+    this.reservationService.addReservation(addResForm.value).subscribe(
+      (response: Reservation) => {
+        console.log(response);
+        this.getConferenceRooms();
+        addResForm.reset();
+      },
+      (error: HttpErrorResponse) => {
+        alert(error.message);
+        addResForm.reset();
+      }
+    );
+  }
+
   public searchConferenceRooms(key: string): void {
     console.log(key);
     const results: ConferenceRoom[] = [];
@@ -106,6 +128,10 @@ export class OrganizationComponent implements OnInit {
     if (mode === 'delete') {
       this.deleteConferenceRoom = conferenceRoom;
       button.setAttribute('data-target', '#deleteConferenceRoomModal');
+    }
+    if (mode === 'reserve') {
+      this.deleteConferenceRoom = conferenceRoom;
+      button.setAttribute('data-target', '#addReservationModal');
     }
     container!.appendChild(button);
     button.click();
