@@ -28,11 +28,11 @@ export class LoginService {
   }
 
   public addOrganization(organization: Organization): Observable<Organization> {
-    return this.httpClient.post<Organization>(`${this.apiServerUrl}`, organization, this.httpOptions);
+    return this.httpClient.post<Organization>(`${this.apiServerUrl}`, organization);
   }
 
   getOrganization(organizationName: string): Observable<Organization> {
-    return this.httpClient.get<Organization>(this.apiServerUrl + organizationName)
+    return this.httpClient.get<Organization>(this.apiServerUrl + organizationName, this.httpOptions)
   }
 
   public getOrganizationId(organizationName: String): Observable<Organization> {
