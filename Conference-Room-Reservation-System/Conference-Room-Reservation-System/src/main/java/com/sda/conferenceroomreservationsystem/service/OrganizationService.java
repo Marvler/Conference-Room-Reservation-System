@@ -5,7 +5,6 @@ import com.sda.conferenceroomreservationsystem.exception.OrganizationNotFoundExc
 import com.sda.conferenceroomreservationsystem.mapper.OrganizationMapper;
 import com.sda.conferenceroomreservationsystem.model.dto.OrganizationDto;
 import com.sda.conferenceroomreservationsystem.model.entity.Organization;
-import com.sda.conferenceroomreservationsystem.model.request.OrganizationAuthRequest;
 import com.sda.conferenceroomreservationsystem.model.request.OrganizationRequest;
 import com.sda.conferenceroomreservationsystem.repository.OrganizationRepository;
 import lombok.RequiredArgsConstructor;
@@ -37,10 +36,8 @@ public class OrganizationService {
         return organizationMapper.mapToDto(organization);
     }
 
-    public Long getOrganizationId(String name) {
-        Organization organization = getOrganizationIdFromDatabaseWithAuth(name);
-
-        return organization == null? null : organization.getOrganizationId();
+    public OrganizationDto getOrganizationId(String name) {
+        return organizationMapper.mapToDto(getOrganizationIdFromDatabaseWithAuth(name));
     }
 
     public OrganizationDto add(final OrganizationRequest request) {

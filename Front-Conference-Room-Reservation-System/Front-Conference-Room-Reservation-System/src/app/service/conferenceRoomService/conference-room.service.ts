@@ -27,7 +27,8 @@ export class ConferenceRoomService {
     return this.http.get<ConferenceRoom>(`${this.apiServerUrl}/${conferenceRoomId}`, this.httpOptions)
   }
 
-  public addConferenceRoom(conferenceRoom: ConferenceRoom): Observable<ConferenceRoom> {
+  public addConferenceRoom(conferenceRoom: ConferenceRoom, organizationId: number): Observable<ConferenceRoom> {
+    conferenceRoom.organizationId = organizationId;
     return this.http.post<ConferenceRoom>(`${this.apiServerUrl}`, conferenceRoom, this.httpOptions)
   }
 

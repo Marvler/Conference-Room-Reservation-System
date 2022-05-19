@@ -1,3 +1,4 @@
+import { ConferenceRoomsListComponent } from './component/conference-rooms-list/conference-rooms-list.component';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
@@ -21,6 +22,7 @@ import { AdminPageComponent } from './component/admin-page/admin-page.component'
     AppComponent,
     LoginComponent,
     OrganizationComponent,
+    ConferenceRoomsListComponent,
     ReservationComponent,
     PageNotFoundComponent,
     SuccessComponent,
