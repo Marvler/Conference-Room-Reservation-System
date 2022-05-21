@@ -6,7 +6,9 @@
 
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand" style="color:white;">{{organizationName}}</a>
+    <a class="navbar-brand" style="color:white;">
+        Conference Rooms Manager for {{organizationName}}
+    </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02"
         aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -14,10 +16,16 @@
     <div class="collapse navbar-collapse" id="navbarColor02">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-                <a class="nav-link" (click)="onOpenModal(null, 'add')">Add Conference Room<span
-                        class="sr-only">(current)</span></a>
+                <button class="nav-link" class="btn btn-outline-dark" style="color: white;"
+                    (click)="onOpenModal(null, 'add')">
+                    <span class="add">Add Conference Room</span>
+                    <span class="sr-only">(current)</span></button>
             </li>
         </ul>
+        <span class="nav-item active">
+            <button class="nav-link" class="btn btn-outline-dark" style="color:white" (click)="logout()"><span
+                    class="add">Logout</span><span class="sr-only">(current)</span></button>
+        </span>
         <form class="form-inline my-2 my-lg-0">
             <input type="search" (ngModelChange)="searchConferenceRooms(key.value)" #key="ngModel" ngModel name="key"
                 id="searchName" class="form-control mr-sm-2" placeholder="Search conference room..." required>
@@ -93,12 +101,12 @@
                         <div class="form-group">
                             <label for="numberOfSeats">Number Of Seats</label>
                             <input type="number" ngModel name="numberOfSeats" class="form-control" id="numberOfSeats"
-                                placeholder="Number Of Seats" required>
+                                placeholder="Number Of Seats" min="0" required>
                         </div>
                         <div class="form-group">
                             <label for="numberOfStandings">Number Of Standings</label>
-                            <input type="number" ngModel name="numberOfSeats" class="form-control" id="numberOfSeats"
-                                placeholder="Number Of Seats" required>
+                            <input type="number" ngModel name="numberOfStandings" class="form-control"
+                                id="numberOfSeats" placeholder="Number Of Seats" min="0" required>
                         </div>
                         <div class="modal-footer">
                             <button type="button" id="add-conference-room-form" class="btn btn-secondary"
@@ -135,29 +143,29 @@
                             <label for="conferenceRoomName">Conference Room Name</label>
                             <input type="text" ngModel="{{editConferenceRoom?.conferenceRoomName}}"
                                 name="conferenceRoomName" class="form-control" id="conferenceRoomName"
-                                aria-describedby="emailHelp" placeholder="Conference Room Name">
+                                aria-describedby="emailHelp" placeholder="Conference Room Name" required>
                         </div>
                         <div class="form-group">
                             <label for="conferenceRoomIdentifier">Conference Room Identifier</label>
                             <input type="text" ngModel="{{editConferenceRoom?.conferenceRoomIdentifier}}"
                                 name="conferenceRoomIdentifier" class="form-control" id="conferenceRoomIdentifier"
-                                aria-describedby="emailHelp" placeholder="Conference Room Identifier">
+                                aria-describedby="emailHelp" placeholder="Conference Room Identifier" required>
                         </div>
                         <div class="form-group">
                             <label for="level">Level</label>
                             <input type="number" ngModel="{{editConferenceRoom?.level}}" name="level"
-                                class="form-control" id="level" placeholder="Level" max="10" min="0">
+                                class="form-control" id="level" placeholder="Level" max="10" min="0" required>
                         </div>
                         <div class="form-group">
                             <label for="numberOfSeats">Number Of Seats</label>
                             <input type="number" ngModel="{{editConferenceRoom?.numberOfSeats}}" name="numberOfSeats"
-                                class="form-control" id="numberOfSeats" placeholder="Number Of Seats">
+                                class="form-control" id="numberOfSeats" placeholder="Number Of Seats" min="0" required>
                         </div>
                         <div class="form-group">
                             <label for="numberOfStandings">Number Of Standings</label>
                             <input type="number" ngModel="{{editConferenceRoom?.numberOfStandings}}"
                                 name="numberOfStandings" class="form-control" id="numberOfStandings"
-                                placeholder="Number Of Standings">
+                                placeholder="Number Of Standings" min="0" required>
                         </div>
                         <div class="form-group">
                             <input type="hidden" ngModel="{{editConferenceRoom?.reservations}}" name="reservations"
@@ -165,8 +173,8 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" id="" data-dismiss="modal" class="btn btn-secondary">Close</button>
-                            <button (click)="onUpdateConferenceRoom(editForm.value)" data-dismiss="modal"
-                                class="btn btn-primary">Save
+                            <button [disabled]="editForm.invalid" (click)="onUpdateConferenceRoom(editForm.value)"
+                                data-dismiss="modal" class="btn btn-primary">Save
                                 changes</button>
                         </div>
                     </form>
@@ -208,5 +216,4 @@
         <p>No conference room was found.</p>
     </div>
 </div>
-
 <app-footer></app-footer>

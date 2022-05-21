@@ -6,6 +6,9 @@ import { NgForm } from '@angular/forms';
 import { ConferenceRoom } from 'src/app/model/ConferenceRoom';
 import { ConferenceRoomService } from 'src/app/service/conferenceRoomService/conference-room.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { OrganizationService } from 'src/app/service/organizationService/organization.service';
+import { Organization } from 'src/app/model/Organization';
+import { LogoutService } from 'src/app/service/logutService/logout.service';
 
 @Component({
   selector: 'app-organization',
@@ -17,6 +20,7 @@ export class OrganizationComponent implements OnInit {
   public conferenceRooms: ConferenceRoom[];
   public editConferenceRoom: ConferenceRoom;
   public deleteConferenceRoom: ConferenceRoom;
+  public isAvailable: string;
   public organizationId: number;
   public organizationName: string;
   public emptyReservations = [];
@@ -24,12 +28,20 @@ export class OrganizationComponent implements OnInit {
 
   constructor(private conferenceRoomService: ConferenceRoomService,
     private router: Router,
-    private route: ActivatedRoute) { }
+    private route: ActivatedRoute,
+    private organizationService: OrganizationService,
+    private logoutService: LogoutService) { }
 
   ngOnInit() {
     let id = parseInt(this.route.snapshot.paramMap.get('organizationId'));
     this.organizationId = id;
     this.getConferenceRooms();
+    this.organizationService.getOrganization(this.organizationId).subscribe(
+      (response: Organization) => {
+        this.organizationName = response.organizationName
+      }
+    )
+
   }
 
   public getConferenceRooms(): void {
@@ -53,7 +65,7 @@ export class OrganizationComponent implements OnInit {
         addForm.reset();
       },
       (error: HttpErrorResponse) => {
-        alert(error.message);
+        alert("Name and Identifier for conference room has to be unique!");
         addForm.reset();
       },
       (message?: HttpResponse<Response>) => {
@@ -122,5 +134,9 @@ export class OrganizationComponent implements OnInit {
     }
     container!.appendChild(button);
     button.click();
+  }
+
+  public logout() {
+    this.router.navigate(['login'])
   }
 }

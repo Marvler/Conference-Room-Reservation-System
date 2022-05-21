@@ -4,19 +4,9 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
 
-
-
-
-
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <a class="navbar-brand" style="color:white;">
-
-        <span style="color: #007BFF;">Or</span>ganizations
-        <span style="color: #007BFF;">Ma</span>nager
-        <span style="color: #007BFF;">Bo</span>ard </a>
-
-
-
+        Organizations Manager</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02"
         aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -24,10 +14,15 @@
     <div class="collapse navbar-collapse" id="navbarColor02">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-                <a class="nav-link" (click)="onOpenModal(null, 'add')">Add Organization <span
-                        class="sr-only">(current)</span></a>
+                <button class="nav-link" class="btn btn-outline-dark" style="color: white;"
+                    (click)="onOpenModal(null, 'add')"><span class="add">Add Organization</span> <span
+                        class="sr-only">(current)</span></button>
             </li>
         </ul>
+        <span class="nav-item active">
+            <button class="nav-link" class="btn btn-outline-dark" style="color:white" (click)="logout()"><span
+                    class="add">Logout</span><span class="sr-only">(current)</span></button>
+        </span>
         <form class="form-inline my-2 my-lg-0">
             <input type="search" (ngModelChange)="searchOrganizations(key.value)" #key="ngModel" ngModel name="key"
                 id="searchName" class="form-control mr-sm-2" placeholder="Search organization..." required>
@@ -195,5 +190,6 @@
         </div>
     </div>
 </div>
+
 
 <app-footer></app-footer>

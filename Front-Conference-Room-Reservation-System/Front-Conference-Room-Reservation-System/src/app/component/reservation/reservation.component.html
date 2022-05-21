@@ -6,7 +6,12 @@
 
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand" style="color:white;">{{conferenceRoomName}}</a>
+    <a class="navbar-brand" style="color:white;">
+        <!-- <span style="color: #007BFF;">Re</span>servations
+        <span style="color: #007BFF;">Ma</span>nager -->
+        <span>Reservations Manager</span>
+        <span> of {{conferenceRoomName}} </span>
+    </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02"
         aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -14,10 +19,24 @@
     <div class="collapse navbar-collapse" id="navbarColor02">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-                <a class="nav-link" (click)="onOpenModal(null, 'add')">Add Reservation<span
-                        class="sr-only">(current)</span></a>
+                <button class="nav-link" class="btn btn-outline-dark" style="color: white;"
+                    (click)="onOpenModal(null, 'add')"><span class='add'>Add
+                        Reservation</span> <span class="sr-only">(current)</span></button>
             </li>
         </ul>
+
+
+        <span class="nav-item active">
+            <button class="nav-link" class="btn btn-outline-dark" style="color:white" (click)="goBack()"><span
+                    class="add">Go Back</span><span class="sr-only">(current)</span></button>
+        </span>
+        <span class="nav-item active">
+            <button class="nav-link" class="btn btn-outline-dark" style="color:white" (click)="logout()"><span
+                    class="add">Logout</span><span class="sr-only">(current)</span></button>
+        </span>
+
+
+
         <form class="form-inline my-2 my-lg-0">
             <input type="search" (ngModelChange)="searchReservations(key.value)" #key="ngModel" ngModel name="key"
                 id="searchName" class="form-control mr-sm-2" placeholder="Search reservation..." required>
@@ -120,13 +139,13 @@
                             <label for="reservationStart">Reservation Start</label>
                             <input type="datetime-local" ngModel="{{editReservation?.reservationStart}}"
                                 name="reservationStart" class="form-control" id="reservationStart"
-                                placeholder="Reservation Start" required="">
+                                placeholder="Reservation Start" required>
                         </div>
                         <div class="form-group">
                             <label for="reservationEnd">Reservation End</label>
                             <input type="datetime-local" ngModel="{{editReservation?.reservationEnd}}"
                                 name="reservationEnd" class="form-control" id="reservationEnd"
-                                placeholder="Reservation End" required="">
+                                placeholder="Reservation End" required>
                         </div>
                         <div class="form-group">
                             <input type="hidden" ngModel="{{editReservation?.conferenceRoomId}}" name="conferenceRoomId"
