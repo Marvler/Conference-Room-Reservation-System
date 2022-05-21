@@ -66,6 +66,11 @@ public class ReservationService {
     @Transactional
     public ReservationDto update(Long id, final ReservationRequest request, String principal) {
         final ConferenceRoom conferenceRoom = conferenceRoomService.getConferenceRoomFromDatabaseById(request.getConferenceRoomId());
+
+        if (request.isOccupied(conferenceRoom.getReservations())) {
+            throw new ReservationCollidesException();
+        }
+
         final Reservation reservationFromDb = getReservationFromDatabaseById(id);
         final Reservation reservationFromRequest = ReservationMapper.mapToEntity(conferenceRoom, request);
 
