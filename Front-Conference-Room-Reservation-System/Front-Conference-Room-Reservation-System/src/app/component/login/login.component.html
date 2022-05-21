@@ -14,7 +14,7 @@
         <div class="signup">
             <form>
 
-                <label for="chk" aria-hidden="true" style="color: #5e74f0">Sign up</label>
+                <label for="chk" aria-hidden="true" style="color: #007BFF">Sign up</label>
                 <input id="organization" type="text" name="organization" placeholder="Organization"
                     [(ngModel)]="organizationName" pattern="[A-Za-z0-9]{2,20}" [ngModelOptions]="{standalone: true}"
                     [ngModelOptions]="{standalone: true}" required="">
@@ -48,7 +48,7 @@
                 <div *ngIf="invalidLogin" class="alert alert-danger">
                     Invalid credentials
                 </div>
-                <label for="chk" aria-hidden="true" style="color: #5e74f0">Login</label>
+                <label for="chk" aria-hidden="true" style="color: #007BFF">Login</label>
                 <div *ngIf="invalidLogin" class="alert alert-danger">Invalid username and/or password.</div>
 
                 <input for="inputOrganization" class="" placeholder="Organization" [(ngModel)]="organizationName"

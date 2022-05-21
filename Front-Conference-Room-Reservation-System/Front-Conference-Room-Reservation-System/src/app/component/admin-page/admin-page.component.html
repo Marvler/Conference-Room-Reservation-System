@@ -1,5 +1,22 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+<link rel="stylesheet" href="admin-page.component.css">
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
+
+
+
+
+
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand" style="color:white;">Organization Manager</a>
+    <a class="navbar-brand" style="color:white;">
+
+        <span style="color: #007BFF;">Or</span>ganizations
+        <span style="color: #007BFF;">Ma</span>nager
+        <span style="color: #007BFF;">Bo</span>ard </a>
+
+
+
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02"
         aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -17,17 +34,17 @@
         </form>
     </div>
 </nav>
+
 <div class="container" id="main-container">
     <div class="row">
-        <div *ngFor="let organization of organizations" class="col-md-6 col-xl-3">
+        <div *ngFor="let organization of organizations" class="col-xl-6 col-xl-3">
             <div class="card m-b-30">
                 <div class="card-body row">
                     <div class="col-6 card-title align-self-center mb-0">
                         <h5>{{organization?.organizationName}}</h5>
                         <p class="m-0">{{organization?.email}}</p>
                     </div>
-                </div>
-                <!-- <div *ngFor="let conferenceRoom of organization.conferenceRooms">
+                    <!-- <div *ngFor="let conferenceRoom of organization.conferenceRooms">
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item"><i class="fa fa-phone float-right"></i>Conference Rooms :
                             {{conferenceRoom?.conferenceRoomIdentifier}}
@@ -35,146 +52,148 @@
                         </li>
                     </ul>
                 </div> -->
-                <div class="card-body">
-                    <div class="float-right btn-group btn-group-sm">
-                        <a (click)="onOpenModal(organization, 'room')" class="btn btn-primary tooltips"
-                            data-placement="top" data-original-title="Room"><i class="fa fa-times">room</i> </a>
-                        <a (click)="onOpenModal(organization, 'edit')" class="btn btn-primary tooltips"
-                            data-placement="top" data-original-title="Edit"><i class="fa fa-times">edit</i> </a>
-                        <a (click)="onOpenModal(organization, 'delete')" class="btn btn-secondary tooltips"
-                            data-placement="top" data-original-title="Delete"><i class="fa fa-phone">delete</i></a>
+                    <div class="card-body">
+                        <div class="float-right btn-group btn-group-xl">
+                            <a (click)="onOpenModal(organization, 'room')" class="btn btn-secondary tooltips"
+                                data-placement="top" data-original-title="Room"><i class="fa fa-times">rooms</i> </a>
+                            <a (click)="onOpenModal(organization, 'edit')" class="btn btn-primary tooltips"
+                                data-placement="top" data-original-title="Edit"><i class="fa fa-times">edit</i> </a>
+                            <a (click)="onOpenModal(organization, 'delete')" class="btn btn-secondary tooltips"
+                                data-placement="top" data-original-title="Delete"><i class="fa fa-phone">delete</i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Add Organization Modal -->
+        <div class=" modal fade" id="addOrganizationModal" tabindex="-1" role="dialog"
+            aria-labelledby="addOrganizationModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addOrganizationModalLabel">Add Organization</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form #addForm="ngForm" (ngSubmit)="onAddOrganization(addForm)">
+                            <div class="form-group">
+                                <label for="name">Organization Name</label>
+                                <input type="text" ngModel name="organizationName" class="form-control"
+                                    id="organizationName" placeholder="Organization Name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email Address</label>
+                                <input type="email" ngModel name="email" class="form-control" id="email"
+                                    placeholder="Email" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="password">Password</label>
+                                <input type="text" ngModel name="password" class="form-control" id="password"
+                                    placeholder="Password" required>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" id="add-organization-form" class="btn btn-secondary"
+                                    data-dismiss="modal">Close</button>
+                                <button [disabled]="addForm.invalid" type="submit" class="btn btn-primary">Save
+                                    changes</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Edit Modal -->
+        <div class="modal fade" id="updateOrganizationModal" tabindex="-1" role="dialog"
+            aria-labelledby="organizationEditModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="updateOrganizationModalLabel">Edit Organization
+                            {{editOrganization?.organizationName}}
+                        </h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form #editForm="ngForm">
+                            <div class="form-group">
+                                <label for="organizationName">Organization Name</label>
+                                <input type="text" ngModel="{{editOrganization?.organizationName}}"
+                                    name="organizationName" class="form-control" id="organizationName"
+                                    aria-describedby="emailHelp" placeholder="Organization Name">
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email Address</label>
+                                <input type="email" ngModel="{{editOrganization?.email}}" name="email"
+                                    class="form-control" id="email" placeholder="Email">
+                            </div>
+                            <div class="form-group">
+                                <label for="password">Password</label>
+                                <input type="text" ngModel="{{editOrganization?.password}}" name="password"
+                                    class="form-control" id="imageUrl" placeholder="Password">
+                            </div>
+                            <div class="form-group">
+                                <!-- <label for="organizationId">Id</label> -->
+                                <input type="hidden" ngModel="{{editOrganization?.organizationId}}"
+                                    name="organizationId" class="form-control" id="organizationId"
+                                    placeholder="organizationId">
+                            </div>
+                            <div class="form-group">
+                                <!-- <label for="conferenceRooms">Confeerence Rooms</label> -->
+                                <input type="hidden" ngModel="{{editOrganization?.conferenceRooms}}"
+                                    name="conferenceRooms" class="form-control" id="conferenceRooms"
+                                    placeholder="conferenceRooms">
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" id="" data-dismiss="modal"
+                                    class="btn btn-secondary">Close</button>
+                                <button (click)="onUpdateOrganization(editForm.value)" data-dismiss="modal"
+                                    class="btn btn-primary">Save
+                                    changes</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Delete Modal -->
+        <div class="modal fade" id="deleteOrganizationModal" tabindex="-1" role="dialog"
+            aria-labelledby="deleteOrganizationModelLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="deleteOrganizationModelLabel">Delete Organization</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Are you sure you want to delete organization
+                            {{deleteOrganization?.organizationName}}?</p>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                            <button (click)="onDeleteOrganization(deleteOrganization?.organizationId)"
+                                class="btn btn-danger" data-dismiss="modal">Yes</button>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Add Organization Modal -->
-    <div class=" modal fade" id="addOrganizationModal" tabindex="-1" role="dialog"
-        aria-labelledby="addOrganizationModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="addOrganizationModalLabel">Add Organization</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form #addForm="ngForm" (ngSubmit)="onAddOrganization(addForm)">
-                        <div class="form-group">
-                            <label for="name">Organization Name</label>
-                            <input type="text" ngModel name="organizationName" class="form-control"
-                                id="organizationName" placeholder="Organization Name" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="email">Email Address</label>
-                            <input type="email" ngModel name="email" class="form-control" id="email" placeholder="Email"
-                                required>
-                        </div>
-                        <div class="form-group">
-                            <label for="password">Password</label>
-                            <input type="text" ngModel name="password" class="form-control" id="password"
-                                placeholder="Password" required>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" id="add-organization-form" class="btn btn-secondary"
-                                data-dismiss="modal">Close</button>
-                            <button [disabled]="addForm.invalid" type="submit" class="btn btn-primary">Save
-                                changes</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Edit Modal -->
-    <div class="modal fade" id="updateOrganizationModal" tabindex="-1" role="dialog"
-        aria-labelledby="organizationEditModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="updateOrganizationModalLabel">Edit Organization
-                        {{editOrganization?.organizationName}}
-                    </h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form #editForm="ngForm">
-                        <div class="form-group">
-                            <label for="organizationName">Organization Name</label>
-                            <input type="text" ngModel="{{editOrganization?.organizationName}}" name="organizationName"
-                                class="form-control" id="organizationName" aria-describedby="emailHelp"
-                                placeholder="Organization Name">
-                        </div>
-                        <div class="form-group">
-                            <label for="email">Email Address</label>
-                            <input type="email" ngModel="{{editOrganization?.email}}" name="email" class="form-control"
-                                id="email" placeholder="Email">
-                        </div>
-                        <div class="form-group">
-                            <label for="password">Password</label>
-                            <input type="text" ngModel="{{editOrganization?.password}}" name="password"
-                                class="form-control" id="imageUrl" placeholder="Password">
-                        </div>
-                        <div class="form-group">
-                            <!-- <label for="organizationId">Id</label> -->
-                            <input type="hidden" ngModel="{{editOrganization?.organizationId}}" name="organizationId"
-                                class="form-control" id="organizationId" placeholder="organizationId">
-                        </div>
-                        <div class="form-group">
-                            <!-- <label for="conferenceRooms">Confeerence Rooms</label> -->
-                            <input type="hidden" ngModel="{{editOrganization?.conferenceRooms}}" name="conferenceRooms"
-                                class="form-control" id="conferenceRooms" placeholder="conferenceRooms">
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" id="" data-dismiss="modal" class="btn btn-secondary">Close</button>
-                            <button (click)="onUpdateOrganization(editForm.value)" data-dismiss="modal"
-                                class="btn btn-primary">Save
-                                changes</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Delete Modal -->
-    <div class="modal fade" id="deleteOrganizationModal" tabindex="-1" role="dialog"
-        aria-labelledby="deleteOrganizationModelLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="deleteOrganizationModelLabel">Delete Organization</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <p>Are you sure you want to delete organization
-                        {{deleteOrganization?.organizationName}}?</p>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
-                        <button (click)="onDeleteOrganization(deleteOrganization?.organizationId)"
-                            class="btn btn-danger" data-dismiss="modal">Yes</button>
-                    </div>
-                </div>
-            </div>
+    <!-- Notification for no employees -->
+    <div *ngIf="organizations?.length == 0" class="col-lg-12 col-md-12 col-xl-12">
+        <div class="alert alert-info" role="alert">
+            <h4 class="alert-heading">NO Organizations!</h4>
+            <p>No Organization were found.</p>
         </div>
     </div>
 </div>
 
-<!-- Notification for no employees -->
-<div *ngIf="organizations?.length == 0" class="col-lg-12 col-md-12 col-xl-12">
-    <div class="alert alert-info" role="alert">
-        <h4 class="alert-heading">NO Organizations!</h4>
-        <p>No Organization were found.</p>
-    </div>
-</div>
-
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
+<app-footer></app-footer>
