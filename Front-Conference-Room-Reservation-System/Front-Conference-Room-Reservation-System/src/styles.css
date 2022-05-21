@@ -1,1 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
+.add:hover{
+    color: #007BFF;
+    transition: 0.4s;
+}

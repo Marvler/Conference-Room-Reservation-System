@@ -11,6 +11,7 @@ import { SuccessComponent } from './component/success/success.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AdminPageComponent } from './component/admin-page/admin-page.component';
 import { FooterComponent } from './component/footer/footer.component';
+import { LogoutComponent } from './component/logout/logout.component';
 
 
 
@@ -26,6 +27,7 @@ import { FooterComponent } from './component/footer/footer.component';
     SuccessComponent,
     AdminPageComponent,
     FooterComponent,
+    LogoutComponent,
 
   ],
   imports: [

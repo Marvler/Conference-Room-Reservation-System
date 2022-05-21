@@ -1,8 +1,11 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ConferenceRoom } from 'src/app/model/ConferenceRoom';
 import { Reservation } from 'src/app/model/Reservation';
+import { ConferenceRoomService } from 'src/app/service/conferenceRoomService/conference-room.service';
+import { LogoutService } from 'src/app/service/logutService/logout.service';
 import { ReservationService } from 'src/app/service/reservationService/reservation.service';
 
 @Component({
@@ -17,15 +20,27 @@ export class ReservationComponent implements OnInit {
   public deleteReservation: Reservation;
   public conferenceRoomId: number;
   public conferenceRoomName: string;
+  public organizationId: number;
 
 
-  constructor(private reservationService: ReservationService,
-    private route: ActivatedRoute) { }
+  constructor(
+    private reservationService: ReservationService,
+    private route: ActivatedRoute,
+    private router: Router,
+    private conferencRoomService: ConferenceRoomService,
+    private logoutService: LogoutService) { }
 
   ngOnInit() {
     let id = parseInt(this.route.snapshot.paramMap.get('conferenceRoomId'));
     this.conferenceRoomId = id;
     this.getReservations();
+    this.conferencRoomService.getConferenceRoom(this.conferenceRoomId).subscribe(
+      (response: ConferenceRoom) => {
+        this.conferenceRoomName = response.conferenceRoomName
+        this.organizationId = response.organizationId
+      }
+
+    )
   }
 
   public getReservations(): void {
@@ -49,7 +64,7 @@ export class ReservationComponent implements OnInit {
         addForm.reset();
       },
       (error: HttpErrorResponse) => {
-        alert.arguments("Reservation time collides with already existing reservation");
+        alert("Reservation time collides with already existing reservation");
         addForm.reset();
       }
     );
@@ -112,6 +127,14 @@ export class ReservationComponent implements OnInit {
     }
     container!.appendChild(button);
     button.click();
+  }
+
+  public goBack() {
+    this.router.navigate(['organization', this.organizationId]);
+  }
+
+  public logout() {
+    this.router.navigate(['login'])
   }
 
 }

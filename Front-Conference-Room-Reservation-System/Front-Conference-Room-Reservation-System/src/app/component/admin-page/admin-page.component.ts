@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Organization } from 'src/app/model/Organization';
+import { LogoutService } from 'src/app/service/logutService/logout.service';
 import { OrganizationService } from 'src/app/service/organizationService/organization.service';
 
 @Component({
@@ -18,7 +19,8 @@ export class AdminPageComponent implements OnInit {
 
   constructor(
     private organizationService: OrganizationService,
-    private router: Router) { }
+    private router: Router,
+    private logoutService: LogoutService) { }
 
   ngOnInit() {
     this.getOrganizations();
@@ -115,6 +117,10 @@ export class AdminPageComponent implements OnInit {
     }
     container!.appendChild(button);
     button.click();
+  }
+
+  public logout() {
+    this.logoutService.logout();
   }
 
 }
