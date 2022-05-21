@@ -20,6 +20,7 @@ export class OrganizationComponent implements OnInit {
   public conferenceRooms: ConferenceRoom[];
   public editConferenceRoom: ConferenceRoom;
   public deleteConferenceRoom: ConferenceRoom;
+  public isAvailable: string;
   public organizationId: number;
   public organizationName: string;
   public emptyReservations = [];

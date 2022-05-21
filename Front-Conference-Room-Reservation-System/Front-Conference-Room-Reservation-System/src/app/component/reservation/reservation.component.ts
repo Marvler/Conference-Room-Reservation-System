@@ -50,7 +50,7 @@ export class ReservationComponent implements OnInit {
         console.log(this.reservations);
       },
       (error: HttpErrorResponse) => {
-        alert(error.message);
+        alert("Ooops, Something went wrong");
       }
     );
   }
@@ -64,8 +64,12 @@ export class ReservationComponent implements OnInit {
         addForm.reset();
       },
       (error: HttpErrorResponse) => {
-        alert("Reservation time collides with already existing reservation");
-        addForm.reset();
+        if (error.status === 400) {
+          alert("Reservation time collides with already existing reservation");
+          addForm.reset();
+        } else {
+          alert("Ooops, Something went wrong")
+        }
       }
     );
   }
@@ -77,7 +81,7 @@ export class ReservationComponent implements OnInit {
         this.getReservations();
       },
       (error: HttpErrorResponse) => {
-        alert(error.message);
+        alert("Ooops, Something went wrong");
       }
     );
   }
@@ -89,7 +93,7 @@ export class ReservationComponent implements OnInit {
         this.getReservations();
       },
       (error: HttpErrorResponse) => {
-        alert(error.message);
+        alert("Ooops, Something went wrong");
       }
     );
   }

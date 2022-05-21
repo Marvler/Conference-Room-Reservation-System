@@ -76,7 +76,7 @@ export class AdminPageComponent implements OnInit {
         this.getOrganizations();
       },
       (error: HttpErrorResponse) => {
-        alert(error.message);
+        alert("Ooops, Something went wrong");
       }
     );
   }

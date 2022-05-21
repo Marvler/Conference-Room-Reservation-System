@@ -101,12 +101,12 @@
                         <div class="form-group">
                             <label for="numberOfSeats">Number Of Seats</label>
                             <input type="number" ngModel name="numberOfSeats" class="form-control" id="numberOfSeats"
-                                placeholder="Number Of Seats" required>
+                                placeholder="Number Of Seats" min="0" required>
                         </div>
                         <div class="form-group">
                             <label for="numberOfStandings">Number Of Standings</label>
                             <input type="number" ngModel name="numberOfStandings" class="form-control"
-                                id="numberOfSeats" placeholder="Number Of Seats" required>
+                                id="numberOfSeats" placeholder="Number Of Seats" min="0" required>
                         </div>
                         <div class="modal-footer">
                             <button type="button" id="add-conference-room-form" class="btn btn-secondary"
@@ -159,13 +159,13 @@
                         <div class="form-group">
                             <label for="numberOfSeats">Number Of Seats</label>
                             <input type="number" ngModel="{{editConferenceRoom?.numberOfSeats}}" name="numberOfSeats"
-                                class="form-control" id="numberOfSeats" placeholder="Number Of Seats" required>
+                                class="form-control" id="numberOfSeats" placeholder="Number Of Seats" min="0" required>
                         </div>
                         <div class="form-group">
                             <label for="numberOfStandings">Number Of Standings</label>
                             <input type="number" ngModel="{{editConferenceRoom?.numberOfStandings}}"
                                 name="numberOfStandings" class="form-control" id="numberOfStandings"
-                                placeholder="Number Of Standings" required>
+                                placeholder="Number Of Standings" min="0" required>
                         </div>
                         <div class="form-group">
                             <input type="hidden" ngModel="{{editConferenceRoom?.reservations}}" name="reservations"
@@ -216,5 +216,4 @@
         <p>No conference room was found.</p>
     </div>
 </div>
-
 <app-footer></app-footer>
