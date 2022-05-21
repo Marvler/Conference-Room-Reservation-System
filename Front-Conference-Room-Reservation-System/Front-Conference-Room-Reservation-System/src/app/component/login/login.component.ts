@@ -3,6 +3,9 @@ import { Router } from '@angular/router';
 import { Organization } from 'src/app/model/Organization';
 import { LoginService } from 'src/app/service/loginService/login.service';
 import { AuthService } from 'src/app/service/authService/auth.service';
+import { OrganizationService } from 'src/app/service/organizationService/organization.service';
+import { HttpErrorResponse } from '@angular/common/http';
+import { NgForm } from '@angular/forms';
 
 
 @Component({
@@ -22,7 +25,8 @@ export class LoginComponent implements OnInit {
   constructor(
     private loginService: LoginService,
     private router: Router,
-    private authService: AuthService) { }
+    private authService: AuthService,
+    private organizationService: OrganizationService) { }
 
 
   ngOnInit(): void {
@@ -69,5 +73,6 @@ export class LoginComponent implements OnInit {
       }, 420);
     }
   }
+
 
 }

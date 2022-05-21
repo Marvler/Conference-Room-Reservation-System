@@ -49,7 +49,7 @@ export class ReservationComponent implements OnInit {
         addForm.reset();
       },
       (error: HttpErrorResponse) => {
-        alert(error.message);
+        alert.arguments("Reservation time collides with already existing reservation");
         addForm.reset();
       }
     );
