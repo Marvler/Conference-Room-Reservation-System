@@ -1,28 +1,10 @@
-.right{
-    float: right;
-    width: 820px;
-    padding: 10px;
-    margin-top: 5px;
-    text-align: right;
-}
-
-.fonts{
-font-size: 15px;
-}
-
-body{
-	/* display: flex; */
-	/* justify-content: center; */
-	/* align-items: center; */
-	min-height: 100vh;
-	font-family: 'Jost';
-    background: linear-gradient(#5e74f0,white,#5e74f0);
-}
-
 .footer-basic {
     padding:40px 0;
     background-color:#ffffff;
     color:#4b4c4d;
+    width: 100%;
+    left: 0;
+
   }
   
   .footer-basic ul {

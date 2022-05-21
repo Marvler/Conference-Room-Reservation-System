@@ -1,3 +1,10 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+<link rel="stylesheet" href="organization.component.css">
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
+
+
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <a class="navbar-brand" style="color:white;">{{organizationName}}</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02"
@@ -19,16 +26,17 @@
 </nav>
 <div class="container" id="main-container">
     <div class="row">
-        <div *ngFor="let conferenceRoom of conferenceRooms" class="col-md-6 col-xl-3">
+        <div *ngFor="let conferenceRoom of conferenceRooms" class="col-xl-6 col-xl-3">
             <div class="card m-b-30">
                 <div class="card-body row">
                     <div class="col-6 card-title align-self-center mb-0">
                         <h5>{{conferenceRoom?.conferenceRoomName}}</h5>
-                        <p class="m-0">Identifier: {{conferenceRoom?.conferenceRoomIdentifier}}</p>
-                        <p class="m-0">Level : {{conferenceRoom?.level}}</p>
-                        <p class="m-0">Is Available: {{conferenceRoom?.availability}}</p>
-                        <p class="m-0">Number Of Seats: {{conferenceRoom?.numberOfSeats}}</p>
-                        <p class="m-0">Number Of Standings: {{conferenceRoom?.numberOfStandings}}</p>
+                        <p class="m-0"><b>Room ID: </b> {{conferenceRoom?.conferenceRoomIdentifier}}
+                        </p>
+                        <p class="m-0"><b>Level : </b>{{conferenceRoom?.level}}</p>
+                        <p class="m-0"><b>Is Available: </b>{{conferenceRoom?.availability}}</p>
+                        <p class="m-0"><b>Number Of Seats: </b>{{conferenceRoom?.numberOfSeats}}</p>
+                        <p class="m-0"><b>Number Of Standings: </b>{{conferenceRoom?.numberOfStandings}}</p>
                     </div>
                 </div>
                 <!-- <div *ngFor="let reservation of conferenceRoom.reservations">
@@ -42,7 +50,8 @@
                 <div class="card-body">
                     <div class="float-right btn-group btn-group-sm">
                         <a (click)="onOpenModal(conferenceRoom, 'reserve')" class="btn btn-secondary tooltips"
-                            data-placement="top" data-original-title="Reserve"><i class="fa fa-times">reservations</i> </a>
+                            data-placement="top" data-original-title="Reserve"><i class="fa fa-times">reservations</i>
+                        </a>
                         <a (click)="onOpenModal(conferenceRoom, 'edit')" class="btn btn-primary tooltips"
                             data-placement="top" data-original-title="Edit"><i class="fa fa-times">edit</i> </a>
                         <a (click)="onOpenModal(conferenceRoom, 'delete')" class="btn btn-secondary tooltips"
@@ -79,28 +88,8 @@
                         <div class="form-group">
                             <label for="level">Level</label>
                             <input type="number" ngModel name="level" class="form-control" id="level"
-                                placeholder="Level" required>
+                                placeholder="Level" required min="0" max="10">
                         </div>
-                        <!-- <div class="form-group">
-                            <fieldset>
-                                <legend>Is available?</legend>
-
-                                <div>
-                                    <input type="radio" ngModel name="availability" class="form-control"
-                                        id="availability" name="availability" value="true" checked>
-                                    <label for="availability">Yes</label>
-                                </div>
-                                <div>
-                                    <input type="radio" ngModel name="availability" class="form-control"
-                                        id="availability" name="availability" value="false">
-                                    <label for="availability">No</label>
-                                </div>
-                            </fieldset>
-
-                            <label for="availability">Availability</label>
-                            <input type="radio" ngModel name="availability" class="form-control" id="availability"
-                                value="true" required>
-                        </div> -->
                         <div class="form-group">
                             <label for="numberOfSeats">Number Of Seats</label>
                             <input type="number" ngModel name="numberOfSeats" class="form-control" id="numberOfSeats"
@@ -157,13 +146,8 @@
                         <div class="form-group">
                             <label for="level">Level</label>
                             <input type="number" ngModel="{{editConferenceRoom?.level}}" name="level"
-                                class="form-control" id="level" placeholder="Level">
+                                class="form-control" id="level" placeholder="Level" max="10" min="0">
                         </div>
-                        <!-- <div class="form-group">
-                            <label for="availability">Availability</label>
-                            <input type="radio" ngModel="{{editConferenceRoom?.availability}}" name="availability"
-                                class="form-control" id="availability">
-                        </div> -->
                         <div class="form-group">
                             <label for="numberOfSeats">Number Of Seats</label>
                             <input type="number" ngModel="{{editConferenceRoom?.numberOfSeats}}" name="numberOfSeats"
@@ -216,14 +200,13 @@
     </div>
 </div>
 
+
+
 <!-- Notification for no employees -->
 <div *ngIf="conferenceRooms?.length == 0" class="col-lg-12 col-md-12 col-xl-12">
     <div class="alert alert-info" role="alert">
-        <h4 class="alert-heading">NO Conference Rooms</h4>
-        <p>No Conference Room were found.</p>
+        <p>No conference room was found.</p>
     </div>
 </div>
 
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
+<app-footer></app-footer>

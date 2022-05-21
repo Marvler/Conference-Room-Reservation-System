@@ -10,7 +10,7 @@
   #upper-side {
     padding: 2em;
     /* background-color: #8BC34A; */
-    background: linear-gradient(#5e74f0,white,#5e74f0);
+    background: linear-gradient(#007BFF,white,#007BFF);
     display: block;
     color: #000000;
     border-top-right-radius: 8px;
@@ -50,7 +50,7 @@
     position: relative;
     top: 1.5em;
     text-decoration: none;
-    background: linear-gradient(#5e74f0,white,#5e74f0);
+    background: linear-gradient(#007BFF,white,#007BFF);
     color: #000000;
     margin: auto;
     padding: .8em 3em;

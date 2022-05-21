@@ -26,10 +26,12 @@ export class AdminPageComponent implements OnInit {
   }
 
   public getOrganizations(): void {
+    this.organizations = [];
     this.organizationService.getOrganizations().subscribe(
       (response: Organization[]) => {
-        this.organizations = response;
-
+        response.forEach(element => {
+          if (element.organizationName !== 'admin') { this.organizations.push(element) }
+        });
         console.log(this.organizations);
       },
       (error: HttpErrorResponse) => {

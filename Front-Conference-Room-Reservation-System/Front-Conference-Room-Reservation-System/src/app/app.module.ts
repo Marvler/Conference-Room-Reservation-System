@@ -1,8 +1,6 @@
-import { ConferenceRoomsListComponent } from './component/conference-rooms-list/conference-rooms-list.component';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
-
 import { AppComponent } from './app.component';
 import { LoginComponent } from './component/login/login.component';
 import { OrganizationComponent } from './component/organization/organization.component';
@@ -12,6 +10,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { SuccessComponent } from './component/success/success.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AdminPageComponent } from './component/admin-page/admin-page.component';
+import { FooterComponent } from './component/footer/footer.component';
 
 
 
@@ -22,11 +21,11 @@ import { AdminPageComponent } from './component/admin-page/admin-page.component'
     AppComponent,
     LoginComponent,
     OrganizationComponent,
-    ConferenceRoomsListComponent,
     ReservationComponent,
     PageNotFoundComponent,
     SuccessComponent,
     AdminPageComponent,
+    FooterComponent,
 
   ],
   imports: [
