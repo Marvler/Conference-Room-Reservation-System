@@ -6,7 +6,6 @@ import com.sda.conferenceroomreservationsystem.exception.ReservationNotFoundExce
 import com.sda.conferenceroomreservationsystem.mapper.ReservationMapper;
 import com.sda.conferenceroomreservationsystem.model.dto.ReservationDto;
 import com.sda.conferenceroomreservationsystem.model.entity.ConferenceRoom;
-import com.sda.conferenceroomreservationsystem.model.entity.Organization;
 import com.sda.conferenceroomreservationsystem.model.entity.Reservation;
 import com.sda.conferenceroomreservationsystem.model.request.ReservationRequest;
 import com.sda.conferenceroomreservationsystem.repository.ReservationRepository;
@@ -18,7 +17,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
-import java.util.Random;
 
 @Service
 @RequiredArgsConstructor
@@ -66,12 +64,12 @@ public class ReservationService {
     @Transactional
     public ReservationDto update(Long id, final ReservationRequest request, String principal) {
         final ConferenceRoom conferenceRoom = conferenceRoomService.getConferenceRoomFromDatabaseById(request.getConferenceRoomId());
+        final Reservation reservationFromDb = getReservationFromDatabaseById(id);
 
-        if (request.isOccupied(conferenceRoom.getReservations())) {
+        if (request.isOccupiedUpdating(conferenceRoom.getReservations(), reservationFromDb)) {
             throw new ReservationCollidesException();
         }
 
-        final Reservation reservationFromDb = getReservationFromDatabaseById(id);
         final Reservation reservationFromRequest = ReservationMapper.mapToEntity(conferenceRoom, request);
 
         PrincipalValidator.validateReservation(reservationFromDb.getConferenceRoom().getOrganization(), principal);
