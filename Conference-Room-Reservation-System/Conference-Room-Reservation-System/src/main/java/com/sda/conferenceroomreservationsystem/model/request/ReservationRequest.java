@@ -35,7 +35,6 @@ public class ReservationRequest {
 
         for (Reservation r : reservations) {
             if (doesReservationCollide(r)) {
-                System.out.println("zajeta!");
                 isOccupied = true;
             }
         }
