@@ -81,7 +81,11 @@ export class ReservationComponent implements OnInit {
         this.getReservations();
       },
       (error: HttpErrorResponse) => {
-        alert("Ooops, Something went wrong");
+        if (error.status === 400) {
+          alert("Reservation time collides with already existing reservation");
+        } else {
+          alert("Ooops, Something went wrong")
+        }
       }
     );
   }

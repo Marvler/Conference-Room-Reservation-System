@@ -29,6 +29,19 @@ public class ReservationRequest {
         return isOccupied;
     }
 
+    public boolean isOccupiedUpdating(List<Reservation> reservations, Reservation updatedReservation) {
+        boolean isOccupied = false;
+        reservations.remove(updatedReservation);
+
+        for (Reservation r : reservations) {
+            if (doesReservationCollide(r)) {
+                System.out.println("zajeta!");
+                isOccupied = true;
+            }
+        }
+        return isOccupied;
+    }
+
     private boolean doesReservationCollide (Reservation reservation) {
 
         return reservation.getReservationStart().isBefore(reservationEnd.minusSeconds(1)) &&

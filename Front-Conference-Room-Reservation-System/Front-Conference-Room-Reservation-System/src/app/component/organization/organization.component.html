@@ -35,14 +35,14 @@
 <div class="container" id="main-container">
     <div class="row">
         <div *ngFor="let conferenceRoom of conferenceRooms" class="col-xl-6 col-xl-3">
-            <div class="card m-b-30">
+            <div class="card m-b-30" [ngStyle]="{'background-color': conferenceRoom?.availability? '#98c498b3' : '#ff00002b'}">
                 <div class="card-body row">
                     <div class="col-6 card-title align-self-center mb-0">
                         <h5>{{conferenceRoom?.conferenceRoomName}}</h5>
                         <p class="m-0"><b>Room ID: </b> {{conferenceRoom?.conferenceRoomIdentifier}}
                         </p>
                         <p class="m-0"><b>Level : </b>{{conferenceRoom?.level}}</p>
-                        <p class="m-0"><b>Is Available: </b>{{conferenceRoom?.availability}}</p>
+                        <!-- <p class="m-0"><b>Is Available: </b>{{conferenceRoom?.availability}}</p> -->
                         <p class="m-0"><b>Number Of Seats: </b>{{conferenceRoom?.numberOfSeats}}</p>
                         <p class="m-0"><b>Number Of Standings: </b>{{conferenceRoom?.numberOfStandings}}</p>
                     </div>
