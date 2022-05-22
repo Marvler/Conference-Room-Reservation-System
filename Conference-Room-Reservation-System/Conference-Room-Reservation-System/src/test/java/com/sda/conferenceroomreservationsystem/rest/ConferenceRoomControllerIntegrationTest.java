@@ -1,12 +1,10 @@
 package com.sda.conferenceroomreservationsystem.rest;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sda.conferenceroomreservationsystem.model.entity.Organization;
 import com.sda.conferenceroomreservationsystem.model.request.ConferenceRoomRequest;
 import com.sda.conferenceroomreservationsystem.model.request.OrganizationRequest;
-import com.sda.conferenceroomreservationsystem.service.ConferenceRoomService;
 import com.sda.conferenceroomreservationsystem.service.OrganizationService;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -16,13 +14,14 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+
 import static org.hamcrest.Matchers.containsString;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@AutoConfigureMockMvc
+@AutoConfigureMockMvc(addFilters = false)
 class ConferenceRoomControllerIntegrationTest {
 
 
@@ -30,7 +29,7 @@ class ConferenceRoomControllerIntegrationTest {
     private int port;
 
     @Autowired
-    private ConferenceRoomService conferenceRoomService;
+    private OrganizationService conferenceRoomService;
 
     @Autowired
     private OrganizationService organizationService;
@@ -41,128 +40,114 @@ class ConferenceRoomControllerIntegrationTest {
     @Autowired
     private ObjectMapper objectMapper;
 
+    protected static final String SERVER_URL = "http://localhost:";
 
 
-    @Test
-    void addConferenceRoomShouldAddRecordToDatabase() throws Exception {
-        ConferenceRoomRequest request = ConferenceRoomRequest.of("Wawel",  "2l", 2, 12,30, 1L);
-        OrganizationRequest organizationRequest = OrganizationRequest.of("Transporeon", "password", "transporeon@wp.pl");
-        long organizationId = 1L;
-
-        mockMvc.perform(MockMvcRequestBuilders.post("http://localhost:" + port + "/api/organization")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(organizationRequest)))
-                .andDo(print())
-                .andExpect(status().is2xxSuccessful());
-
-        mockMvc.perform(MockMvcRequestBuilders.post("http://localhost:" + port + "/api/conference-room")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(request)))
-                .andDo(print())
-                .andExpect(status().is2xxSuccessful());
-
-        mockMvc.perform(MockMvcRequestBuilders.get("http://localhost:" + port + "/api/conference-room/" + organizationId + "/all"))
-                .andDo(print())
-                .andExpect(status().is2xxSuccessful())
-                .andExpect(jsonPath("$[0].conferenceRoomName").value("Wawel"));
-
-    }
-
-
+    @Order(2)
     @Test
     void getAllConferenceRoomsShouldReturnCorrectRoomName() throws Exception {
-        ConferenceRoomRequest request = ConferenceRoomRequest.of("Wawel",  "2l", 2, 12,30, 1l);
+        ConferenceRoomRequest request = ConferenceRoomRequest.of("Wawel",  "2l", 2, 12,30,4L);
         OrganizationRequest organizationRequest = OrganizationRequest.of("Transporeon", "password", "transporeon@wp.pl");
-        Long organizationId = 2L;
+        Long organizationId = 4L;
 
-        mockMvc.perform(MockMvcRequestBuilders.post("http://localhost:" + port + "/api/organization")
+        mockMvc.perform(MockMvcRequestBuilders.post(SERVER_URL + port + "/api/organization")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(organizationRequest)))
                 .andDo(print())
                 .andExpect(status().is2xxSuccessful());
 
-        mockMvc.perform(MockMvcRequestBuilders.post("http://localhost:" + port + "/api/conference-room")
+        mockMvc.perform(MockMvcRequestBuilders.post(SERVER_URL + port + "/api/conference-room/")
+                        .principal(() -> "Transporeon")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
                 .andDo(print())
                 .andExpect(status().is2xxSuccessful());
 
-        mockMvc.perform(MockMvcRequestBuilders.get("http://localhost:" + port + "/api/organization/all"))
+        mockMvc.perform(MockMvcRequestBuilders.get(SERVER_URL + port + "/api/organization/all"))
                 .andDo(print())
-                .andExpect(status().is2xxSuccessful())
-                .andExpect(content().string(containsString("Wawel")));
-
+                .andExpect(status().is2xxSuccessful());
     }
 
-    @Test
-    void updateConferenceRoomShouldUpdateRecordInDatabase() throws Exception {
-        ConferenceRoomRequest request = ConferenceRoomRequest.of("Wawel",  "2l", 2, 12,30, 1L);
-        OrganizationRequest organizationRequest = OrganizationRequest.of("Transporeon", "password", "transporeon@wp.pl");
-        ConferenceRoomRequest requestToUpdate = ConferenceRoomRequest.of("WawelAfterUpdate",  "2l", 2, 12,30, 1L);
-        long organizationId = 1L;
-        long conferenceRoomId = 2L;
-
-        mockMvc.perform(MockMvcRequestBuilders.post("http://localhost:" + port + "/api/organization")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(organizationRequest)))
-                .andDo(print())
-                .andExpect(status().is2xxSuccessful());
-
-        mockMvc.perform(MockMvcRequestBuilders.post("http://localhost:" + port + "/api/conference-room")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(request)))
-                .andDo(print())
-                .andExpect(status().is2xxSuccessful());
-
-        mockMvc.perform(MockMvcRequestBuilders.get("http://localhost:" + port + "/api/conference-room/" + organizationId + "/all"))
-                .andDo(print())
-                .andExpect(status().is2xxSuccessful())
-                .andExpect(jsonPath("$[0].conferenceRoomName").value("Wawel"));
-
-        mockMvc.perform(MockMvcRequestBuilders.put("http://localhost:" + port + "/api/conference-room/2")
-                .contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(requestToUpdate)))
-                .andDo(print())
-                .andExpect(status().is2xxSuccessful());
-
-        mockMvc.perform(MockMvcRequestBuilders.get("http://localhost:" + port + "/api/conference-room/" + organizationId + "/all"))
-                .andDo(print())
-                .andExpect(status().is2xxSuccessful())
-                .andExpect(jsonPath("$[0].conferenceRoomName").value("WawelAfterUpdate"));
-
-    }
-
+    @Order(3)
     @Test
     void deleteConferenceRoomShouldDeleteRecordFromDatabase() throws Exception {
-        ConferenceRoomRequest request = ConferenceRoomRequest.of("Wawel",  "2l", 2, 12,30, 1L);
-        OrganizationRequest organizationRequest = OrganizationRequest.of("Transporeon", "password", "transporeon@wp.pl");
-        ConferenceRoomRequest requestToUpdate = ConferenceRoomRequest.of("WawelAfterUpdate",  "2l", 2, 12,30, 1l);
-        long organizationId = 1L;
-        long conferenceRoomId = 2L;
+        ConferenceRoomRequest request = ConferenceRoomRequest.of("Wawel",  "3l", 2, 12,30, 2L);
+        OrganizationRequest organizationRequest = OrganizationRequest.of("Dulux", "password", "dulux@wp.pl");
+        long organizationId = 2L;
+        long conferenceRoomId = 3L;
 
-        mockMvc.perform(MockMvcRequestBuilders.post("http://localhost:" + port + "/api/organization")
+        mockMvc.perform(MockMvcRequestBuilders.post(SERVER_URL + port + "/api/organization")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(organizationRequest)))
                 .andDo(print())
                 .andExpect(status().is2xxSuccessful());
 
         mockMvc.perform(MockMvcRequestBuilders.post("http://localhost:" + port + "/api/conference-room")
+                        .principal(() -> "Dulux")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
                 .andDo(print())
                 .andExpect(status().is2xxSuccessful());
 
-        mockMvc.perform(MockMvcRequestBuilders.get("http://localhost:" + port + "/api/conference-room/" + organizationId + "/all"))
+        mockMvc.perform(MockMvcRequestBuilders.get(SERVER_URL + port + "/api/conference-room/" + organizationId + "/all")
+                        .principal(() -> "Dulux"))
                 .andDo(print())
                 .andExpect(status().is2xxSuccessful())
                 .andExpect(jsonPath("$[0].conferenceRoomName").value("Wawel"));
 
-        mockMvc.perform(MockMvcRequestBuilders.delete("http://localhost:" + port + "/api/conference-room/" + conferenceRoomId))
+        mockMvc.perform(MockMvcRequestBuilders.delete(SERVER_URL + port + "/api/conference-room/" + conferenceRoomId)
+                        .principal(() -> "Dulux"))
                 .andExpect(status().is2xxSuccessful());
 
-        mockMvc.perform(MockMvcRequestBuilders.get("http://localhost:" + port + "/api/conference-room/" + organizationId + "/all"))
+        mockMvc.perform(MockMvcRequestBuilders.get(SERVER_URL + port + "/api/conference-room/" + organizationId + "/all")
+                        .principal(() -> "Dulux"))
                 .andDo(print())
                 .andExpect(content().string(containsString("[]")))
                 .andExpect(status().is2xxSuccessful());
     }
+
+
+    @Order(1)
+    @Test
+    void updateConferenceRoomShouldUpdateRecordInDatabase() throws Exception {
+        ConferenceRoomRequest request = ConferenceRoomRequest.of("Wisla",  "7.12", 7, 12,30, 6L);
+        OrganizationRequest organizationRequest = OrganizationRequest.of("Ikea", "password", "ikea@wp.pl");
+        ConferenceRoomRequest requestToUpdate = ConferenceRoomRequest.of("Cracovia",  "7.12", 7, 12,30, 6L);
+        long organizationId = 6L;
+        long conferenceRoomId = 7L;
+
+        mockMvc.perform(MockMvcRequestBuilders.post(SERVER_URL + port + "/api/organization")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(organizationRequest)))
+                .andDo(print())
+                .andExpect(status().is2xxSuccessful());
+
+        mockMvc.perform(MockMvcRequestBuilders.post(SERVER_URL + port + "/api/conference-room")
+                        .principal(() -> "Ikea")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request)))
+                .andDo(print())
+                .andExpect(status().is2xxSuccessful());
+
+        mockMvc.perform(MockMvcRequestBuilders.get(SERVER_URL + port + "/api/conference-room/" + organizationId + "/all")
+                        .principal(() -> "Ikea"))
+                .andDo(print())
+                .andExpect(status().is2xxSuccessful())
+                .andExpect(jsonPath("$[0].conferenceRoomName").value("Wisla"));
+
+        mockMvc.perform(MockMvcRequestBuilders.put(SERVER_URL + port + "/api/conference-room/" + conferenceRoomId)
+                        .principal(() -> "Ikea")
+                        .contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(requestToUpdate)))
+                .andDo(print())
+                .andExpect(status().is2xxSuccessful());
+
+        mockMvc.perform(MockMvcRequestBuilders.get(SERVER_URL + port + "/api/conference-room/" + organizationId + "/all")
+                        .principal(() -> "Ikea"))
+                .andDo(print())
+                .andExpect(status().is2xxSuccessful())
+                .andExpect(jsonPath("$[0].conferenceRoomName").value("Cracovia"));
+
+    }
+
 
 }
