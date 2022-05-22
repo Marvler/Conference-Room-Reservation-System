@@ -1,4 +1,4 @@
-package com.sda.conferenceroomreservationsystem.rest.repository;
+package com.sda.conferenceroomreservationsystem.repository;
 
 import com.sda.conferenceroomreservationsystem.model.entity.Organization;
 import org.assertj.core.api.Assertions;
